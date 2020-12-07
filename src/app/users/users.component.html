@@ -1,0 +1,40 @@
+<div class="example-container mat-elevation-z8">
+
+
+  <div class="example-table-container">
+
+    <table mat-table [dataSource]="data" class="example-table"
+           matSort matSortActive="created" matSortDisableClear matSortDirection="desc">
+      <!-- Number Column -->
+      <ng-container matColumnDef="foto">
+        <th mat-header-cell *matHeaderCellDef>Foto</th>
+        <td mat-cell *matCellDef="let row">{{row.foto}}</td>
+      </ng-container>
+
+      <!-- Title Column -->
+      <ng-container matColumnDef="nome">
+        <th mat-header-cell *matHeaderCellDef>Nome</th>
+        <td mat-cell *matCellDef="let row">{{row.nome}}</td>
+      </ng-container>
+
+      <!-- State Column -->
+      <ng-container matColumnDef="perfil">
+        <th mat-header-cell *matHeaderCellDef>Perfil</th>
+        <td mat-cell *matCellDef="let row">{{row.perfil}}</td>
+      </ng-container>
+
+      <!-- Created Column -->
+      <ng-container matColumnDef="acao">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+
+        </th>
+        <td mat-cell *matCellDef="let row">editar</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <mat-paginator [length]="resultsLength" [pageSize]="30"></mat-paginator>
+</div>
