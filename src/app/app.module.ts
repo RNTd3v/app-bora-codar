@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // Modules
 import { UsersModule } from './users/users.module';
 import { HttpClientModule } from '@angular/common/http';
+import { servicesProviders } from './shared/services/providers';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     UsersModule
   ],
-  providers: [],
+  providers: [...servicesProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
