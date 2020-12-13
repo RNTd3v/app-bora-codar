@@ -1,26 +1,34 @@
-<div class="example-container mat-elevation-z8">
-
-
-  <div class="example-table-container">
-
-    <table mat-table [dataSource]="data" class="example-table"
+<div class="ui-page-list">
+  <header class="top">
+    <h2 class="o-title">
+      <i class="fas fa-users"></i>
+      Usuários
+    </h2>
+    <button class="o-button -add">
+      Usuário
+    </button>
+  </header>
+  <main class="content">
+    <table mat-table [dataSource]="(users$ | async)?.data" class="example-table"
            matSort matSortActive="created" matSortDisableClear matSortDirection="desc">
       <!-- Number Column -->
       <ng-container matColumnDef="foto">
         <th mat-header-cell *matHeaderCellDef>Foto</th>
-        <td mat-cell *matCellDef="let row">{{row.foto}}</td>
+        <td mat-cell *matCellDef="let row">
+          <i class="fas fa-user"></i>
+        </td>
       </ng-container>
 
       <!-- Title Column -->
       <ng-container matColumnDef="nome">
         <th mat-header-cell *matHeaderCellDef>Nome</th>
-        <td mat-cell *matCellDef="let row">{{row.nome}}</td>
+        <td mat-cell *matCellDef="let row">{{row.name}}</td>
       </ng-container>
 
       <!-- State Column -->
-      <ng-container matColumnDef="perfil">
-        <th mat-header-cell *matHeaderCellDef>Perfil</th>
-        <td mat-cell *matCellDef="let row">{{row.perfil}}</td>
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>E-mail</th>
+        <td mat-cell *matCellDef="let row">{{row.email}}</td>
       </ng-container>
 
       <!-- Created Column -->
@@ -28,13 +36,19 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
 
         </th>
-        <td mat-cell *matCellDef="let row">editar</td>
+        <td mat-cell *matCellDef="let row">
+          <div class="c-buttons -end">
+            <button class="o-button -icon -edit"></button>
+            <button class="o-button -icon -delete"></button>
+          </div>
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-  </div>
-
-  <mat-paginator [length]="resultsLength" [pageSize]="30"></mat-paginator>
+  </main>
+  <footer class="pagination">
+    <mat-paginator [length]="resultsLength" [pageSize]="30"></mat-paginator>
+  </footer>
 </div>

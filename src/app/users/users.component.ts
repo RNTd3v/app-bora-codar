@@ -1,22 +1,20 @@
 
-import {Component, ViewChild } from '@angular/core';
+import {Component, OnInit, ViewChild } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import { IUserService, User } from '@cms/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit {
 
-  displayedColumns: string[] = ['foto', 'nome', 'perfil', 'acao'];
-  data: User[] = [{
-    foto: '',
-    nome: 'Renato',
-    perfil: 'Admin',
-    email: ''
-  }];
+  users$: Observable<User[]>
+
+  displayedColumns: string[] = ['foto', 'nome', 'email', 'acao'];
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -25,7 +23,11 @@ export class UsersComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor() {}
+  constructor(private service: IUserService) {}
+
+  ngOnInit(): void {
+    this.users$ = this.service.getAllUsers();
+  }
 
 }
 
@@ -34,10 +36,4 @@ export interface Users {
   total_count: number;
 }
 
-export interface User {
-  foto: string;
-  nome: string;
-  email: string;
-  perfil: string;
-}
 
