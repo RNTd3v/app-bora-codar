@@ -1,0 +1,23 @@
+.c-navigation {
+  .section {
+    font-weight: lighter;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .5);
+    background: rgb(125 96 248 / 32%);
+    padding: 1rem 2rem;
+  }
+  .list {
+    padding-left: 3rem;
+    .item {
+      .link {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+        font-weight: 300;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

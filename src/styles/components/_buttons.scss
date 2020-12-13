@@ -1,0 +1,9 @@
+.c-buttons {
+  display: flex;
+  &.-end {
+    justify-content: flex-end;
+  }
+  > * {
+    margin: 0 .5rem;
+  }
+}

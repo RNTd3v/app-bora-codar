@@ -1,27 +1,39 @@
 .c-ui-page {
   display: grid;
-  grid-template-columns: 200px 1fr;
-  grid-template-rows: 6rem calc(100vh - 5rem);
+  height: 100vh;
+  grid-template-columns: minmax(auto, 20rem) 1fr;
+  grid-template-rows: auto 1fr;
   grid-template-areas: 'header header'
                        'aside content';
-  > * {
-    padding: 2rem;
-  }
-  .header {
+  > .header {
     grid-area: header;
     background-color: white;
+    padding: 2rem;
     box-shadow: 0px 0.1rem 2rem #dde6ea;
     overflow: overlay;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--purple);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
-  .aside {
+  > .aside {
     grid-area: aside;
-    background-color: white;
+    background-color: var(--purple-dark);
+    color: white;
   }
-  .content {
+  > .content {
     grid-area: content;
     background-color: var(--main-bg-color);
+    display: flex;
+    flex-direction: column;
+    > .ng-star-inserted {
+      flex: 1;
+      display: flex;
+    }
   }
-  .footer {
+  > .footer {
     grid-area: footer;
     background-color: black;
   }

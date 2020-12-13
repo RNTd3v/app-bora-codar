@@ -1,0 +1,21 @@
+.ui-page-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    padding-left: 0;
+  }
+  .content {
+    flex: 1;
+    background: white;
+    margin: 0 2rem;
+  }
+  .pagination {
+    margin: 0 2rem 2rem;
+    border-top: 2px solid var(--main-bg-color);
+  }
+}

@@ -1,0 +1,53 @@
+.o-button {
+  border: none;
+  padding: 1rem;
+  border-radius: .5rem;
+  background-color: var(--purple-light);
+  color: var(--grey);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--purple);
+    color: white;
+  }
+  &:before {
+    content: "";
+    font-family: "Font Awesome 5 Free";
+    margin-right: .5rem;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 900;
+  }
+  &.-icon {
+    &:before {
+      margin: 0;
+    }
+  }
+  &.-add {
+    background-color: var(--lemon);
+    color: var(--black);
+    &:before {
+      content: "\f067";
+    }
+  }
+  &.-edit {
+    background-color: var(--purple);
+    color: white;
+    &:before {
+      content: "\f304";
+    }
+  }
+  &.-delete {
+    background-color: var(--magenta);
+    color: white;
+    &:before {
+      content: "\f1f8";
+    }
+  }
+}
