@@ -1,22 +1,18 @@
-import { Auth, PasswordForm } from ".";
+import { PasswordForm } from ".";
 
-export interface User {
-  id: string;
-  name: string;
-  fullname: string;
-  email: string;
-  roleId: string;
+export class User {
+  id?: string;
+  name = '';
+  email = '';
+  passwordForm = {} as PasswordForm;
+  roleId = 'b0920f58-fad3-4fe5-b081-5276616f7ba6';
+
+  constructor({ ...user }) {
+    this.id = user.id,
+    this.name = user.name,
+    this.email = user.email,
+    this.roleId = user.roleId || this.roleId
+  }
 }
 
-export interface CreateUserPayload extends Auth {
-  name: string;
-  roleId: string;
-}
-
-export interface UpdateUserPayload {
-  fullname: string;
-  email: string;
-  passwordForm: PasswordForm;
-  roleId: string;
-}
 

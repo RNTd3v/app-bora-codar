@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CreateUserPayload, IApiService, IUserService, OptionsApi, UpdateUserPayload, User } from '@cms/core';
+import { IApiService, IUserService, OptionsApi, User } from '@cms/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -20,12 +20,12 @@ export class UserService implements IUserService {
       return this.apiService.get<User>(`v1/users/${userID}`);
     }
 
-    createUser(user: CreateUserPayload): Observable<User> {
+    createUser(user: User): Observable<User> {
       return this.apiService.post<User>(`v1/users`, user);
     }
 
-    updateUser(user: UpdateUserPayload, userID: string): Observable<User> {
-      return this.apiService.put<User>(`v1/users/${userID}`, user);
+    updateUser(user: User, userID: string): Observable<User> {
+      return this.apiService.put<User>(`v1/users`, user);
     }
 
     deleteUser(userID: string): Observable<User> {
