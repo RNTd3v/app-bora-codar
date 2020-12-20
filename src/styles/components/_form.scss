@@ -1,0 +1,21 @@
+.c-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  grid-column-gap: 2rem;
+  .mat-form-field {
+    line-height: 2;
+  }
+  .mat-input-element, .mat-form-field-label {
+    font-size: 1.5rem;
+  }
+
+  .mat-raised-button {
+    width: 10rem;
+    height: 5rem;
+  }
+  .mat-form-field-subscript-wrapper {
+    text-align: end;
+    margin-top: -1px;
+  }
+}

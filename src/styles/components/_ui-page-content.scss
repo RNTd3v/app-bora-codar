@@ -1,4 +1,4 @@
-.ui-page-list {
+.ui-page-content {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -7,12 +7,16 @@
     justify-content: space-between;
     align-items: center;
     padding: 2rem;
-    padding-left: 0;
+    padding-bottom: 1rem;
   }
   .content {
     flex: 1;
     background: white;
-    margin: 0 2rem;
+    margin: 2rem;
+    margin-top: 1rem;
+    overflow: hidden;
+    border-radius: .5rem;
+    padding: 2rem;
   }
   .pagination {
     margin: 0 2rem 2rem;
