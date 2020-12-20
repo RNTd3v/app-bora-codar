@@ -1,10 +1,10 @@
-<div class="ui-page-list">
+<div class="ui-page-content">
   <header class="top">
     <h2 class="o-title">
       <i class="fas fa-users"></i>
       Usuários
     </h2>
-    <button class="o-button -add">
+    <button class="o-button -add" (click)="addUser()">
       Usuário
     </button>
   </header>
@@ -14,7 +14,7 @@
       <!-- Number Column -->
       <ng-container matColumnDef="foto">
         <th mat-header-cell *matHeaderCellDef>Foto</th>
-        <td mat-cell *matCellDef="let row">
+        <td mat-cell *matCellDef="let user">
           <i class="fas fa-user"></i>
         </td>
       </ng-container>
@@ -22,13 +22,13 @@
       <!-- Title Column -->
       <ng-container matColumnDef="nome">
         <th mat-header-cell *matHeaderCellDef>Nome</th>
-        <td mat-cell *matCellDef="let row">{{row.name}}</td>
+        <td mat-cell *matCellDef="let user">{{user.name}}</td>
       </ng-container>
 
       <!-- State Column -->
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef>E-mail</th>
-        <td mat-cell *matCellDef="let row">{{row.email}}</td>
+        <td mat-cell *matCellDef="let user">{{user.email}}</td>
       </ng-container>
 
       <!-- Created Column -->
@@ -36,10 +36,10 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
 
         </th>
-        <td mat-cell *matCellDef="let row">
+        <td mat-cell *matCellDef="let user">
           <div class="c-buttons -end">
-            <button class="o-button -icon -edit"></button>
-            <button class="o-button -icon -delete"></button>
+            <button class="o-button -icon -edit" (click)="editUser(user)"></button>
+            <button class="o-button -icon -delete" (click)="deleteUser(user)"></button>
           </div>
         </td>
       </ng-container>

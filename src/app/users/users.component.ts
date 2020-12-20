@@ -2,6 +2,7 @@
 import {Component, OnInit, ViewChild } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import { NavigationExtras, Router } from '@angular/router';
 import { IUserService, User } from '@cms/core';
 import { Observable } from 'rxjs';
 
@@ -23,10 +24,31 @@ export class UsersComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private service: IUserService) {}
+  constructor(
+    private service: IUserService,
+    private router: Router) {}
 
   ngOnInit(): void {
     this.users$ = this.service.getAllUsers();
+  }
+
+  addUser(): void {
+    this.router.navigate(['users/add'])
+  }
+
+  editUser(user: User): void {
+
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+          "user": JSON.stringify(user)
+      }
+    };
+
+    this.router.navigate([`users/${user.id}`], navigationExtras)
+  }
+
+  deleteUser(user: User): void {
+    console.log(user);
   }
 
 }
