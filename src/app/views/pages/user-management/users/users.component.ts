@@ -1,9 +1,8 @@
-
-import {Component, OnInit, ViewChild } from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import { NavigationExtras, Router } from '@angular/router';
-import { IUserService, User } from '@cms/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { Router, NavigationExtras } from '@angular/router';
+import { User, IUserService } from '@cms/core';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -33,7 +32,7 @@ export class UsersComponent implements OnInit {
   }
 
   addUser(): void {
-    this.router.navigate(['users/add'])
+    this.router.navigate(['user-management/users/add'])
   }
 
   editUser(user: User): void {
@@ -44,18 +43,12 @@ export class UsersComponent implements OnInit {
       }
     };
 
-    this.router.navigate([`users/${user.id}`], navigationExtras)
+    this.router.navigate([`user-management/users/${user.id}`], navigationExtras)
   }
 
   deleteUser(user: User): void {
     console.log(user);
   }
 
+
 }
-
-export interface Users {
-  items: User[];
-  total_count: number;
-}
-
-

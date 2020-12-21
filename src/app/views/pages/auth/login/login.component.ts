@@ -77,6 +77,7 @@ export class LoginComponent implements OnInit {
     this.snackBar.open('Bem-vindo(a)!', null, {
       duration: 2000,
     });
+    this.router.navigate(['user-management']);
   }
 
   private handleError(): void {

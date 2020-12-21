@@ -13,7 +13,7 @@ export class StorageService implements IStorageService {
   }
 
   get(key: string): any {
-    return localStorage.getItem(JSON.parse(key));
+    return JSON.parse(localStorage.getItem(key));
   }
 
   set(key: string, value: any): void {

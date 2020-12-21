@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Modules
-import { UsersModule } from './users/users.module';
+import { ThemeModule } from './views/theme/theme.module';
 import { HttpClientModule } from '@angular/common/http';
 import { servicesProviders } from './shared/services/providers';
 import { interceptorProvider } from './shared/interceptors/interceptor-providers';
@@ -23,7 +23,7 @@ import { interceptorProvider } from './shared/interceptors/interceptor-providers
     ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    UsersModule
+    ThemeModule
   ],
   providers: [...servicesProviders, ...interceptorProvider],
   bootstrap: [AppComponent]

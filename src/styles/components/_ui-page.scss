@@ -5,36 +5,46 @@
   grid-template-rows: auto 1fr;
   grid-template-areas: 'header header'
                        'aside content';
-  > .header {
+
+  app-header {
     grid-area: header;
     background-color: white;
     padding: 2rem;
     box-shadow: 0px 0.1rem 2rem #dde6ea;
     overflow: overlay;
-    font-size: 2rem;
-    font-weight: bold;
-    color: var(--purple);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+    > .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--purple);
+    }
   }
-  > .aside {
+
+  app-aside {
     grid-area: aside;
     background-color: var(--purple-dark);
     color: white;
   }
-  > .content {
+
+  app-content {
     grid-area: content;
     background-color: var(--main-bg-color);
     display: flex;
     flex-direction: column;
-    > .ng-star-inserted {
+    .content {
       flex: 1;
       display: flex;
+      > .ng-star-inserted {
+        flex: 1;
+        display: flex;
+        > .ng-star-inserted {
+          flex: 1;
+          display: flex;
+        }
+      }
     }
-  }
-  > .footer {
-    grid-area: footer;
-    background-color: black;
   }
 }

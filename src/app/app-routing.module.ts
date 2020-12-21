@@ -1,30 +1,45 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { UserEditComponent } from './users/user-edit/user-edit.component';
-import { UsersComponent } from './users/users.component';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { BaseComponent } from './views/theme/base/base.component'
 
 const routes: Routes = [
   {
     path: 'auth',
-    loadChildren: () => import('./views/pages/auth/auth.module').then(m => m.AuthModule)
+    loadChildren: () =>
+      import('./views/pages/auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: '',
-    component: UsersComponent,
+    component: BaseComponent,
+    children: [
+      {
+        path: 'user-management',
+        loadChildren: () =>
+          import('./views/pages/user-management/user-management.module').then(
+            (m) => m.UserManagementModule,
+          ),
+      },
+      {
+        path: '',
+        redirectTo: 'user-management', // TODO: Trocar para Dashboard
+        pathMatch: 'full',
+      },
+      {
+        path: '**',
+        redirectTo: 'user-management', // TODO: Trocar para Dashboard
+        pathMatch: 'full',
+      },
+    ],
+  },
+  {
+    path: '**',
+    redirectTo: 'error/403',
     pathMatch: 'full',
   },
-  {
-    path: 'users/add',
-    component: UserEditComponent
-  },
-  {
-    path: 'users/:id',
-    component: UserEditComponent
-  }
-];
+]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
