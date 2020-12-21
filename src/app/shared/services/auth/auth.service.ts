@@ -104,14 +104,15 @@ export class AuthService implements IAuthService {
   private createAccessToken(tokenResponse: AuthResponse): boolean {
     let authResult = false;
 
-    /*if (!tokenResponse
-      || !tokenResponse.access_token
-      || !tokenResponse.expires_in
-      || !tokenResponse.refresh_expires_in) {
+    if (!tokenResponse) {
+      //|| !tokenResponse.access_token
+      //|| !tokenResponse.expires_in
+      //|| !tokenResponse.refresh_expires_in) {
       this.notifyAuthResult(authResult);
       return authResult;
     }
 
+    /*
     const tokenExpirationDate = new Date();
     const refreshTokenExpirationDate = new Date();
     tokenExpirationDate.setSeconds(tokenExpirationDate.getSeconds() + tokenResponse.expires_in);
@@ -154,7 +155,7 @@ export class AuthService implements IAuthService {
   }
 
   get token(): string {
-    return this.storage.get(this.keyAccessToken);
+    return this.storage.get(this.keyAccessToken).token;
   }
 
   private get refreshToken(): AccessToken {
