@@ -3,9 +3,20 @@ export interface Auth {
   password: string;
 }
 
-export interface Token {
+export interface AuthResponse {
   userId: string;
   token: string;
+}
+export interface AccessToken {
+  token: string;
+  timestampExp: number;
+  userId: string;
+}
+export interface TokenResponse {
+  access_token: string;
+  expires_in: number;
+  refresh_token: string;
+  refresh_expires_in: number;
 }
 
 export interface PasswordForm {
