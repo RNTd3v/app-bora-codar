@@ -13,11 +13,11 @@ export class StorageService implements IStorageService {
   }
 
   get(key: string): any {
-    return localStorage.getItem(key);
+    return localStorage.getItem(JSON.parse(key));
   }
 
   set(key: string, value: any): void {
-    localStorage.setItem(key, value);
+    localStorage.setItem(key, JSON.stringify(value));
   }
 
   remove(key: string): void {
