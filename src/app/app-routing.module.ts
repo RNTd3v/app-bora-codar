@@ -5,6 +5,10 @@ import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
   {
+    path: 'auth',
+    loadChildren: () => import('./views/pages/auth/auth.module').then(m => m.AuthModule)
+  },
+  {
     path: '',
     component: UsersComponent,
     pathMatch: 'full',
