@@ -33,7 +33,7 @@ export class AuthService implements IAuthService {
 
   logout(): void {
     this.invalidateSection();
-    this.router.navigate(['login']);
+    this.router.navigate(['auth/login']);
   }
 
   async sessionIsValid(): Promise<boolean> {
@@ -46,7 +46,8 @@ export class AuthService implements IAuthService {
 
       return await this.updateToken(refreshToken);
     }*/
-    return Promise.resolve(true);
+    const token = this.storage.get(this.keyAccessToken);
+    return Promise.resolve(this.tokenIsValid(token));
   }
 
   private invalidateSection(): void {
