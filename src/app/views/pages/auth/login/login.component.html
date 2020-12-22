@@ -1,11 +1,10 @@
-<div class="ui-page-content">
+<div class="ui-page-login">
   <header class="top">
     <h2 class="o-title">
-      <i class="fas fa-user-lock"></i>
-      Entre com o seu e-mail e senha
+      Faça login para acessar o CMS
     </h2>
   </header>
-  <main class="content">
+  <main class="middle">
     <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
     <form class="c-form" [formGroup]="formLogin" (submit)="login()">
       <mat-form-field appearance="fill">
@@ -21,10 +20,14 @@
         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
       </mat-form-field>
+      <a href="javascript:;" routerLink="/auth/forgot-password">Esqueci a senha</a>.
       <button type="submit" mat-raised-button color="primary" [disabled]="formInvalid || isLoading">
         Entrar
       </button>
     </form>
   </main>
+</div>
+<div class="new-user">
+  Não tem cadastro, <a href="javascript:;" routerLink="/auth/register">clique aqui</a>.
 </div>
 
