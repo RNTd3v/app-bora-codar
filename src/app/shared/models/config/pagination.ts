@@ -3,5 +3,4 @@ export interface Pagination {
   perPage: string;
   sortBy: string;
   order: 'ASC' | 'DESC';
-  filter: string;
 }
