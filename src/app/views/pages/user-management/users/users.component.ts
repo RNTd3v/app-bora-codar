@@ -1,10 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router, NavigationExtras } from '@angular/router';
-import { User, IUserService, IConfigService } from '@cms/core';
+import { User, IUserService, IConfigService, DictionaryFilter } from '@cms/core';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, map, startWith } from 'rxjs/operators';
+
+export interface Filter {
+  key: string;
+  value: string;
+}
 
 @Component({
   selector: 'app-users',
@@ -15,7 +21,17 @@ export class UsersComponent implements OnInit {
 
   users: User[]
 
-  displayedColumns: string[] = ['foto', 'nome', 'email', 'acao'];
+  displayedColumns = ['foto', 'nome', 'email', 'acao'];
+
+  filters = [
+    { key: 'name', value: 'Nome' },
+    { key: 'email', value: 'E-mail' }
+  ];
+
+  filterControl = new FormControl('Nome', Validators.required);
+  filteredOptions: Observable<Filter[]>;
+
+  dictionaryFilter = {} as DictionaryFilter;
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -32,6 +48,10 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllUsers();
+    this.filteredOptions = this.filterControl.valueChanges.pipe(
+      startWith(''),
+      map(filter => filter ? this.filterKey(filter) : this.filters.slice())
+    );
   }
 
   private getAllUsers(): void {
@@ -69,16 +89,27 @@ export class UsersComponent implements OnInit {
 
   private debounceEvent(value: string): void {
 
+    const filterKey = this.filters
+      .filter(f => f.value === this.filterControl.value)
+      .map(f => f.key)[0];
+
     clearTimeout(this.time);
 
     this.time = setTimeout(() => {
-      this.config.pagination = {
-        ...this.config.pagination,
-        filter: value
-      }
+      this.config.filter = !!value ? { [filterKey]: value} : {} as DictionaryFilter;
       this.getAllUsers();
     }, 1000);
+
   }
 
+  private filterKey(filter: string): Filter[] {
+    const filterValue = filter.toLowerCase();
+    console.log(filterValue);
+    return this.filters.filter(filter => filter.value.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+  get disabledSearchField(): boolean {
+    return this.filterControl.invalid;
+  }
 
 }

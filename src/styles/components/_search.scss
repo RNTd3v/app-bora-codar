@@ -2,6 +2,77 @@
 
   flex: 1;
   margin: 0 5rem;
+  background: white;
+  border-radius: .5rem;
+  padding: .5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .filter-container {
+    position: relative;
+    background: var(--purple-light);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: var(--purple-dark);
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    padding: 0 1rem;
+    width: 20rem;
+    .title {
+      flex-shrink: 0;
+    }
+    .ico-arrow {
+      position: absolute;
+      right: 1.6rem;
+    }
+    .field {
+      background: none;
+      color: var(--purple);
+      flex: 1;
+    }
+  }
+
+  .search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    flex: 1;
+    &:before {
+      content: '';
+      width: 2rem;
+      height: 3.5rem;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      z-index: 1;
+      left: -5px;
+    }
+  }
+
+  .field {
+    padding: 1rem;
+    border: none;
+    flex: 1;
+    position: relative;
+    z-index: 2;
+  }
+
+  .icon {
+    font-size: 1.5rem;
+    color: var(--grey);
+    padding-right: 1rem;
+  }
+
+  .o-button {
+    justify-content: center;
+    &::before {
+      display: none;
+    }
+
+  }
 
   .mat-form-field {
     width: 100%;
@@ -40,10 +111,5 @@
     margin: 0;
     padding: 0;
   }
-  .icon {
-    font-size: 1.5rem;
-    color: var(--grey);
-    padding: 1rem;
-    margin-bottom: 1rem;
-  }
+
 }

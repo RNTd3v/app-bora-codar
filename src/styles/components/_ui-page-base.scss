@@ -37,13 +37,9 @@
     .content {
       flex: 1;
       display: flex;
-      > .ng-star-inserted {
+      router-outlet ~ * {
         flex: 1;
         display: flex;
-        > .ng-star-inserted {
-          flex: 1;
-          display: flex;
-        }
       }
     }
   }

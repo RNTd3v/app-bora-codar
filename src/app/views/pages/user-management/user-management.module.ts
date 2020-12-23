@@ -7,6 +7,7 @@ import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { UserDetailComponent } from './users/user-detail/user-detail.component';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -55,6 +56,7 @@ const routesChild: Routes = [
     RouterModule.forChild(routesChild),
     FormsModule,
     ReactiveFormsModule,
+    MatAutocompleteModule,
     MatButtonModule,
     MatIconModule,
     MatInputModule,
