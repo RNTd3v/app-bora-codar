@@ -2,8 +2,8 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccessToken, Auth, IApiService, IAuthService } from '@cms/core';
-import { Subject } from 'rxjs';
-import { AuthResponse, TokenResponse } from '../../models';
+import { Observable, Subject } from 'rxjs';
+import { AuthResponse, TokenResponse, User } from '../../models';
 import { IStorageService } from '../storage/storage.service.interface';
 
 @Injectable({
@@ -34,6 +34,10 @@ export class AuthService implements IAuthService {
   logout(): void {
     this.invalidateSection();
     this.router.navigate(['auth/login']);
+  }
+
+  registerUser(user: User): Observable<User> {
+    return this.api.post<User>(`v1/users`, user);
   }
 
   async sessionIsValid(): Promise<boolean> {

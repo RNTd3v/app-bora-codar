@@ -1,21 +1,64 @@
 .c-navigation {
   .section {
-    font-weight: lighter;
+    font-weight: bold;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, .5);
-    background: rgb(125 96 248 / 32%);
     padding: 1rem 2rem;
+    color: var(--grey);
+    margin-top: 2rem;
+    margin-bottom: 0;
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      left: 10%;
+      width: 80%;
+      height: 1px;
+      display: block;
+      bottom: 0;
+      background: var(--purple-light);
+    }
   }
   .list {
-    padding-left: 3rem;
+    padding: 0;
+    margin: 0;
+    &:first-child {
+      margin-top: 2rem;
+    }
     .item {
       .link {
-        color: white;
+        color: var(--blue-dark);
         text-decoration: none;
         font-size: 1.5rem;
-        font-weight: 300;
+        padding: 1rem;
+        padding-left: 2rem;
+        width: 100%;
+        display: block;
+        .icon {
+          margin-right: 1rem;
+          color: var(--grey);
+        }
+        &.active {
+          color: var(--purple-dark);
+          background: var(--purple-light);
+          position: relative;
+          font-weight: bold;
+          .icon {
+            color: var(--purple-dark);
+          }
+          &::before {
+            content: '';
+            width: 2rem;
+            height: 95%;
+            background: var(--cyan);
+            display: block;
+            position: absolute;
+            left: -1.4rem;
+            top: .1rem;
+            border-radius: 50%;
+          }
+        }
         &:hover {
-          text-decoration: underline;
+          color: var(--purple-dark);
         }
       }
     }

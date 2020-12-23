@@ -8,8 +8,8 @@
 
   app-header {
     grid-area: header;
-    background-color: white;
-    padding: 2rem;
+    background-color: var(--purple-dark);
+    padding: 1rem 2rem;
     box-shadow: 0px 0.1rem 2rem #dde6ea;
     overflow: overlay;
 
@@ -19,19 +19,19 @@
       align-items: center;
       font-size: 2rem;
       font-weight: bold;
-      color: var(--purple);
+      color: white;
     }
   }
 
   app-aside {
     grid-area: aside;
-    background-color: var(--purple-dark);
-    color: white;
+    background-color: white;
+    color: var(--purple-dark);
   }
 
   app-content {
     grid-area: content;
-    background-color: var(--main-bg-color);
+    background-color: var(--purple-light);
     display: flex;
     flex-direction: column;
     .content {

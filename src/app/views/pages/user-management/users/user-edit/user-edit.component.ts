@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router, ActivatedRoute } from '@angular/router'
-import { User, IUserService } from '@cms/core'
+import { User, IUserService, ConfirmedValidator } from '@cms/core'
 import { Observable } from 'rxjs'
 import { finalize } from 'rxjs/operators'
 
@@ -145,20 +145,3 @@ export class UserEditComponent implements OnInit {
   }
 }
 
-export function ConfirmedValidator(
-  controlName: string,
-  matchingControlName: string,
-) {
-  return (formGroup: FormGroup) => {
-    const control = formGroup.controls[controlName]
-    const matchingControl = formGroup.controls[matchingControlName]
-    if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {
-      return
-    }
-    if (control.value !== matchingControl.value) {
-      matchingControl.setErrors({ confirmedValidator: true })
-    } else {
-      matchingControl.setErrors(null)
-    }
-  }
-}
