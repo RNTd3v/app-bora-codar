@@ -4,7 +4,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ConfirmedValidator, IAuthService, User } from '@cms/core';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register',

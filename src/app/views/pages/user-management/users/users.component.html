@@ -7,7 +7,7 @@
     <div class="c-search">
       <mat-form-field appearance="outline">
         <mat-label>Pesquisar</mat-label>
-        <input type="search" matInput >
+        <input type="search" matInput (keyup)="handleKeyUp($event)" placeholder="Encontre um usuário pelo nome">
         <i class="fas fa-search icon" matSuffix></i>
       </mat-form-field>
     </div>
@@ -16,7 +16,9 @@
     </button>
   </header>
   <main class="middle">
-    <table mat-table [dataSource]="(users$ | async)?.data" class="example-table"
+    <mat-spinner *ngIf="isLoadingResults; else table"></mat-spinner>
+    <ng-template #table>
+      <table mat-table [dataSource]="users?.data" class="example-table"
            matSort matSortActive="created" matSortDisableClear matSortDirection="desc">
       <!-- Number Column -->
       <ng-container matColumnDef="foto">
@@ -54,8 +56,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    </ng-template>
+
   </main>
-  <footer class="pagination">
-    <mat-paginator [length]="resultsLength" [pageSize]="30"></mat-paginator>
-  </footer>
 </div>

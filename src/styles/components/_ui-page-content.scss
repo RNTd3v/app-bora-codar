@@ -17,6 +17,16 @@
     overflow: hidden;
     border-radius: .5rem;
     padding: 2rem;
+    display: flex;
+    justify-content: center;
+    .mat-spinner {
+      align-self: center;
+      justify-self: center;
+    }
+    .mat-spinner, .mat-spinner svg  {
+      width: 5rem !important;
+      height: 5rem !important;
+    }
   }
   .pagination {
     margin: 0 2rem 2rem;

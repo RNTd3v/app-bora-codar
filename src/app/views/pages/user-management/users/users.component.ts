@@ -2,8 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router, NavigationExtras } from '@angular/router';
-import { User, IUserService } from '@cms/core';
+import { User, IUserService, IConfigService } from '@cms/core';
 import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-users',
@@ -12,23 +13,35 @@ import { Observable } from 'rxjs';
 })
 export class UsersComponent implements OnInit {
 
-  users$: Observable<User[]>
+  users: User[]
 
   displayedColumns: string[] = ['foto', 'nome', 'email', 'acao'];
 
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
+  time = null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
+    private config: IConfigService,
     private service: IUserService,
     private router: Router) {}
 
   ngOnInit(): void {
-    this.users$ = this.service.getAllUsers();
+    this.getAllUsers();
+  }
+
+  private getAllUsers(): void {
+
+    this.isLoadingResults = true;
+
+    this.service.getAllUsers()
+      .pipe(finalize(() => this.isLoadingResults = false))
+      .subscribe(users => this.users = users);
+
   }
 
   addUser(): void {
@@ -48,6 +61,23 @@ export class UsersComponent implements OnInit {
 
   deleteUser(user: User): void {
     console.log(user);
+  }
+
+  handleKeyUp(event): void {
+    this.debounceEvent(event.target.value);
+  }
+
+  private debounceEvent(value: string): void {
+
+    clearTimeout(this.time);
+
+    this.time = setTimeout(() => {
+      this.config.pagination = {
+        ...this.config.pagination,
+        filter: value
+      }
+      this.getAllUsers();
+    }, 1000);
   }
 
 

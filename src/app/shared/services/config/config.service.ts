@@ -6,12 +6,13 @@ import { IConfigService, Pagination } from '@cms/core';
 })
 export class ConfigService implements IConfigService {
 
-  private paginationConfig: Pagination = {
+  private paginationConfig = {
     page: '1',
     perPage: '12',
     sortBy: 'id',
-    order: 'ASC'
-  }
+    order: 'ASC',
+    filter: ''
+  } as Pagination;
 
   constructor() { }
 

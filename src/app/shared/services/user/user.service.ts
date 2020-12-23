@@ -25,7 +25,7 @@ export class UserService implements IUserService {
     }
 
     updateUser(user: User, userID: string): Observable<User> {
-      return this.apiService.put<User>(`v1/users`, user);
+      return this.apiService.put<User>(`v1/users/${userID}`, user);
     }
 
     deleteUser(userID: string): Observable<User> {

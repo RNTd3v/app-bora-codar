@@ -58,8 +58,6 @@ export class AuthService implements IAuthService {
     this.storage.clear();
   }
 
-  // register(user: User): Observable<User> {}
-
   // requestPassword(email: string): Observable<any> {}
 
   private tokenIsValid(token: AccessToken): boolean {
