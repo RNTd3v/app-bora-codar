@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router, ActivatedRoute } from '@angular/router'
 import { User, IUserService, ConfirmedValidator } from '@cms/core'
-import { Observable } from 'rxjs'
+import { Observable, Subscription } from 'rxjs'
 import { finalize } from 'rxjs/operators'
 
 @Component({
@@ -11,12 +11,16 @@ import { finalize } from 'rxjs/operators'
   templateUrl: './user-edit.component.html',
   styleUrls: ['./user-edit.component.scss'],
 })
-export class UserEditComponent implements OnInit {
+export class UserEditComponent implements OnInit, OnDestroy {
+
   hide = true
   formUser: FormGroup
   userId: string = null
   userData: User
-  isLoading = false
+  isLoading = false;
+  isLoadingPage = true;
+
+  private subscription = new Subscription();
 
   constructor(
     private router: Router,
@@ -28,12 +32,21 @@ export class UserEditComponent implements OnInit {
     this.userId = this.activatedRoute.snapshot.params.id
   }
 
-  ngOnInit(): void {
-    if (!!this.userId) {
-      this.userData = JSON.parse(this.activatedRoute.snapshot.queryParams.user)
-    }
+  async ngOnInit(): Promise<void> {
 
+    if (!!this.userId) {
+      await this.getUserById();
+    }
+    this.isLoadingPage = false;
     this.createFormUser(new User(this.userData))
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  private async getUserById(): Promise<void> {
+    this.userData = await this.service.getUser(this.userId).toPromise();
   }
 
   private createFormUser(user: User): void {
@@ -70,7 +83,6 @@ export class UserEditComponent implements OnInit {
           ? 'E-mail invalido'
           : ''
       case 'password':
-        console.log(this.formUser.get(inputName))
         return this.formUser.get(inputName).hasError('minlength')
           ? 'Mínimo de 6 caracteres'
           : ''
@@ -88,12 +100,16 @@ export class UserEditComponent implements OnInit {
   submitUserData(): void {
     if (this.formUser.valid) {
       this.isLoading = true
-      this.createOrUpdateUserData()
-        .pipe(finalize(() => (this.isLoading = false)))
-        .subscribe(
-          (user: User) => this.handleResult(user),
-          (err) => this.handleError(err),
-        )
+      this.subscription.add(
+        this.createOrUpdateUserData()
+          .pipe(
+            finalize(() => (this.isLoading = false))
+          )
+          .subscribe(
+            (user: User) => this.handleResult(user),
+            (err) => this.handleError(err),
+          )
+      );
     }
   }
 
@@ -141,7 +157,7 @@ export class UserEditComponent implements OnInit {
   }
 
   get title(): string {
-    return !!this.userData ? this.userData.name : 'Usuários'
+    return !!this.userData ? this.userData.name : 'Usuário'
   }
 }
 

@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router, NavigationExtras } from '@angular/router';
 import { User, IUserService, IConfigService, DictionaryFilter } from '@cms/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { finalize, map, startWith } from 'rxjs/operators';
 
 export interface Filter {
@@ -17,7 +17,7 @@ export interface Filter {
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
 
   users: User[]
 
@@ -38,6 +38,8 @@ export class UsersComponent implements OnInit {
   isRateLimitReached = false;
   time = null;
 
+  private subscription = new Subscription();
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -54,13 +56,19 @@ export class UsersComponent implements OnInit {
     );
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   private getAllUsers(): void {
 
     this.isLoadingResults = true;
 
-    this.service.getAllUsers()
-      .pipe(finalize(() => this.isLoadingResults = false))
-      .subscribe(users => this.users = users);
+    this.subscription.add(
+      this.service.getAllUsers()
+        .pipe(finalize(() => this.isLoadingResults = false))
+        .subscribe(users => this.users = users)
+    );
 
   }
 
@@ -69,14 +77,7 @@ export class UsersComponent implements OnInit {
   }
 
   editUser(user: User): void {
-
-    let navigationExtras: NavigationExtras = {
-      queryParams: {
-          "user": JSON.stringify(user)
-      }
-    };
-
-    this.router.navigate([`user-management/users/${user.id}`], navigationExtras)
+    this.router.navigate([`user-management/users/${user.id}`])
   }
 
   deleteUser(user: User): void {

@@ -1,0 +1,10 @@
+.form-user {
+  grid-template-rows: repeat(3, max-content);
+  width: 100%;
+  .passwords {
+    grid-column: 1/3;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 2rem;
+  }
+}
