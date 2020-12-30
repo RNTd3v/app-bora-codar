@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router, NavigationExtras } from '@angular/router';
 import { User, IUserService, IConfigService, DictionaryFilter } from '@cms/core';
+import { DialogDeleteComponent } from '@cms/partials';
 import { Observable, Subscription } from 'rxjs';
 import { finalize, map, startWith } from 'rxjs/operators';
 
@@ -45,6 +47,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   constructor(
     private config: IConfigService,
+    public dialog: MatDialog,
     private service: IUserService,
     private router: Router) {}
 
@@ -81,7 +84,20 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   deleteUser(user: User): void {
-    console.log(user);
+
+    const dialogRef = this.dialog.open(DialogDeleteComponent, {
+      width: '250px',
+      data: {name: user.name, title: 'Deletar usuário'}
+    });
+
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.subscription.add(
+          this.service.deleteUser(user.id)
+            .subscribe(response => console.log(response))
+        )
+      }
+    });
   }
 
   handleKeyUp(event): void {

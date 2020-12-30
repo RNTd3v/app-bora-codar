@@ -18,6 +18,7 @@
     ],
     "paths": {
       "@cms/core": ["./src/app/shared"],
+      "@cms/partials": ["./src/app/views/partials"],
       "@cms/environment": ["./src/environments"]
     }
   }

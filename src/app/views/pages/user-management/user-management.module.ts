@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../../shared/shared.module';
+import { PartialsModule } from '../../partials/partials.module';
 import { UserManagementComponent } from './user-management.component';
 import { UsersComponent } from './users/users.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
@@ -9,6 +10,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
@@ -58,6 +60,7 @@ const routesChild: Routes = [
     ReactiveFormsModule,
     MatAutocompleteModule,
     MatButtonModule,
+    MatDialogModule,
     MatIconModule,
     MatInputModule,
     MatTableModule,
@@ -66,6 +69,7 @@ const routesChild: Routes = [
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatSortModule,
+    PartialsModule,
     SharedModule
   ]
 })
