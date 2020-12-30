@@ -6,11 +6,12 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background: var(--purple-dark);
+  background: var(--bg-page-color-dark);
 
   .brand-logo {
-    color: white;
+    color: var(--brand-color);
     font-size: 3rem;
+    font-weight: 400;
     margin-top: -5rem;
     margin-bottom: 5rem;
     text-decoration: none;
@@ -19,7 +20,7 @@
 
 .ui-page-auth-content {
   padding: 3rem;
-  background: white;
+  background: var(--bg-card-color);
   border-radius: 0.5rem;
   width: max-content;
 
@@ -38,9 +39,8 @@
         text-align: right;
         font-size: 1.4rem;
         text-decoration: none;
-        color: var(--grey);
         &:hover {
-          color: var(--purple);
+          color: var(--font-color-alert);
         }
       }
     }
@@ -52,7 +52,7 @@
     font-size: 1.6rem;
     text-align: center;
     a {
-      color: var(--yellow);
+      color: var(--font-color-warning);
       font-weight: bold;
     }
   }

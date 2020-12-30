@@ -1,0 +1,51 @@
+$colorDefault: #5bc0be;
+$colorInfo: #78aad1;
+$colorError: #ff7059;
+$colorWarning: #ffa631;
+$colorSuccess: #0fab65;
+
+:root {
+
+  --brand-color: var(--sixth-color);
+
+  --bg-header-color: var(--second-color);
+  --bg-page-color: rgba(var(--fourth-color-rgb), 0.4);
+  --bg-page-color-dark: var(--first-color);
+  --bg-aside-color: white;
+  --bg-card-color: white;
+
+  // background buttons
+  --bg-button-default: var(--fifth-color);
+  --bg-button-default-hover: var(--second-color);
+  --bg-button-default-disabled: rgba(var(--fifth-color-rgb), .3);
+  --bg-button-info: var(--first-secondary-color);
+  --bg-button-error: var(--second-secondary-color);
+  --bg-button-warning: var(--third-secondary-color);
+  --bg-button-success: var(--fourth-secondary-color);
+
+
+  // color buttons
+  --color-button-default-hover: var(--second-color);
+  --color-button-default-disabled: rgba(var(--fifth-color-rgb), .5);
+
+  // navigation colors
+  --bg-item-active: var(--bg-page-color);
+  --color-item-active: var(--fifth-color);
+
+  // search colors
+  --bg-filter: var(--fourth-color);
+  --color-filter: var(--first-color);
+
+  --font-brand: 'Ubuntu Mono', monospace;
+  --font-title: 'Ubuntu Mono', monospace;
+  --font-text: 'Dosis', sans-serif;
+
+  --font-color-default: var(--third-color);
+  --font-color-dark: var(--second-color);
+  --font-color-dark-hover: var(--fifth-color);
+  --font-color-alert: var(--second-secondary-color);
+  --font-color-warning: var(--third-secondary-color);
+  --font-color-success: var(--fourth-secondary-color);
+}
+
+

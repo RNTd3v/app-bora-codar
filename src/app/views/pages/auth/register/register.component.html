@@ -1,10 +1,10 @@
 <div class="ui-page-auth-content">
   <header class="top">
-    <button class="o-button -icon" (click)="goBack()">
-      <i class="fas fa-arrow-left"></i>
+    <button class="o-button" (click)="goBack()">
+      <app-icon [name]="'arrow-left'"></app-icon>
     </button>
     <h2 class="o-title">
-      Faça seu cadastro para acessar o CMS
+      Faça seu cadastro
     </h2>
   </header>
   <main class="middle">
@@ -26,7 +26,7 @@
           <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" required>
           <!--mat-error *ngIf="showMessageError('password')">{{getErrorMessage('password')}}</mat-error-->
           <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <app-icon [name]="hide ? 'eye-slash' : 'eye'" class="o-icon-eye"></app-icon>
           </button>
         </mat-form-field>
         <mat-form-field appearance="fill">
@@ -34,7 +34,7 @@
           <input matInput [type]="hide ? 'password' : 'text'" formControlName="confirm" required>
           <!--mat-error *ngIf="showMessageError('password')">{{getErrorMessage('password')}}</mat-error-->
           <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <app-icon [name]="hide ? 'eye-slash' : 'eye'" class="o-icon-eye"></app-icon>
           </button>
         </mat-form-field>
       </div>

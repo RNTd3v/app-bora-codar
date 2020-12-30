@@ -3,7 +3,7 @@
     font-weight: bold;
     text-transform: uppercase;
     padding: 1rem 2rem;
-    color: var(--grey);
+    color: var(--first-color);
     margin-top: 2rem;
     margin-bottom: 0;
     position: relative;
@@ -15,7 +15,7 @@
       height: 1px;
       display: block;
       bottom: 0;
-      background: var(--purple-light);
+      background: var(--fourth-color);
     }
   }
   .list {
@@ -33,23 +33,24 @@
         padding-left: 2rem;
         width: 100%;
         display: block;
+        @include transition;
         .icon {
           margin-right: 1rem;
           color: var(--grey);
         }
         &.active {
-          color: var(--purple-dark);
-          background: var(--purple-light);
+          color: darken($colorDefault, 10%);
+          background: var(--bg-item-active);
           position: relative;
           font-weight: bold;
           .icon {
-            color: var(--purple-dark);
+            color: var(--color-item-active);
           }
           &::before {
             content: '';
             width: 2rem;
             height: 95%;
-            background: var(--cyan);
+            background: var(--color-item-active);
             display: block;
             position: absolute;
             left: -1.4rem;
@@ -58,7 +59,7 @@
           }
         }
         &:hover {
-          color: var(--purple-dark);
+          color: darken($colorDefault, 10%);
         }
       }
     }

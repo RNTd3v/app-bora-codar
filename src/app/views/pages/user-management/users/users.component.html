@@ -1,14 +1,14 @@
 <div class="ui-page-content">
   <header class="top">
     <h2 class="o-title">
-      <i class="fas fa-users"></i>
+      <app-icon [name]="'users'"></app-icon>
       Usuários
     </h2>
     <div class="c-search">
       <div class="filter-container">
         <label for="fieldFilter" class="title">Filtrar por:</label>
         <input type="text" class="field -filter" id="fieldFilter" placeholder="Selecione o filtro" [formControl]="filterControl" [matAutocomplete]="auto">
-        <i class="fas fa-angle-down ico-arrow"></i>
+        <app-icon [name]="'angle-down'" class="ico-arrow"></app-icon>
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngFor="let filter of filteredOptions | async" [value]="filter.value">
             {{filter.value}}
@@ -17,55 +17,65 @@
       </div>
       <div class="search-container">
         <input type="text" class="field -search" placeholder="Pesquisar..." (keyup)="handleKeyUp($event)" [disabled]="disabledSearchField" />
-        <i class="fas fa-search icon"></i>
+        <app-icon [name]="'search'" class="icon"></app-icon>
       </div>
     </div>
     <button class="o-button -add" (click)="addUser()">
+      <app-icon [name]="'plus'" class="icon -left"></app-icon>
       Usuário
     </button>
   </header>
   <main class="middle">
-    <mat-spinner *ngIf="isLoadingResults; else table"></mat-spinner>
-    <ng-template #table>
-      <table mat-table [dataSource]="users?.data" class="example-table"
-           matSort matSortActive="created" matSortDisableClear matSortDirection="desc">
-      <!-- Number Column -->
-      <ng-container matColumnDef="foto">
-        <th mat-header-cell *matHeaderCellDef>Foto</th>
-        <td mat-cell *matCellDef="let user">
-          <i class="fas fa-user"></i>
-        </td>
-      </ng-container>
+    <div class="wrapper">
+      <mat-spinner *ngIf="isLoadingResults; else table"></mat-spinner>
+      <ng-template #table>
+        <table mat-table [dataSource]="users?.data" class="example-table"
+             matSort matSortActive="created" matSortDisableClear matSortDirection="desc">
+        <!-- Number Column -->
+        <ng-container matColumnDef="foto">
+          <th mat-header-cell *matHeaderCellDef>Foto</th>
+          <td mat-cell *matCellDef="let user">
+            <app-icon [name]="'user'"></app-icon>
+          </td>
+        </ng-container>
 
-      <!-- Title Column -->
-      <ng-container matColumnDef="nome">
-        <th mat-header-cell *matHeaderCellDef>Nome</th>
-        <td mat-cell *matCellDef="let user">{{user.name}}</td>
-      </ng-container>
+        <!-- Title Column -->
+        <ng-container matColumnDef="nome">
+          <th mat-header-cell *matHeaderCellDef>Nome</th>
+          <td mat-cell *matCellDef="let user">{{user.name}}</td>
+        </ng-container>
 
-      <!-- State Column -->
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef>E-mail</th>
-        <td mat-cell *matCellDef="let user">{{user.email}}</td>
-      </ng-container>
+        <!-- State Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>E-mail</th>
+          <td mat-cell *matCellDef="let user">{{user.email}}</td>
+        </ng-container>
 
-      <!-- Created Column -->
-      <ng-container matColumnDef="acao">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+        <!-- Created Column -->
+        <ng-container matColumnDef="acao">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
 
-        </th>
-        <td mat-cell *matCellDef="let user">
-          <div class="c-buttons -end">
-            <button class="o-button -icon -edit" (click)="editUser(user)"></button>
-            <button class="o-button -icon -delete" (click)="deleteUser(user)"></button>
-          </div>
-        </td>
-      </ng-container>
+          </th>
+          <td mat-cell *matCellDef="let user">
+            <div class="c-buttons -end">
+              <button class="o-button -icon -edit" (click)="editUser(user)">
+                <app-icon [name]="'pen'"></app-icon>
+              </button>
+              <button class="o-button -icon -delete" (click)="deleteUser(user)">
+                <app-icon [name]="'trash'"></app-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    </ng-template>
-
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      </ng-template>
+    </div>
+    <app-pagination></app-pagination>
   </main>
+  <footer>
+
+  </footer>
 </div>

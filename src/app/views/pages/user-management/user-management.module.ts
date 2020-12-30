@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from '../../../shared/shared.module';
 import { PartialsModule } from '../../partials/partials.module';
 import { UserManagementComponent } from './user-management.component';
 import { UsersComponent } from './users/users.component';
@@ -19,6 +18,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
+import { IconModule } from '@cms/partials';
 
 const routesChild: Routes = [
   {
@@ -58,6 +58,7 @@ const routesChild: Routes = [
     RouterModule.forChild(routesChild),
     FormsModule,
     ReactiveFormsModule,
+    IconModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatDialogModule,
@@ -69,8 +70,7 @@ const routesChild: Routes = [
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatSortModule,
-    PartialsModule,
-    SharedModule
+    PartialsModule
   ]
 })
 export class UserManagementModule { }

@@ -1,10 +1,10 @@
-import { DictionaryFilter, Pagination } from "@cms/core";
+import { DictionaryFilter, QueryParamsModel } from "@cms/core";
 
 export abstract class IConfigService {
 
-  abstract set pagination(pagination: Pagination);
+  abstract set queryParams(queryParams: QueryParamsModel);
 
-  abstract get pagination(): Pagination;
+  abstract get queryParams(): QueryParamsModel;
 
   abstract set filter(filter: DictionaryFilter);
 

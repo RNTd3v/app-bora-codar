@@ -7,6 +7,7 @@ import { AsideComponent } from './aside/aside.component';
 import { BrandComponent } from './brand/brand.component';
 import { ContentComponent } from './content/content.component';
 import { RouterModule } from '@angular/router';
+import { IconModule } from '@cms/partials';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
+    IconModule,
     RouterModule
   ]
 })

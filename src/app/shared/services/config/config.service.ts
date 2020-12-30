@@ -1,36 +1,36 @@
 import { Injectable } from '@angular/core';
-import { DictionaryFilter, IConfigService, Pagination } from '@cms/core';
+import { DictionaryFilter, IConfigService, QueryParamsModel } from '@cms/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfigService implements IConfigService {
 
-  private filtersConfig = {} as DictionaryFilter;
+  private _filters = {} as DictionaryFilter;
 
-  private paginationConfig = {
-    page: '1',
-    perPage: '12',
+  private _queryParams = {
+    page: 1,
+    perPage: 10,
     sortBy: 'id',
     order: 'ASC'
-  } as Pagination;
+  } as QueryParamsModel;
 
   constructor() { }
 
-  set pagination(pagination: Pagination) {
-    this.paginationConfig = pagination;
+  set queryParams(queryParams: QueryParamsModel) {
+    this.queryParams = queryParams;
   }
 
-  get pagination(): Pagination {
-    return { ...this.paginationConfig, ...this.filter };
+  get queryParams(): QueryParamsModel {
+    return { ...this._queryParams, ...this.filter };
   }
 
   set filter(filter: DictionaryFilter) {
-    this.filtersConfig = filter;
+    this._filters = filter;
   }
 
   get filter(): DictionaryFilter {
-    return this.filtersConfig;
+    return this._filters;
   }
 
 }

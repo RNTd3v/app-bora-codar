@@ -1,5 +1,6 @@
 .o-brand-logo {
-  color: white;
+  color: var(--brand-color);
   text-decoration: none;
-  font-family: 'Ubuntu Mono', monospace;
+  font-family: var(--font-brand);
+  font-weight: 400;
 }

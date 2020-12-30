@@ -8,9 +8,8 @@
 
   app-header {
     grid-area: header;
-    background-color: var(--purple-dark);
+    background-color: var(--bg-header-color);
     padding: 1rem 2rem;
-    box-shadow: 0px 0.1rem 2rem #dde6ea;
     overflow: overlay;
 
     > .header {
@@ -26,12 +25,12 @@
   app-aside {
     grid-area: aside;
     background-color: white;
-    color: var(--purple-dark);
+    color: var(--font-color-dark);
   }
 
   app-content {
     grid-area: content;
-    background-color: var(--purple-light);
+    background-color: var(--bg-page-color);
     display: flex;
     flex-direction: column;
     .content {

@@ -11,11 +11,11 @@
 
   .filter-container {
     position: relative;
-    background: var(--purple-light);
+    background: var(--bg-filter);
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    color: var(--purple-dark);
+    color: var(--color-filter);
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
     padding: 0 1rem;
