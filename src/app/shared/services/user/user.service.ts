@@ -13,7 +13,7 @@ export class UserService implements IUserService {
 
     getAllUsers(): Observable<User[]> {
       const options = { itsAList: true } as OptionsApi;
-      return this.apiService.get<User[]>('v1/users', options);
+      return this.apiService.getAll<User[]>('v1/users', options);
     }
 
     getUser(userID: string): Observable<User> {

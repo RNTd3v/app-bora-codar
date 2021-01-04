@@ -63,7 +63,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  private getAllUsers(): void {
+  getAllUsers(): void {
 
     this.isLoadingResults = true;
 

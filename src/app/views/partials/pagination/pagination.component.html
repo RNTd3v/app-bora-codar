@@ -1,9 +1,14 @@
 <div class="c-pagination">
   <div class="c-buttons">
-    <button class="o-button -arrow">
+    <button class="o-button -arrow" *ngIf="hasPreviousPage" (click)="handleClick('PREVIOUS_PAGE')">
       <app-icon [name]="'angle-left'"></app-icon>
     </button>
-    <button class="o-button -arrow">
+    <ng-container *ngIf="totalPage > 1">
+      <button class="o-button" [ngClass]="{'current': currentPage(i)}" *ngFor="let page of pageList; let i = index" (click)="handleClick(page)">
+        {{page}}
+      </button>
+    </ng-container>
+    <button class="o-button -arrow" *ngIf="hasNextPage" (click)="handleClick('NEXT_PAGE')">
       <app-icon [name]="'angle-right'"></app-icon>
     </button>
   </div>

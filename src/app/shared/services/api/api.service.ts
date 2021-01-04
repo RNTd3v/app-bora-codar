@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { IApiService, IConfigService, OptionsApi } from '@cms/core';
+import { Observable, of, throwError } from 'rxjs';
+import { IApiService, IConfigService, OptionsApi, QueryResultsModel } from '@cms/core';
 import { environment } from '@cms/environment';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,29 @@ export class ApiService implements IApiService {
     const options = this.geraOptionsRequest(opt);
 
     return this.http.get<T>(url, options);
+  }
+
+  /**
+   * @inheritdoc
+   */
+  getAll<T>(api: string, opt?: OptionsApi): Observable<T> {
+
+    const url = this.generateUrl(api);
+
+    if (url == null) {
+      return throwError('URL inválida');
+    }
+
+    opt.itsAList = true;
+
+    const options = this.geraOptionsRequest(opt);
+
+    return this.http.get<T>(url, options).pipe(
+      tap((result: any) => {
+        this.configService.queryResults = result as QueryResultsModel;
+        return of(result.data)
+      })
+    );
   }
 
   private geraOptionsRequest(opt: OptionsApi): {

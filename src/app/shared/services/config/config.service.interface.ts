@@ -1,4 +1,4 @@
-import { DictionaryFilter, QueryParamsModel } from "@cms/core";
+import { DictionaryFilter, QueryParamsModel, QueryResultsModel } from "@cms/core";
 
 export abstract class IConfigService {
 
@@ -9,5 +9,9 @@ export abstract class IConfigService {
   abstract set filter(filter: DictionaryFilter);
 
   abstract get filter(): DictionaryFilter;
+
+  abstract set queryResults(queryResults: QueryResultsModel);
+
+  abstract get queryResults(): QueryResultsModel;
 
 }

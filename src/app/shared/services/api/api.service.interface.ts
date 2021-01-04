@@ -13,6 +13,13 @@ export abstract class IApiService {
     abstract get<T>(url: string, opt?: OptionsApi): Observable<T>;
 
     /**
+     * Realiza uma requisição HTTP com o método `GET` para obter uma lista.
+     * @param url URL chamada.
+     * @param options opções da requisição.
+     */
+    abstract getAll<T>(url: string, opt?: OptionsApi): Observable<T>;
+
+    /**
      * Realiza uma requisição HTTP com o método `POST`.
      * @param url URL chamada.
      * @param body body da requisição.
