@@ -46,8 +46,10 @@ export class ApiService implements IApiService {
 
     return this.http.get<T>(url, options).pipe(
       tap((result: any) => {
-        this.configService.queryResults = result as QueryResultsModel;
-        return of(result.data)
+        const queryResults = result as QueryResultsModel;
+        this.configService.setTotalPage(queryResults.totalPage);
+        this.configService.queryResults = queryResults;
+        return of(queryResults.data)
       })
     );
   }

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { IConfigService } from '@cms/core';
-
+import { first } from 'rxjs/operators';
 enum GoTo {
   FIRST_PAGE = 'FIRST_PAGE',
   PREVIOUS_PAGE = 'PREVIOUS_PAGE',
@@ -19,15 +19,26 @@ export class PaginationComponent implements OnInit {
   @Output() changePage = new EventEmitter();
 
   private _currentPage = 1;
+  private _pageNumbers = [];
+  private _visiblePageNumbers = [];
+  totalPage: number;
+
+  private readonly totalVisiblePageNumbers = 3;
 
   constructor(private configService: IConfigService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.configService.totalPage
+      .pipe(first())
+        .subscribe(totalPage => {
+          this.totalPage = totalPage;
+          this.setPageNumbers(totalPage);
+    });
+  }
 
   handleClick(goTo: GoTo | number): void {
 
     const { page } = this.configService.queryParams;
-    const { totalPage } = this.configService.queryResults;
 
     switch (goTo) {
 
@@ -41,7 +52,7 @@ export class PaginationComponent implements OnInit {
         this.goToPage(page + 1);
         break;
       case 'LAST_PAGE':
-        this.goToPage(totalPage);
+        this.goToPage(this.totalPage);
         break;
       default:
         this.goToPage(goTo as number);
@@ -49,6 +60,17 @@ export class PaginationComponent implements OnInit {
 
     }
 
+  }
+
+  private setPageNumbers(totalPage: number): void {
+    for (let index = 0; index < totalPage; index++) {
+      this._pageNumbers.push(index+1);
+    }
+    this.setVisiblePageNumbers();
+  }
+
+  private setVisiblePageNumbers(start = 0, end = this.totalVisiblePageNumbers): void {
+    this._visiblePageNumbers = this._pageNumbers.slice(start, end);
   }
 
   private goToPage(page: number): void {
@@ -62,7 +84,25 @@ export class PaginationComponent implements OnInit {
 
     this._currentPage = page;
 
+    if (this.totalPage > this.totalVisiblePageNumbers) {
+      this.handleVisiblePageNumbers(page);
+    }
+
     this.changePage.emit();
+
+  }
+
+  private handleVisiblePageNumbers(page: number): void {
+
+    let start = 0
+    let end = this.totalVisiblePageNumbers;
+
+    if (page >= this.totalVisiblePageNumbers) {
+      start = page - this.totalVisiblePageNumbers;
+      end = page;
+    }
+
+    this.setVisiblePageNumbers(start, end);
 
   }
 
@@ -74,26 +114,12 @@ export class PaginationComponent implements OnInit {
     return this.configService.queryResults.hasNextPage;
   }
 
-  get totalPage(): number {
-    return this.configService.queryResults.totalPage;
+  get pageNumbers(): number[] {
+    return this._visiblePageNumbers;
   }
 
-  get pageList(): number[] {
-
-    const list = [];
-    const limit = this.totalPage > 5 ? 5 : this.totalPage;
-
-    for (let index = 0; index < limit; index++) {
-      list.push(index+1);
-    }
-
-    return list;
+  currentPage(page: number): boolean {
+    return this._currentPage === page;
   }
-
-  currentPage(pageIndex: number): boolean {
-    return this._currentPage === pageIndex + 1;
-  }
-
-
 
 }

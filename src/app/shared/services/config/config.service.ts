@@ -1,5 +1,24 @@
 import { Injectable } from '@angular/core';
 import { DictionaryFilter, IConfigService, QueryParamsModel, QueryResultsModel } from '@cms/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
+
+const queryParamsDefault = {
+  page: 1,
+  perPage: 1,
+  sortBy: 'id',
+  order: 'ASC'
+} as QueryParamsModel;
+
+const queryResultsDefault = {
+  totalItems: 10,
+  totalPage: 1,
+  page: 1,
+  perPage: 10,
+  hasPreviousPage: false,
+  hasNextPage: false,
+  data: []
+} as QueryResultsModel;
 
 @Injectable({
   providedIn: 'root'
@@ -7,25 +26,23 @@ import { DictionaryFilter, IConfigService, QueryParamsModel, QueryResultsModel }
 export class ConfigService implements IConfigService {
 
   private _filters = {} as DictionaryFilter;
+  private _totalPage: BehaviorSubject<number> = new BehaviorSubject<number>(undefined);
 
-  private _queryParams = {
-    page: 1,
-    perPage: 1,
-    sortBy: 'id',
-    order: 'ASC'
-  } as QueryParamsModel;
-
-  private _queryResults = {
-    totalItems: 10,
-    totalPage: 1,
-    page: 1,
-    perPage: 10,
-    hasPreviousPage: false,
-    hasNextPage: false,
-    data: []
-  } as QueryResultsModel;
+  private _queryParams = queryParamsDefault;
+  private _queryResults = queryResultsDefault;
 
   constructor() { }
+
+  setTotalPage(totalPage: number): void {
+    this._totalPage.next(totalPage);
+  }
+
+  applyDefaultValues(): void {
+    this._queryParams = queryParamsDefault;
+    this._queryResults = queryResultsDefault;
+    this._filters = {};
+    this._totalPage.next(undefined);
+  }
 
   set queryParams(queryParams: QueryParamsModel) {
     this._queryParams = queryParams;
@@ -49,6 +66,10 @@ export class ConfigService implements IConfigService {
 
   get queryResults(): QueryResultsModel {
     return this._queryResults;
+  }
+
+  get totalPage(): Observable<number> {
+    return this._totalPage.asObservable().pipe(filter(totalPage => totalPage !== undefined));
   }
 
 }

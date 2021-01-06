@@ -22,7 +22,9 @@ $colorSuccess: #0fab65;
   --bg-button-error: var(--second-secondary-color);
   --bg-button-warning: var(--third-secondary-color);
   --bg-button-success: var(--fourth-secondary-color);
-
+  --bg-button-pagination: rgba(var(--first-secondary-color-rgb), .5);
+  --bg-button-pagination-current-page: var(--first-secondary-color);
+  --bg-button-pagination-arrow: var(--fifth-color);
 
   // color buttons
   --color-button-default-hover: var(--second-color);

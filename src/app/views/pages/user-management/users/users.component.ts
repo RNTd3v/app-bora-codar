@@ -3,7 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Router, NavigationExtras } from '@angular/router';
+import { Router } from '@angular/router';
 import { User, IUserService, IConfigService, DictionaryFilter } from '@cms/core';
 import { DialogDeleteComponent } from '@cms/partials';
 import { Observable, Subscription } from 'rxjs';
@@ -76,11 +76,11 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   addUser(): void {
-    this.router.navigate(['user-management/users/add'])
+    this.router.navigate(['user-management/users/add']);
   }
 
   editUser(user: User): void {
-    this.router.navigate([`user-management/users/${user.id}`])
+    this.router.navigate([`user-management/users/${user.id}`]);
   }
 
   deleteUser(user: User): void {
