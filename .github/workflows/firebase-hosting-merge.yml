@@ -2,7 +2,7 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to Firebase Hosting on merge
-'on':
+"on":
   push:
     branches:
       - main
@@ -16,7 +16,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@master
         with:
-          node-version: '12.16.1'
+          node-version: "12.16.1"
       # Install the dependencies need to build the app
       - name: Install Dependencies
         run: npm install
@@ -25,9 +25,28 @@ jobs:
         run: npm run build --prod
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_BORACODAR_F03DD }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_BORACODAR_F03DD }}"
           channelId: live
           projectId: boracodar-f03dd
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
+      # Send mail with status
+      - name: Send mail
+        if: always()
+        uses: dawidd6/action-send-mail@v2
+        with:
+          # mail server settings
+          server_address: smtp.gmail.com
+          server_port: 465
+          # user credentials
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          # email subject
+          subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
+          # email body as text
+          body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
+          # comma-separated string, send email to
+          to: rntd3signer@gmail.com,brunocustodiodev@gmail.com
+          # from email name
+          from: Bora Codar - CMS
