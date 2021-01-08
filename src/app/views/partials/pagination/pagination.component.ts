@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { IConfigService } from '@cms/core';
 import { first } from 'rxjs/operators';
 enum GoTo {
@@ -14,7 +14,7 @@ enum GoTo {
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.scss']
 })
-export class PaginationComponent implements OnInit {
+export class PaginationComponent implements OnInit, OnDestroy {
 
   @Output() changePage = new EventEmitter();
 
@@ -22,6 +22,7 @@ export class PaginationComponent implements OnInit {
   private _pageNumbers = [];
   private _visiblePageNumbers = [];
   totalPage: number;
+  goTo = GoTo;
 
   private readonly totalVisiblePageNumbers = 3;
 
@@ -34,6 +35,10 @@ export class PaginationComponent implements OnInit {
           this.totalPage = totalPage;
           this.setPageNumbers(totalPage);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.configService.applyDefaultValues();
   }
 
   handleClick(goTo: GoTo | number): void {
