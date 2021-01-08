@@ -43,10 +43,10 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           # email subject
-          subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
+          subject: ${{ job.status }} => Deploy ${{ github.repository }}
           # email body as text
-          body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
+          body: ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
           # comma-separated string, send email to
-          to: rntd3signer@gmail.com,brunocustodiodev@gmail.com
+          to: rntd3signer@gmail.com,brunocustodiodev@gmail.com, bacustodio@hotmail.com
           # from email name
-          from: Bora Codar - CMS
+          from: Deploy bora.codar
