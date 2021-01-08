@@ -1,9 +1,9 @@
 <div class="c-pagination">
   <div class="c-buttons">
-    <button class="o-button -arrow" [disabled]="!hasPreviousPage" (click)="handleClick('FIRST_PAGE')" matTooltip="Ir para primeira página">
+    <button class="o-button -arrow" [disabled]="!hasPreviousPage" (click)="handleClick(goTo.FIRST_PAGE)" matTooltip="Ir para primeira página">
       <app-icon [name]="'angle-double-left'"></app-icon>
     </button>
-    <button class="o-button -arrow" [disabled]="!hasPreviousPage" (click)="handleClick('PREVIOUS_PAGE')" matTooltip="Ir para página anterior">
+    <button class="o-button -arrow" [disabled]="!hasPreviousPage" (click)="handleClick(goTo.PREVIOUS_PAGE)" matTooltip="Ir para página anterior">
       <app-icon [name]="'angle-left'"></app-icon>
     </button>
     <ng-container *ngIf="totalPage > 1">
@@ -11,10 +11,10 @@
         {{page}}
       </button>
     </ng-container>
-    <button class="o-button -arrow" [disabled]="!hasNextPage" (click)="handleClick('NEXT_PAGE')" matTooltip="Ir para próxima página">
+    <button class="o-button -arrow" [disabled]="!hasNextPage" (click)="handleClick(goTo.NEXT_PAGE)" matTooltip="Ir para próxima página">
       <app-icon [name]="'angle-right'"></app-icon>
     </button>
-    <button class="o-button -arrow" [disabled]="!hasNextPage"(click)="handleClick('LAST_PAGE')" matTooltip="Ir para última página">
+    <button class="o-button -arrow" [disabled]="!hasNextPage"(click)="handleClick(goTo.LAST_PAGE)" matTooltip="Ir para última página">
       <app-icon [name]="'angle-double-right'"></app-icon>
     </button>
   </div>
