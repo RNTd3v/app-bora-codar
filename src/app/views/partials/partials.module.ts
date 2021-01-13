@@ -12,10 +12,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { TitleComponent } from './title/title.component';
+import { ButtonComponent } from './button/button.component';
 
 @NgModule({
-  declarations: [DialogDeleteComponent, PaginationComponent, SearchComponent, TableComponent],
-  exports: [DialogDeleteComponent, PaginationComponent, SearchComponent, TableComponent],
+  declarations: [DialogDeleteComponent, PaginationComponent, SearchComponent, TableComponent, TitleComponent, ButtonComponent],
+  exports: [DialogDeleteComponent, PaginationComponent, SearchComponent, TableComponent, TitleComponent, ButtonComponent],
   imports: [
     CommonModule,
     IconModule,
