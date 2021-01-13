@@ -1,0 +1,5 @@
+<button class="o-button" [ngClass]="buttonClasses" (click)="handleClick()">
+  <app-icon [name]="iconLeftName" *ngIf="showLeftIcon" class="icon -left"></app-icon>
+  {{buttonText}}
+  <app-icon [name]="iconRightName" *ngIf="showRightIcon" class="icon -right"></app-icon>
+</button>
