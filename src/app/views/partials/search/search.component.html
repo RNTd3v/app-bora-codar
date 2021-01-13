@@ -4,8 +4,8 @@
     <input type="text" class="field -filter" id="fieldFilter" placeholder="Selecione o filtro" [formControl]="filterControl" [matAutocomplete]="auto">
     <app-icon [name]="'angle-down'" class="ico-arrow"></app-icon>
     <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let filter of filteredOptions | async" [value]="filter.value">
-        {{filter.value}}
+      <mat-option *ngFor="let filter of filteredOptions | async" [value]="filter.name">
+        {{filter.name}}
       </mat-option>
     </mat-autocomplete>
   </div>

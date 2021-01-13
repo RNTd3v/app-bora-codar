@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { DictionaryFilter, Filter, IConfigService } from '@cms/core';
+import { DictionaryFilter, FilterOptions, IConfigService } from '@cms/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
@@ -11,13 +11,13 @@ import { map, startWith } from 'rxjs/operators';
 export class SearchComponent implements OnInit, OnChanges {
 
   @Input()
-  filters = [] as Filter[];
+  filters = [] as FilterOptions[];
 
   @Output()
   searchEvent = new EventEmitter();
 
   filterControl = new FormControl('', Validators.required);
-  filteredOptions: Observable<Filter[]>;
+  filteredOptions: Observable<FilterOptions[]>;
 
   private time = null;
 
@@ -42,15 +42,15 @@ export class SearchComponent implements OnInit, OnChanges {
   }
 
   private setFilterDefault(): void {
-    const { value } = this.filters[0] as Filter;
-    this.filterControl.setValue(value);
+    const { name } = this.filters[0] as FilterOptions;
+    this.filterControl.setValue(name);
   }
 
   private debounceEvent(value: string): void {
 
     const filterKey = this.filters
-      .filter(f => f.value === this.filterControl.value)
-      .map(f => f.key)[0];
+      .filter(f => f.name === this.filterControl.value)
+      .map(f => f.id)[0];
 
     clearTimeout(this.time);
 
@@ -61,9 +61,9 @@ export class SearchComponent implements OnInit, OnChanges {
 
   }
 
-  private filterKey(filter: string): Filter[] {
+  private filterKey(filter: string): FilterOptions[] {
     const filterValue = filter.toLowerCase();
-    return this.filters.filter(filter => filter.value.toLowerCase().indexOf(filterValue) === 0);
+    return this.filters.filter(filter => filter.name.toLowerCase().indexOf(filterValue) === 0);
   }
 
   get disabledSearchField(): boolean {
