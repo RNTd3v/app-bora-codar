@@ -1,4 +1,4 @@
-<div class="c-pagination">
+<div class="c-pagination" *ngIf="showPagition">
   <div class="c-buttons">
     <button class="o-button -arrow" [disabled]="!hasPreviousPage" (click)="handleClick(goTo.FIRST_PAGE)" matTooltip="Ir para primeira página">
       <app-icon [name]="'angle-double-left'"></app-icon>

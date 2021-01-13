@@ -11,8 +11,7 @@ enum GoTo {
 
 @Component({
   selector: 'app-pagination',
-  templateUrl: './pagination.component.html',
-  styleUrls: ['./pagination.component.scss']
+  templateUrl: './pagination.component.html'
 })
 export class PaginationComponent implements OnInit, OnDestroy {
 
@@ -121,6 +120,10 @@ export class PaginationComponent implements OnInit, OnDestroy {
 
   get pageNumbers(): number[] {
     return this._visiblePageNumbers;
+  }
+
+  get showPagition(): boolean {
+    return this.totalPage > 1;
   }
 
   currentPage(page: number): boolean {
