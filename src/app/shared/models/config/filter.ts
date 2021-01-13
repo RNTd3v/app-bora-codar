@@ -1,4 +1,2 @@
-export interface Filter {
-  key: string;
-  value: string;
-}
+import { Option } from './option';
+export interface FilterOptions extends Option {}
