@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { IApiService, IConfigService, OptionsApi, QueryResultsModel } from '@cms/core';
 import { environment } from '@cms/environment';
-import { tap } from 'rxjs/operators';
+import { mergeMap, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -49,8 +49,8 @@ export class ApiService implements IApiService {
         const queryResults = result as QueryResultsModel;
         this.configService.setTotalPage(queryResults.totalPage);
         this.configService.queryResults = queryResults;
-        return of(queryResults.data)
-      })
+      }),
+      mergeMap((result: any) => of(result.data))
     );
   }
 
