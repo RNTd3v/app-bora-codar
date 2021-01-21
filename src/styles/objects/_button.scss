@@ -36,6 +36,11 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    > .icon {
+      &.-left {
+        margin-right: 0;
+      }
+    }
   }
   &.-add {
     background: var(--bg-button-success);
