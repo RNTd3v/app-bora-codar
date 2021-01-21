@@ -32,7 +32,8 @@ export class TokenInterceptor implements HttpInterceptor {
 
   private generateRequestWithToken(token: string, request: HttpRequest<any>): HttpRequest<any> {
     return request.clone({
-      headers: request.headers.set('x_access_token', token)
+      headers: request.headers
+        .set('x_access_token', token)
     })
   }
 
