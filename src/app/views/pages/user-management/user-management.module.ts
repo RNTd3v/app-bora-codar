@@ -9,6 +9,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -19,6 +20,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { IconModule } from '@cms/partials';
+import { RolesComponent } from './roles/roles.component';
+import { RoleEditComponent } from './roles/role-edit/role-edit.component';
 
 const routesChild: Routes = [
   {
@@ -41,6 +44,18 @@ const routesChild: Routes = [
       {
         path: 'users/:id',
         component: UserEditComponent
+      },
+      {
+        path: 'roles',
+        component: RolesComponent
+      },
+      {
+        path: 'roles/add',
+        component: RoleEditComponent
+      },
+      {
+        path: 'roles/:id',
+        component: RoleEditComponent
       }
     ]
   }
@@ -51,7 +66,9 @@ const routesChild: Routes = [
     UserManagementComponent,
     UsersComponent,
     UserEditComponent,
-    UserDetailComponent
+    UserDetailComponent,
+    RolesComponent,
+    RoleEditComponent
   ],
   imports: [
     CommonModule,
@@ -61,6 +78,7 @@ const routesChild: Routes = [
     IconModule,
     MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
     MatDialogModule,
     MatIconModule,
     MatInputModule,
