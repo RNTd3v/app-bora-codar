@@ -68,8 +68,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   private deleteUser(user: User): void {
 
     const dialogRef = this.dialog.open(DialogDeleteComponent, {
-      width: '250px',
-      data: { name: user.name, title: 'Deletar usuário' }
+      width: '300px',
+      data: { name: `o usuário ${user.name}`, title: 'Deletar usuário' }
     });
 
     dialogRef.afterClosed().subscribe(confirmed => {
