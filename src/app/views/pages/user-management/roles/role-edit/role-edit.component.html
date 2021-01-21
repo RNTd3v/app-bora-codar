@@ -1,0 +1,23 @@
+<div class="ui-page-content">
+  <header class="top">
+    <app-button iconLeftName="arrow-left" buttonClasses='-icon' (clickButtonEvent)="goBack()"></app-button>
+    <app-title [pageName]="title" iconName="user-shield"></app-title>
+  </header>
+  <main class="middle" [class.-isLoading]="isLoadingPage">
+    <mat-spinner *ngIf="isLoadingPage; else form"></mat-spinner>
+    <ng-template #form>
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+    <form class="c-form form-role" [formGroup]="formRole" (submit)="submitRoleData()">
+      <mat-form-field appearance="fill">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="name" required>
+        <mat-error *ngIf="showMessageError('name')">{{getErrorMessage('name')}}</mat-error>
+      </mat-form-field>
+      <mat-checkbox formControlName="admin">Admin</mat-checkbox>
+      <button type="submit" mat-raised-button color="primary" [disabled]="formInvalid || isLoading">
+        Salvar
+      </button>
+    </form>
+  </ng-template>
+  </main>
+</div>
