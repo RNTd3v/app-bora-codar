@@ -13,6 +13,7 @@ export class AuthService implements IAuthService {
 
   private readonly keyAccessToken = 'token';
   private readonly keyRefreshToken = 'refreshToken';
+  private readonly keyCompanyId = 'companyId';
 
   private tokenInValidation = false;
   private tokenSubject: Subject<boolean>;
@@ -93,6 +94,7 @@ export class AuthService implements IAuthService {
     const options = {
       headers: new HttpHeaders()
         .set('no-token', 'true')
+        .set('no-company-id', 'true')
     };
 
     this.tokenInValidation = true;
@@ -139,6 +141,8 @@ export class AuthService implements IAuthService {
       timestampExp: tokenExpirationDate.getTime()
     } as AccessToken);
 
+    this.storeCompanyId(this.keyCompanyId, tokenResponse.companyId);
+
     authResult = true;
     this.notifyAuthResult(authResult);
     return authResult;
@@ -153,12 +157,20 @@ export class AuthService implements IAuthService {
     }
   }
 
-  private storeAccessToken(key: string, token: AccessToken) {
+  private storeAccessToken(key: string, token: AccessToken): void {
     this.storage.set(key, token);
+  }
+
+  private storeCompanyId(key: string, companyId: string): void {
+    this.storage.set(key, companyId);
   }
 
   get token(): string {
     return this.storage.get(this.keyAccessToken).token;
+  }
+
+  get companyID(): string {
+    return this.storage.get(this.keyCompanyId);
   }
 
   private get refreshToken(): AccessToken {
