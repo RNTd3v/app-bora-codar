@@ -94,7 +94,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
   }
 
   goBack(): void {
-    this.router.navigate(['../'])
+    this.router.navigate(['/user-management/users'])
   }
 
   submitUserData(): void {

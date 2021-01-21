@@ -1,14 +1,9 @@
 <div class="ui-page-content">
   <header class="top">
-    <button class="o-button -icon" (click)="goBack()">
-      <i class="fas fa-arrow-left"></i>
-    </button>
-    <h2 class="o-title">
-      <i class="fas fa-user"></i>
-      {{title}}
-    </h2>
+    <app-button iconLeftName="arrow-left" buttonClasses='-icon' (clickButtonEvent)="goBack()"></app-button>
+    <app-title [pageName]="title" iconName="user"></app-title>
   </header>
-  <main class="middle">
+  <main class="middle" [class.-isLoading]="isLoadingPage">
     <mat-spinner *ngIf="isLoadingPage; else form"></mat-spinner>
     <ng-template #form>
     <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
