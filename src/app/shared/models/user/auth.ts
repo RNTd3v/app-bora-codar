@@ -5,6 +5,7 @@ export interface Auth {
 
 export interface AuthResponse {
   userId: string;
+  companyId: string;
   token: string;
 }
 export interface AccessToken {
