@@ -45,7 +45,7 @@ jobs:
           # email subject
           subject: ${{ job.status }} => Deploy /bora.codar (CMS)
           # email body as text
-          body: ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
+          body: ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}. https://boracodar-f03dd.web.app
           # comma-separated string, send email to
           to: rntd3signer@gmail.com,brunocustodiodev@gmail.com, bacustodio@hotmail.com
           # from email name
