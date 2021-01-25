@@ -2,7 +2,7 @@
   display: grid;
   height: 100vh;
   grid-template-columns: minmax(auto, 20rem) 1fr;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: minmax(5.5rem, auto) 1fr;
   grid-template-areas: 'header header'
                        'aside content';
 

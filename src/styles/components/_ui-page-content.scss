@@ -40,9 +40,11 @@
       }
     }
 
-    .mat-spinner, .mat-spinner svg  {
-      width: 5rem !important;
-      height: 5rem !important;
+    .mat-spinner {
+      &.spinner-page, &.spinner-page svg {
+        width: 5rem !important;
+        height: 5rem !important;
+      }
     }
   }
 }
