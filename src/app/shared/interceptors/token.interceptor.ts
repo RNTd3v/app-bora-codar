@@ -9,11 +9,12 @@ import {
 import { from, Observable, throwError } from 'rxjs';
 import { IAuthService } from '../services';
 import { catchError, mergeMap } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 
-  constructor(private authService: IAuthService) {}
+  constructor(private authService: IAuthService, private snackBar: MatSnackBar) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
@@ -54,6 +55,8 @@ export class TokenInterceptor implements HttpInterceptor {
                 if (error.status === 401) {
                     this.authService.logout();
                 }
+                const message = !!error.error.message ? error.error.message : 'Houve um erro!';
+                this.snackBar.open(message, null, { duration: 2000})
                 return throwError(error);
             })
         );
