@@ -17,6 +17,9 @@ export class ButtonComponent implements OnInit {
   iconRightName: string = null;
 
   @Input()
+  isLoadingAction = false;
+
+  @Input()
   buttonClasses = '';
 
   @Output()

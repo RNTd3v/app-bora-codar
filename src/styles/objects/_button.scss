@@ -14,8 +14,8 @@
   cursor: pointer;
   @include transition;
   &:disabled {
-    background-color: var(--bg-button-default-disabled) !important;
-    color: var(--color-button-default-disabled) !important;
+    background-color: var(--bg-button-default-disabled);
+    color: var(--color-button-default-disabled);
     cursor: default;
   }
   &:hover {
@@ -24,6 +24,14 @@
   }
   > .icon {
     display: block;
+    mat-spinner, mat-spinner svg {
+      width: 20px !important;
+      height: 20px !important;
+    }
+    .mat-progress-spinner circle, .mat-spinner circle {
+      stroke: white;
+      stroke-width: 15% !important;
+    }
     &.-left {
       margin-right: 1rem;
     }
@@ -44,21 +52,21 @@
   }
   &.-add {
     background: var(--bg-button-success);
-    &:hover {
+    &:disabled, &:hover {
       background-color: lighten($colorSuccess, 20%);
       color: darken($colorSuccess, 20%);
     }
   }
   &.-edit {
     background-color: var(--bg-button-info);
-    &:hover {
+    &:disabled, &:hover {
       background-color: lighten($colorInfo, 20%);
       color: darken($colorInfo, 20%);
     }
   }
   &.-delete {
     background-color: var(--bg-button-error);
-    &:hover {
+    &:disabled, &:hover {
       background-color: lighten($colorError, 20%);
       color: darken($colorError, 20%);
     }

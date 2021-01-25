@@ -1,5 +1,15 @@
-<button class="o-button" [ngClass]="buttonClasses" (click)="handleClick()">
-  <app-icon [name]="iconLeftName" *ngIf="showLeftIcon" class="icon -left"></app-icon>
+<button class="o-button" [ngClass]="buttonClasses" [disabled]="isLoadingAction" (click)="handleClick()">
+  <div class="icon -left" *ngIf="showLeftIcon">
+    <mat-spinner *ngIf="isLoadingAction; else iconLeft"></mat-spinner>
+    <ng-template #iconLeft>
+      <app-icon [name]="iconLeftName"></app-icon>
+    </ng-template>
+  </div>
   {{buttonText}}
-  <app-icon [name]="iconRightName" *ngIf="showRightIcon" class="icon -right"></app-icon>
+  <div class="icon -right" *ngIf="showRightIcon">
+    <mat-spinner *ngIf="isLoadingAction; else iconRight"></mat-spinner>
+    <ng-template #iconRight>iconRigh
+      <app-icon [name]="iconRightName"></app-icon>
+    </ng-template>
+  </div>
 </button>
