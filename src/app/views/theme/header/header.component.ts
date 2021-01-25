@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IAuthService } from '@cms/core';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: IAuthService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  logout(): void {
+    this.authService.logout();
   }
 
 }

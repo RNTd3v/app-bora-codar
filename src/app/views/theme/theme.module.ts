@@ -8,6 +8,7 @@ import { BrandComponent } from './brand/brand.component';
 import { ContentComponent } from './content/content.component';
 import { RouterModule } from '@angular/router';
 import { IconModule } from '@cms/partials';
+import { PartialsModule } from '../partials/partials.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { IconModule } from '@cms/partials';
   imports: [
     CommonModule,
     IconModule,
+    PartialsModule,
     RouterModule
   ]
 })

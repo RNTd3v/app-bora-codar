@@ -1,11 +1,8 @@
 <header class="header">
   <app-brand></app-brand>
-  <div class="c-buttons">
-    <button class="o-button -icon">
-      <app-icon [name]="'bell'"></app-icon>
-    </button>
-    <button class="o-button -icon">
-      <app-icon [name]="'cog'"></app-icon>
-    </button>
-  </div>
+  <app-button
+    iconLeftName="sign-out-alt"
+    buttonClasses='-icon -delete'
+    (clickButtonEvent)="logout()">
+  </app-button>
 </header>
