@@ -8,8 +8,10 @@
     <div class="wrapper">
       <app-table
         [isLoadingResults]="isLoadingResults"
+        [isLoadingAction]="isLoadingAction"
         [dataSource]="users"
         [columns]="userOptions"
+        (loadContentEvent)="getAllUsers()"
         (actionEvent)="action($event)"
         (sortChangeEvent)="getAllUsers()"
       ></app-table>

@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { User, IUserService, Option, TableAction } from '@cms/core';
 import { DialogDeleteComponent } from '@cms/partials';
@@ -20,17 +21,17 @@ export class UsersComponent implements OnInit, OnDestroy {
   ] as Option[];
 
   isLoadingResults = true;
+  isLoadingAction = false;
 
   private subscription = new Subscription();
 
   constructor(
     public dialog: MatDialog,
     private service: IUserService,
+    private snackBar: MatSnackBar,
     private router: Router) {}
 
-  ngOnInit(): void {
-    this.getAllUsers();
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -40,7 +41,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.service.getAllUsers()
         .pipe(finalize(() => this.isLoadingResults = false))
-        .subscribe(users => this.users = users)
+        .subscribe({ next: users => this.users = users })
     );
 
   }
@@ -67,19 +68,28 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   private deleteUser(user: User): void {
 
+    this.isLoadingAction = true;
+
     const dialogRef = this.dialog.open(DialogDeleteComponent, {
       width: '300px',
       data: { name: `o usuário ${user.name}`, title: 'Deletar usuário' }
     });
 
-    dialogRef.afterClosed().subscribe(confirmed => {
-      if (confirmed) {
-        this.subscription.add(
+    this.subscription.add(dialogRef.afterClosed()
+      .pipe(finalize(() => this.isLoadingAction = false))
+      .subscribe({next: confirmed => {
+        if (confirmed) {
           this.service.deleteUser(user.id)
-            .subscribe(response => console.log(response))
-        )
-      }
-    });
+              .subscribe({next: _ => {
+                this.handleDeleteResult();
+                this.getAllUsers();
+              }})
+        }
+    }}));
+  }
+
+  private handleDeleteResult(): void {
+    this.snackBar.open('Usuário excluido com sucesso!', null, { duration: 2000});
   }
 
 }
