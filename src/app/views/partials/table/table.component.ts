@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { IConfigService, Option, QueryParamsModel, TableAction } from '@cms/core';
 
@@ -6,10 +6,13 @@ import { IConfigService, Option, QueryParamsModel, TableAction } from '@cms/core
   selector: 'app-table',
   templateUrl: './table.component.html'
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, AfterViewInit {
 
   @Input()
-  isLoadingResults: boolean = true;
+  isLoadingResults = true;
+
+  @Input()
+  isLoadingAction = false;
 
   @Input()
   dataSource: any[] = [];
@@ -23,9 +26,17 @@ export class TableComponent implements OnInit {
   @Output()
   sortChangeEvent = new EventEmitter();
 
+  @Output()
+  loadContentEvent = new EventEmitter();
+
   displayedColumns: string[] = [];
 
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('tableContainer') elementView: ElementRef;
+
+  private indexDeleteAction: number;
+
+  private readonly rowHeight = 48;
 
   constructor(private configService: IConfigService) { }
 
@@ -34,7 +45,12 @@ export class TableComponent implements OnInit {
     this.displayedColumns.push('action');
   }
 
-  action(data: any, type: 'edit' | 'delete'): void {
+  ngAfterViewInit() {
+    this.setPerPageConfig();
+  }
+
+  action(data: any, type: 'edit' | 'delete', index: number): void {
+    this.indexDeleteAction = index;
     this.actionEvent.emit({ data, type } as TableAction);
   }
 
@@ -50,6 +66,25 @@ export class TableComponent implements OnInit {
 
     this.sortChangeEvent.emit();
 
+  }
+
+  isLoadingDeleteAction(index: number): boolean {
+    return this.isLoadingAction && index === this.indexDeleteAction;
+  }
+
+  private setPerPageConfig(): void {
+
+    const tableHeight = this.elementView.nativeElement.getBoundingClientRect().height;
+    const perPage = Math.floor(tableHeight / this.rowHeight) - 1;
+
+    const { queryParams } = this.configService;
+
+    this.configService.queryParams = {
+      ...queryParams,
+      perPage
+    } as QueryParamsModel;
+
+    this.loadContentEvent.emit();
   }
 
 }
