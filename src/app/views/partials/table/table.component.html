@@ -23,13 +23,17 @@
             <app-button
               iconLeftName="pen"
               buttonClasses='-icon -edit'
-              (clickButtonEvent)="action(data, 'edit')">
+              (clickButtonEvent)="action(data, 'edit')"
+              matTooltip="Editar"
+              >
             </app-button>
             <app-button
               iconLeftName="trash"
               buttonClasses='-icon -delete'
               [isLoadingAction]="isLoadingDeleteAction(i)"
-              (clickButtonEvent)="action(data, 'delete', i)">
+              (clickButtonEvent)="action(data, 'delete', i)"
+              matTooltip="Deletar"
+              >
             </app-button>
           </div>
         </td>

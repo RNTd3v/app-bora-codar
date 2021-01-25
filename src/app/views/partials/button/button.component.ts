@@ -22,6 +22,9 @@ export class ButtonComponent implements OnInit {
   @Input()
   buttonClasses = '';
 
+  @Input()
+  matTooltip = "";
+
   @Output()
   clickButtonEvent = new EventEmitter();
 
