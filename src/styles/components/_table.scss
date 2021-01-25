@@ -8,5 +8,15 @@
     width: 100%;
     align-self: flex-start;
     justify-self: flex-start;
+    margin-top: -2rem;
+    tbody {
+      tr {
+        &:last-child {
+          td {
+            border-bottom: none;
+          }
+        }
+      }
+    }
   }
 }
