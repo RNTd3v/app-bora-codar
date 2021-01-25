@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { IRoleService, Role, TableAction, Option } from '@cms/core';
 import { DialogDeleteComponent } from '@cms/partials';
@@ -20,12 +21,14 @@ export class RolesComponent implements OnInit, OnDestroy {
   ] as Option[];
 
   isLoadingResults = true;
+  isLoadingAction = false;
 
   private subscription = new Subscription();
 
   constructor(
     public dialog: MatDialog,
     private service: IRoleService,
+    private snackBar: MatSnackBar,
     private router: Router) {}
 
   ngOnInit(): void {
@@ -40,7 +43,7 @@ export class RolesComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.service.getAllRoles()
         .pipe(finalize(() => this.isLoadingResults = false))
-        .subscribe(roles => this.roles = roles)
+        .subscribe({next: roles => this.roles = roles})
     );
 
   }
@@ -67,19 +70,28 @@ export class RolesComponent implements OnInit, OnDestroy {
 
   private deleteRole(role: Role): void {
 
+    this.isLoadingAction = true;
+
     const dialogRef = this.dialog.open(DialogDeleteComponent, {
       width: '300px',
       data: { name: `o perfil ${role.name}`, title: 'Deletar perfil' }
     });
 
-    dialogRef.afterClosed().subscribe(confirmed => {
-      if (confirmed) {
-        this.subscription.add(
+    this.subscription.add(dialogRef.afterClosed()
+      .pipe(finalize(() => this.isLoadingAction = false))
+      .subscribe({next: confirmed => {
+        if (confirmed) {
           this.service.deleteRole(role.id)
-            .subscribe(response => console.log(response))
-        )
-      }
-    });
+            .subscribe({ next: _ => {
+              this.handleDeleteResult();
+              this.getAllRoles();
+            }})
+        }
+      }}));
+  }
+
+  private handleDeleteResult(): void {
+    this.snackBar.open('Perfil excluido com sucesso!', null, { duration: 2000});
   }
 
 }
