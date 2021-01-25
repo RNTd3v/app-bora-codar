@@ -1,6 +1,6 @@
-<div class="c-table">
+<div class="c-table" #tableContainer>
 
-  <mat-spinner *ngIf="isLoadingResults; else table"></mat-spinner>
+  <mat-spinner class="spinner-page" *ngIf="isLoadingResults; else table"></mat-spinner>
 
   <ng-template #table>
 
@@ -18,14 +18,19 @@
       <!-- Action Column -->
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let data">
+        <td mat-cell *matCellDef="let data; let i = index">
           <div class="c-buttons -end">
-            <button class="o-button -icon -edit" (click)="action(data, 'edit')">
-              <app-icon [name]="'pen'"></app-icon>
-            </button>
-            <button class="o-button -icon -delete" (click)="action(data, 'delete')">
-              <app-icon [name]="'trash'"></app-icon>
-            </button>
+            <app-button
+              iconLeftName="pen"
+              buttonClasses='-icon -edit'
+              (clickButtonEvent)="action(data, 'edit')">
+            </app-button>
+            <app-button
+              iconLeftName="trash"
+              buttonClasses='-icon -delete'
+              [isLoadingAction]="isLoadingDeleteAction(i)"
+              (clickButtonEvent)="action(data, 'delete', i)">
+            </app-button>
           </div>
         </td>
       </ng-container>
