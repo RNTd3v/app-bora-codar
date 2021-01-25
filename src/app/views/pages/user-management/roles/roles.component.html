@@ -11,6 +11,7 @@
         [isLoadingAction]="isLoadingAction"
         [dataSource]="roles"
         [columns]="roleOptions"
+        (loadContentEvent)="getAllRoles()"
         (actionEvent)="action($event)"
         (sortChangeEvent)="getAllRoles()"
       ></app-table>

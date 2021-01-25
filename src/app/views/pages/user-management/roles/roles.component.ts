@@ -31,9 +31,7 @@ export class RolesComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private router: Router) {}
 
-  ngOnInit(): void {
-    this.getAllRoles();
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
