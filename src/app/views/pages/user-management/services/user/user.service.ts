@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { IApiService, IUserService, OptionsApi, User } from '@cms/core';
+import { IApiService, OptionsApi, User } from '@cms/core';
 import { Observable } from 'rxjs';
+import { IUserService } from './user.service.interface';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class UserService implements IUserService {
 
   constructor(

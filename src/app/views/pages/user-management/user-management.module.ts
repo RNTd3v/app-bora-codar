@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PartialsModule } from '../../partials/partials.module';
-import { UserManagementComponent } from './user-management.component';
-import { UsersComponent } from './users/users.component';
-import { UserEditComponent } from './users/user-edit/user-edit.component';
-import { UserDetailComponent } from './users/user-detail/user-detail.component';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+// Material Modules
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -19,7 +16,21 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
-import { IconModule } from '@cms/partials';
+
+// Modules
+import { IconModule, PartialsModule } from '@cms/partials';
+
+
+// Services
+import { IRoleService, IUserService } from './services';
+import { RoleService } from './services/role/role.service';
+import { UserService } from './services/user/user.service';
+
+// Components
+import { UserManagementComponent } from './user-management.component';
+import { UsersComponent } from './users/users.component';
+import { UserEditComponent } from './users/user-edit/user-edit.component';
+import { UserDetailComponent } from './users/user-detail/user-detail.component';
 import { RolesComponent } from './roles/roles.component';
 import { RoleEditComponent } from './roles/role-edit/role-edit.component';
 
@@ -89,6 +100,10 @@ const routesChild: Routes = [
     MatSnackBarModule,
     MatSortModule,
     PartialsModule
-  ]
+  ],
+    providers: [
+      { provide: IRoleService, useClass: RoleService },
+      { provide: IUserService, useClass: UserService }
+    ]
 })
 export class UserManagementModule { }

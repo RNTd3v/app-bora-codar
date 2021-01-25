@@ -2,9 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router, ActivatedRoute } from '@angular/router'
-import { User, IUserService, ConfirmedValidator } from '@cms/core'
+import { User, ConfirmedValidator } from '@cms/core'
 import { Observable, Subscription } from 'rxjs'
 import { finalize } from 'rxjs/operators'
+import { IUserService } from '../../services'
 
 @Component({
   selector: 'app-user-edit',

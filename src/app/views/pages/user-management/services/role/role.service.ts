@@ -3,9 +3,7 @@ import { IApiService, OptionsApi, Role } from '@cms/core';
 import { Observable } from 'rxjs';
 import { IRoleService } from './role.service.interface';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class RoleService implements IRoleService {
 
   constructor(private apiService: IApiService) { }

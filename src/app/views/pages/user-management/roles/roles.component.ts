@@ -2,10 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { IRoleService, Role, TableAction, Option } from '@cms/core';
+import { Role, TableAction, Option } from '@cms/core';
 import { DialogDeleteComponent } from '@cms/partials';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { IRoleService } from '../services';
 
 @Component({
   selector: 'app-roles',

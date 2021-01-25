@@ -2,10 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { User, IUserService, Option, TableAction } from '@cms/core';
+import { User, Option, TableAction } from '@cms/core';
 import { DialogDeleteComponent } from '@cms/partials';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { IUserService } from '../services';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',

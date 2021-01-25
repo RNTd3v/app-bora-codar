@@ -2,9 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Role, IRoleService } from '@cms/core';
+import { Role } from '@cms/core';
 import { Subscription, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { IRoleService } from '../../services';
 
 @Component({
   selector: 'app-role-edit',
