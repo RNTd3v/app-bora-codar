@@ -33,11 +33,11 @@ export class RegisterComponent implements OnInit {
       passwordForm: this.formBuilder.group(
         {
           password: [
-            user.passwordForm.password,
+            '',
             [Validators.required, Validators.minLength(6)],
           ],
           confirm: [
-            user.passwordForm.confirm,
+            '',
             [Validators.required, Validators.minLength(6)],
           ],
         },
@@ -45,7 +45,7 @@ export class RegisterComponent implements OnInit {
           validator: ConfirmedValidator('password', 'confirm'),
         },
       ),
-      roleId: [user.roleId],
+      roles: [user.roles]
     })
   }
 
