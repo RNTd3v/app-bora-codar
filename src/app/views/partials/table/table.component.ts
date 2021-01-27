@@ -84,7 +84,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   getColorChip(chip): string {
-    return chip.admin ? 'primary' : '';
+    return chip.admin ? 'primary' : 'accent';
   }
 
   private setPerPageConfig(): void {
