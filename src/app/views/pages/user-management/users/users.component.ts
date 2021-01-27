@@ -21,6 +21,11 @@ export class UsersComponent implements OnInit, OnDestroy {
     { id: 'email', name: 'E-mail' }
   ] as Option[];
 
+  userOptionsTable = [
+    ...this.userOptions,
+    { id: 'roles', name: 'Perfis'}
+  ]
+
   isLoadingResults = true;
   isLoadingAction = false;
 

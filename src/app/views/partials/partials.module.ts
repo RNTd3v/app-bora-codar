@@ -9,6 +9,7 @@ import { IconModule } from './icon/icon.module';
 import { SearchComponent } from './search/search.component';
 import { TableComponent } from './table/table.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -24,6 +25,7 @@ import { ButtonComponent } from './button/button.component';
     FormsModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
+    MatChipsModule,
     MatDialogModule,
     MatProgressSpinnerModule,
     MatSortModule,

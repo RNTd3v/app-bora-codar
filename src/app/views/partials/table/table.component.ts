@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
-import { IConfigService, Option, QueryParamsModel, TableAction } from '@cms/core';
+import { IConfigService, Option, QueryParamsModel, TableAction, TableContentType } from '@cms/core';
 
 @Component({
   selector: 'app-table',
@@ -33,6 +33,8 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('tableContainer') elementView: ElementRef;
+
+  tableContentType = TableContentType;
 
   private indexDeleteAction: number;
 
@@ -70,6 +72,19 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   isLoadingDeleteAction(index: number): boolean {
     return this.isLoadingAction && index === this.indexDeleteAction;
+  }
+
+  defineContentType(data: any): TableContentType {
+
+    if (typeof data === 'object') {
+      return TableContentType.LIST;
+    }
+
+    return TableContentType.TEXT
+  }
+
+  getColorChip(chip): string {
+    return chip.admin ? 'primary' : '';
   }
 
   private setPerPageConfig(): void {

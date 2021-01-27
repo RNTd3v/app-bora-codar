@@ -3,3 +3,11 @@
 .mat-progress-bar {
   margin-bottom: 2rem;
 }
+
+.mat-chip-list-wrapper {
+  .mat-chip, .mat-standard-chip {
+    font-size: 10px;
+    padding: 7px 8px;
+    min-height: 25px;
+  }
+}

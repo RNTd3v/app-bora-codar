@@ -10,7 +10,7 @@
         [isLoadingResults]="isLoadingResults"
         [isLoadingAction]="isLoadingAction"
         [dataSource]="users"
-        [columns]="userOptions"
+        [columns]="userOptionsTable"
         (loadContentEvent)="getAllUsers()"
         (actionEvent)="action($event)"
         (sortChangeEvent)="getAllUsers()"
