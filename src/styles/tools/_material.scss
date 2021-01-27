@@ -31,3 +31,8 @@ $cms-theme: mat-light-theme((
     }
   }
 }
+
+.mat-spinner.small, .mat-spinner.small svg {
+  width: 20px !important;
+  height: 20px !important;
+}

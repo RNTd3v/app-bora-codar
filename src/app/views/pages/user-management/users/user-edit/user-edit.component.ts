@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router, ActivatedRoute } from '@angular/router'
-import { User, ConfirmedValidator } from '@cms/core'
+import { User, ConfirmedValidator, Role } from '@cms/core'
 import { Observable, Subscription } from 'rxjs'
 import { finalize } from 'rxjs/operators'
 import { IUserService } from '../../services'
@@ -14,12 +14,13 @@ import { IUserService } from '../../services'
 })
 export class UserEditComponent implements OnInit, OnDestroy {
 
-  hide = true
-  formUser: FormGroup
-  userId: string = null
-  userData: User
+  hide = true;
+  formUser: FormGroup;
+  userId: string = null;
+  userData = { name: '', email: '', isActive: false, roles: [] } as User;
   isLoading = false;
   isLoadingPage = true;
+  editMode = false;
 
   private subscription = new Subscription();
 
@@ -36,6 +37,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
 
     if (!!this.userId) {
+      this.editMode = true;
       await this.getUserById();
     }
     this.isLoadingPage = false;
@@ -57,11 +59,11 @@ export class UserEditComponent implements OnInit, OnDestroy {
       passwordForm: this.formBuilder.group(
         {
           password: [
-            user.passwordForm.password,
+            '',
             [Validators.required, Validators.minLength(6)],
           ],
           confirm: [
-            user.passwordForm.confirm,
+            '',
             [Validators.required, Validators.minLength(6)],
           ],
         },
@@ -69,7 +71,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
           validator: ConfirmedValidator('password', 'confirm'),
         },
       ),
-      roleId: [user.roleId],
+      roles: [user.roles],
     })
   }
 
@@ -115,7 +117,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
   }
 
   private createOrUpdateUserData(): Observable<User> {
-    if (!!this.userData) {
+    if (this.editMode) {
       return this.updateUserData()
     }
 
@@ -123,17 +125,21 @@ export class UserEditComponent implements OnInit, OnDestroy {
   }
 
   private createUser(): Observable<User> {
+
     const formValue = this.formUser.value
-    const { password } = formValue.passwordForm
+    const { password } = formValue.passwordForm;
+    const roleIds = formValue.roles.map((role: Role) => role.id);
 
     const payload = {
       ...formValue,
       password,
-    }
+      roleIds
+    } as User;
 
-    delete payload.passwordForm
+    delete payload.passwordForm;
+    delete payload.roles;
 
-    return this.service.createUser(payload)
+    return this.service.createUser(payload);
   }
 
   private updateUserData(): Observable<User> {

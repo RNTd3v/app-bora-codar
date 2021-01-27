@@ -14,6 +14,7 @@
         (loadContentEvent)="getAllUsers()"
         (actionEvent)="action($event)"
         (sortChangeEvent)="getAllUsers()"
+        (toggleChangeEvent)="changeUserStatus($event)"
       ></app-table>
     </div>
     <app-pagination (changePage)="getAllUsers()"></app-pagination>

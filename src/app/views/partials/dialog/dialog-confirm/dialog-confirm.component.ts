@@ -3,14 +3,14 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from '@cms/core';
 
 @Component({
-  selector: 'app-dialog-delete',
-  templateUrl: './dialog-delete.component.html',
-  styleUrls: ['./dialog-delete.component.scss']
+  selector: 'app-dialog-confirm',
+  templateUrl: './dialog-confirm.component.html',
+  styleUrls: ['./dialog-confirm.component.scss']
 })
-export class DialogDeleteComponent {
+export class DialogConfirmComponent {
 
   constructor(
-    public dialogRef: MatDialogRef<DialogDeleteComponent>,
+    public dialogRef: MatDialogRef<DialogConfirmComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
 
@@ -22,8 +22,8 @@ export class DialogDeleteComponent {
     return this.data.title;
   }
 
-  get name(): string {
-    return this.data.name;
+  get text(): string {
+    return this.data.text;
   }
 
 }

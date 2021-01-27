@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { DictionaryFilter, FilterOptions, IConfigService } from '@cms/core';
+import { FilterOptions, IConfigService, DictionaryFilter } from '@cms/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IApiService, OptionsApi, User } from '@cms/core';
+import { IApiService, OptionsApi, Role, User } from '@cms/core';
 import { Observable } from 'rxjs';
 import { IUserService } from './user.service.interface';
 
@@ -24,7 +24,17 @@ export class UserService implements IUserService {
     }
 
     updateUser(user: User, userID: string): Observable<User> {
-      return this.apiService.put<User>(`v1/users/${userID}`, user);
+
+      const roleIds = user.roles.map((role: Role) => role.id);
+
+      const payload = {
+        ...user,
+        roleIds
+      } as User;
+
+      delete payload.roles;
+
+      return this.apiService.put<User>(`v1/users/${userID}`, payload);
     }
 
     deleteUser(userID: string): Observable<User> {

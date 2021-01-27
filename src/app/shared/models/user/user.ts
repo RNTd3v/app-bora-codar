@@ -1,18 +1,27 @@
-import { PasswordForm } from ".";
+import { PasswordForm, Role } from ".";
 
 export class User {
   id?: string;
-  name = '';
-  email = '';
-  passwordForm = {} as PasswordForm;
-  roleId = 'b0920f58-fad3-4fe5-b081-5276616f7ba6';
+  name: string;
+  email: string;
+  isActive?: boolean;
+  roles?: Role[];
+  password?: string;
+  passwordForm?: PasswordForm;
+  roleIds?: string[] = [];
 
   constructor({ ...user }) {
     this.id = user.id,
     this.name = user.name,
     this.email = user.email,
-    this.roleId = user.roleId || this.roleId
+    this.password = user.password,
+    this.roleIds = user.roleroleIds
   }
+}
+
+export interface StatusUser{
+  data: User,
+  checked: boolean;
 }
 
 

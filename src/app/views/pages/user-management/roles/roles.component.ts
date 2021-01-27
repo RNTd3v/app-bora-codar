@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Role, TableAction, Option } from '@cms/core';
-import { DialogDeleteComponent } from '@cms/partials';
+import { DialogConfirmComponent } from '@cms/partials';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { IRoleService } from '../services';
@@ -71,9 +71,9 @@ export class RolesComponent implements OnInit, OnDestroy {
 
     this.isLoadingAction = true;
 
-    const dialogRef = this.dialog.open(DialogDeleteComponent, {
+    const dialogRef = this.dialog.open(DialogConfirmComponent, {
       width: '300px',
-      data: { name: `o perfil ${role.name}`, title: 'Deletar perfil' }
+      data: { text: `Tem certeza que deseja excluir o perfil ${role.name}`, title: 'Deletar perfil' }
     });
 
     this.subscription.add(dialogRef.afterClosed()

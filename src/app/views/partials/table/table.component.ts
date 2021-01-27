@@ -1,12 +1,12 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
-import { IConfigService, Option, QueryParamsModel, TableAction, TableContentType } from '@cms/core';
+import { IConfigService, TableAction, QueryParamsModel, TableContentType, TableStatus, Option } from '@cms/core';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html'
 })
-export class TableComponent implements OnInit, AfterViewInit {
+export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input()
   isLoadingResults = true;
@@ -29,18 +29,21 @@ export class TableComponent implements OnInit, AfterViewInit {
   @Output()
   loadContentEvent = new EventEmitter();
 
+  @Output()
+  toggleChangeEvent = new EventEmitter();
+
   displayedColumns: string[] = [];
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('tableContainer') elementView: ElementRef;
 
-  tableContentType = TableContentType;
-
   private indexDeleteAction: number;
+  private indexToggleChange: number = 0;
 
   private readonly rowHeight = 48;
 
   constructor(private configService: IConfigService) { }
+
 
   ngOnInit(): void {
     this.displayedColumns = this.columns.map(column => column.id);
@@ -49,6 +52,20 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.setPerPageConfig();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+
+    if (!!changes && !!changes.isLoadingAction) {
+
+      const { currentValue } = changes.isLoadingAction;
+
+      if (!currentValue) {
+        this.indexToggleChange = undefined;
+        this.indexDeleteAction = undefined;
+      }
+    }
+
   }
 
   action(data: any, type: 'edit' | 'delete', index: number): void {
@@ -76,15 +93,26 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   defineContentType(data: any): TableContentType {
 
-    if (typeof data === 'object') {
-      return TableContentType.LIST;
+    switch (typeof data) {
+      case 'object':
+        return TableContentType.LIST;
+
+      case 'boolean':
+        return TableContentType.TOGGLE;
+
+      default:
+        return TableContentType.TEXT
     }
 
-    return TableContentType.TEXT
   }
 
-  getColorChip(chip): string {
-    return chip.admin ? 'primary' : 'accent';
+  slideToggleChange({ checked }, data, index: number): void {
+    this.indexToggleChange = index;
+    this.toggleChangeEvent.emit({ checked, data } as TableStatus<any>);
+  }
+
+  isLoadingToggleChange(index: number): boolean {
+    return this.isLoadingAction && index === this.indexToggleChange;
   }
 
   private setPerPageConfig(): void {

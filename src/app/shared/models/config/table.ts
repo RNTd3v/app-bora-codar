@@ -6,6 +6,10 @@ export interface TableAction {
   data: any;
   type: 'edit' | 'delete'
 }
+export interface TableStatus<T>{
+  data: T,
+  checked: boolean;
+}
 
 export enum TableContentType {
   LIST = 'LIST',

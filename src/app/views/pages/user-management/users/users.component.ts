@@ -2,11 +2,16 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { User, Option, TableAction } from '@cms/core';
-import { DialogDeleteComponent } from '@cms/partials';
+import { User, Option, TableAction, TableStatus } from '@cms/core';
+import { DialogConfirmComponent } from '@cms/partials';
 import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, tap } from 'rxjs/operators';
 import { IUserService } from '../services';
+
+enum DialogType {
+  DELETE = 'DELETE',
+  CHANGE_STATUS = 'CHANGE_STATUS'
+}
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -23,8 +28,9 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   userOptionsTable = [
     ...this.userOptions,
-    { id: 'roles', name: 'Perfis'}
-  ]
+    { id: 'roles', name: 'Perfis'},
+    { id: 'isActive', name: 'Ativo'}
+  ] as Option[];
 
   isLoadingResults = true;
   isLoadingAction = false;
@@ -68,34 +74,69 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.router.navigate(['user-management/users/add']);
   }
 
+  async changeUserStatus(statusUser: TableStatus<User>): Promise<void> {
+
+    const { data, checked } = statusUser;
+
+    const confirmed = await this.handleDialog('Alterar o status do usuário', `Tem certeza que deseja alterar o status do usuário ${data.name}` );
+
+    const userData = {
+      ...data,
+      isActive: checked
+    } as User;
+
+    if (confirmed) {
+      this.subscription.add(
+        this.service.updateUser(userData, data.id)
+          .subscribe({ next: _ => this.getAllUsers() })
+      )
+    }
+
+  }
+
   private editUser(user: User): void {
     this.router.navigate([`user-management/users/${user.id}`]);
   }
 
-  private deleteUser(user: User): void {
+  private async deleteUser(user: User): Promise<void> {
 
-    this.isLoadingAction = true;
+    const confirmed = await this.handleDialog('Deletar usuário', `Tem certeza que deseja excluir o usuário ${user.name}` );
 
-    const dialogRef = this.dialog.open(DialogDeleteComponent, {
-      width: '300px',
-      data: { name: `o usuário ${user.name}`, title: 'Deletar usuário' }
-    });
-
-    this.subscription.add(dialogRef.afterClosed()
-      .pipe(finalize(() => this.isLoadingAction = false))
-      .subscribe({next: confirmed => {
-        if (confirmed) {
-          this.service.deleteUser(user.id)
-              .subscribe({next: _ => {
-                this.handleDeleteResult();
-                this.getAllUsers();
-              }})
-        }
-    }}));
+    if (confirmed) {
+      this.subscription.add(
+        this.service.deleteUser(user.id)
+          .subscribe({ next: _ => {
+            this.handleDeleteResult();
+            this.getAllUsers();
+          }
+        })
+      )
+    }
   }
 
   private handleDeleteResult(): void {
     this.snackBar.open('Usuário excluido com sucesso!', null, { duration: 2000});
+  }
+
+  private handleDialog(title: string, text: string): Promise<boolean> {
+
+    const dialogRef = this.dialog.open(DialogConfirmComponent, {
+      width: '300px',
+      data: { text, title }
+    });
+
+    this.subscription.add(
+      dialogRef.afterOpened()
+        .pipe(finalize(() => this.isLoadingAction = true))
+        .subscribe())
+
+    return new Promise<boolean>((resolve) => {
+      this.subscription.add(
+        dialogRef.afterClosed()
+          .pipe(finalize(() => this.isLoadingAction = false))
+          .subscribe({ next: confirmed => resolve(confirmed)}));
+    })
+
   }
 
 }
