@@ -3,10 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { User, Option, TableAction, TableStatus } from '@cms/core';
-import { DialogConfirmComponent } from '@cms/partials';
+import { DialogComponent, DialogConfirmComponent } from '@cms/partials';
 import { Subscription } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 import { IUserService } from '../services';
+import { UserEditComponent } from './user-edit/user-edit.component';
 
 enum DialogType {
   DELETE = 'DELETE',
@@ -90,10 +91,16 @@ export class UsersComponent implements OnInit, OnDestroy {
       )
     }
 
+    this.isLoadingAction = false;
+
   }
 
-  private editUser(user: User): void {
-    this.router.navigate([`user-management/users/${user.id}`]);
+  private async editUser(user: User): Promise<void> {
+    // this.router.navigate([`user-management/users/${user.id}`]);
+
+    const confirmed = await this.handleDialog(`Editar ${user.name}`, null,  UserEditComponent, null, 'Salvar', user);
+
+    console.log(confirmed)
   }
 
   private async deleteUser(user: User): Promise<void> {
@@ -110,17 +117,19 @@ export class UsersComponent implements OnInit, OnDestroy {
         })
       )
     }
+
+    this.isLoadingAction = false;
   }
 
   private handleDeleteResult(): void {
     this.snackBar.open('Usuário excluido com sucesso!', null, { duration: 2000});
   }
 
-  private handleDialog(title: string, text: string): Promise<boolean> {
+  private handleDialog(title: string, text: string, component = null, cancelText?: string, confirmText?: string, user?: User): Promise<boolean> {
 
-    const dialogRef = this.dialog.open(DialogConfirmComponent, {
-      width: '300px',
-      data: { text, title }
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: component ? 'auto' : '300px',
+      data: { text, title, component, cancelText, confirmText, componentData: user }
     });
 
     this.subscription.add(

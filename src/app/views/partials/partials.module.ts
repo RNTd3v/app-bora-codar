@@ -17,6 +17,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 // Components
 import { ButtonComponent } from './button/button.component';
+import { DialogComponent } from './dialog/dialog.component';
 import { DialogConfirmComponent } from './dialog/dialog-confirm/dialog-confirm.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { SearchComponent } from './search/search.component';
@@ -24,8 +25,8 @@ import { TableComponent } from './table/table.component';
 import { TitleComponent } from './title/title.component';
 
 @NgModule({
-  declarations: [DialogConfirmComponent, PaginationComponent, SearchComponent, TableComponent, TitleComponent, ButtonComponent],
-  exports: [DialogConfirmComponent, PaginationComponent, SearchComponent, TableComponent, TitleComponent, ButtonComponent],
+  declarations: [DialogComponent, DialogConfirmComponent, PaginationComponent, SearchComponent, TableComponent, TitleComponent, ButtonComponent],
+  exports: [DialogComponent, DialogConfirmComponent, PaginationComponent, SearchComponent, TableComponent, TitleComponent, ButtonComponent],
   imports: [
     CommonModule,
     IconModule,

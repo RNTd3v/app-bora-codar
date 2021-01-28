@@ -1,5 +1,5 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core'
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -37,6 +37,9 @@ export class UserEditComponent implements OnInit, OnDestroy {
   separatorKeysCodesRoles: number[] = [ENTER, COMMA];
   textInputRole = 'Add perfil ...';
 
+  @Input('componentData') componentData;
+  @Output() cancel = new EventEmitter<any>();
+
   @ViewChild('roleInput') roleInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
@@ -54,6 +57,9 @@ export class UserEditComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
+
+    console.log(this.componentData);
+
 
     if (!!this.userId) {
       this.editMode = true;
