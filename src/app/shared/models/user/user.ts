@@ -20,8 +20,7 @@ export class User {
 }
 
 export interface StatusUser{
-  data: User,
-  checked: boolean;
+  isActive: boolean;
 }
 
 

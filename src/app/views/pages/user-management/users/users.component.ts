@@ -52,7 +52,10 @@ export class UsersComponent implements OnInit, OnDestroy {
   getAllUsers(): void {
     this.subscription.add(
       this.service.getAllUsers()
-        .pipe(finalize(() => this.isLoadingResults = false))
+        .pipe(finalize(() => {
+          this.isLoadingResults = false;
+          this.isLoadingAction = false;
+        }))
         .subscribe({ next: users => this.users = users })
     );
 
@@ -80,14 +83,9 @@ export class UsersComponent implements OnInit, OnDestroy {
 
     const confirmed = await this.handleDialog('Alterar o status do usuário', `Tem certeza que deseja alterar o status do usuário ${data.name}` );
 
-    const userData = {
-      ...data,
-      isActive: checked
-    } as User;
-
     if (confirmed) {
       this.subscription.add(
-        this.service.updateUser(userData, data.id)
+        this.service.updateStatusUser({ isActive: checked }, data.id)
           .subscribe({ next: _ => this.getAllUsers() })
       )
     }
@@ -133,7 +131,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     return new Promise<boolean>((resolve) => {
       this.subscription.add(
         dialogRef.afterClosed()
-          .pipe(finalize(() => this.isLoadingAction = false))
           .subscribe({ next: confirmed => resolve(confirmed)}));
     })
 
