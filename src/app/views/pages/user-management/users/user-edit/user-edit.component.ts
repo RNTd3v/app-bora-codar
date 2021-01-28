@@ -1,11 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
-import { FormGroup, FormBuilder, Validators } from '@angular/forms'
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router, ActivatedRoute } from '@angular/router'
 import { User, ConfirmedValidator, Role } from '@cms/core'
 import { Observable, Subscription } from 'rxjs'
-import { finalize } from 'rxjs/operators'
-import { IUserService } from '../../services'
+import { finalize, map, startWith } from 'rxjs/operators'
+import { IRoleService, IUserService } from '../../services'
 
 @Component({
   selector: 'app-user-edit',
@@ -16,11 +19,26 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
   hide = true;
   formUser: FormGroup;
+
   userId: string = null;
-  userData = { name: '', email: '', isActive: false, roles: [] } as User;
+  userData = { name: '', email: '', isActive: false, roleIds: [] } as User;
+
   isLoading = false;
   isLoadingPage = true;
   editMode = false;
+
+  rolesNames: string[] = [];
+  rolesIds: string[] = [];
+  allRoles: Role[] = [];
+  roleControl = new FormControl();
+  filteredRolesOptions: Observable<Role[]>;
+  selectableRole = true;
+  removableRole = true;
+  separatorKeysCodesRoles: number[] = [ENTER, COMMA];
+  textInputRole = 'Add perfil ...';
+
+  @ViewChild('roleInput') roleInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   private subscription = new Subscription();
 
@@ -29,6 +47,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
+    private roleService: IRoleService,
     private service: IUserService,
   ) {
     this.userId = this.activatedRoute.snapshot.params.id
@@ -40,55 +59,78 @@ export class UserEditComponent implements OnInit, OnDestroy {
       this.editMode = true;
       await this.getUserById();
     }
+
     this.isLoadingPage = false;
-    this.createFormUser(new User(this.userData))
+
+    this.createFormUser(new User(this.userData));
+
+    this.allRoles = await this.getRoles();
+
+    this.setFilterRolesOptions();
+
+    this.handleWhenAllRolesAreAdded();
+
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  private async getUserById(): Promise<void> {
-    this.userData = await this.service.getUser(this.userId).toPromise();
+  addRoleChip(event: MatChipInputEvent): void {
+
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || '').trim()) {
+      this.rolesNames.push(value.trim());
+    }
+
+    if (input) {
+      input.value = '';
+    }
+
+    this.roleControl.setValue(null);
+
   }
 
-  private createFormUser(user: User): void {
-    this.formUser = this.formBuilder.group({
-      name: [user.name, [Validators.required]],
-      email: [user.email, [Validators.required, Validators.email]],
-      passwordForm: this.formBuilder.group(
-        {
-          password: [
-            '',
-            [Validators.required, Validators.minLength(6)],
-          ],
-          confirm: [
-            '',
-            [Validators.required, Validators.minLength(6)],
-          ],
-        },
-        {
-          validator: ConfirmedValidator('password', 'confirm'),
-        },
-      ),
-      roles: [user.roles],
-    })
+  removeRoleChip(role: string): void {
+
+    const index = this.rolesNames.indexOf(role);
+
+    if (index >= 0) {
+      this.removeRole(index);
+    }
+
+    this.enabledInputAutoComplete();
+
+  }
+
+  selectedRole(event: MatAutocompleteSelectedEvent): void {
+
+    const roleName = event.option.viewValue;
+
+    if (!this.roleAlreadyAdded(roleName)) {
+      this.addRole(roleName);
+    }
+
+    this.handleWhenAllRolesAreAdded();
+    this.resetRoleControl();
+
   }
 
   getErrorMessage(inputName: string) {
+
     if (this.formUser.get(inputName).hasError('required')) {
       return 'Campo obrigatório'
     }
 
     switch (inputName) {
       case 'email':
-        return this.formUser.get(inputName).hasError('email')
-          ? 'E-mail invalido'
-          : ''
-      case 'password':
-        return this.formUser.get(inputName).hasError('minlength')
-          ? 'Mínimo de 6 caracteres'
-          : ''
+        return this.formUser.get(inputName).hasError('email') ? 'E-mail invalido' : '';
+      // case 'password':
+      //   return this.formUser.get(inputName).hasError('minlength')
+      //     ? 'Mínimo de 6 caracteres'
+      //     : ''
     }
   }
 
@@ -101,19 +143,64 @@ export class UserEditComponent implements OnInit, OnDestroy {
   }
 
   submitUserData(): void {
+
     if (this.formUser.valid) {
-      this.isLoading = true
+
+      this.isLoading = true;
+
       this.subscription.add(
         this.createOrUpdateUserData()
-          .pipe(
-            finalize(() => (this.isLoading = false))
-          )
-          .subscribe(
-            (user: User) => this.handleResult(user),
-            (err) => this.handleError(err),
-          )
+          .pipe(finalize(() => (this.isLoading = false)))
+          .subscribe((user: User) => this.handleResult(user))
       );
+
     }
+
+  }
+
+  private async getRoles(): Promise<Role[]> {
+    return await this.roleService.getAllRoles().toPromise();
+  }
+
+  private async getUserById(): Promise<void> {
+
+    const user = await this.service.getUser(this.userId).toPromise();
+    const roleIds = user.roles.map(role => role.id);
+
+    this.rolesNames = user.roles.map(role => role.name);
+
+    this.userData = {
+      ...user,
+      roleIds
+    }
+
+    return Promise.resolve();
+
+  }
+
+  private createFormUser(user: User): void {
+    this.formUser = this.formBuilder.group({
+      name: [user.name, [Validators.required]],
+      email: [user.email, [Validators.required, Validators.email]],
+      isActive: [user.isActive],
+      roleIds: [user.roleIds, [Validators.required]]
+      // passwordForm: this.formBuilder.group(
+      //   {
+      //     password: [
+      //       '',
+      //       [Validators.required, Validators.minLength(6)],
+      //     ],
+      //     confirm: [
+      //       '',
+      //       [Validators.required, Validators.minLength(6)],
+      //     ],
+      //   },
+      //   {
+      //     validator: ConfirmedValidator('password', 'confirm'),
+      //   },
+      // ),
+
+    })
   }
 
   private createOrUpdateUserData(): Observable<User> {
@@ -125,38 +212,85 @@ export class UserEditComponent implements OnInit, OnDestroy {
   }
 
   private createUser(): Observable<User> {
-
-    const formValue = this.formUser.value
-    const { password } = formValue.passwordForm;
-    const roleIds = formValue.roles.map((role: Role) => role.id);
-
-    const payload = {
-      ...formValue,
-      password,
-      roleIds
-    } as User;
-
-    delete payload.passwordForm;
-    delete payload.roles;
-
-    return this.service.createUser(payload);
+    return this.service.createUser(this.formUser.value);
   }
 
   private updateUserData(): Observable<User> {
-    const payload = this.formUser.value
-    return this.service.updateUser(payload, this.userId)
+    return this.service.updateUser(this.formUser.value, this.userId)
   }
 
-  private handleResult(user: User): void {
-    this.snackBar.open('Usuário salvo com sucesso!', null, {
-      duration: 2000,
-    })
+  private handleResult(_: User): void {
+    this.router.navigate(['/user-management']);
+    this.snackBar.open('Usuário salvo com sucesso!', null, { duration: 2000 })
   }
 
-  private handleError(err): void {
-    this.snackBar.open('Houve um erro!', null, {
-      duration: 2000,
-    })
+  private setFilterRolesOptions(): void {
+    this.filteredRolesOptions = this.roleControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(name => name ? this.filter(name) : this.allRoles.slice())
+      );
+  }
+
+  private filter(name: string): Role[] {
+    const filterValue = name.toLowerCase();
+    return this.allRoles.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+  private addRole(roleName: string): void {
+
+    this.rolesNames.push(roleName);
+
+    const roleId = this.allRoles
+      .filter(role => role.name === roleName)
+      .map(role => role.id);
+
+    const roleIds = this.formUser.get('roleIds').value;
+
+    this.formUser.get('roleIds').setValue([...(roleIds ? roleIds : ''), ...roleId]);
+
+  }
+
+  private removeRole(index: number): void {
+
+    this.rolesNames.splice(index, 1);
+
+    const roleIds = this.formUser.get('roleIds').value as string[];
+    roleIds.splice(index, 1);
+
+    this.formUser.get('roleIds').setValue([...roleIds]);
+
+  }
+
+  private resetRoleControl(): void {
+    this.roleInput.nativeElement.value = '';
+    this.roleControl.setValue(null);
+  }
+
+  private disabledInputAutoComplete(): void {
+    this.roleControl.disable();
+    this.textInputRole = '';
+  }
+
+  private enabledInputAutoComplete(): void {
+    this.textInputRole = 'Add perfil ...';
+    this.roleControl.enable();
+  }
+
+  private handleWhenAllRolesAreAdded(): void {
+    console.log(this.allRoles);
+    console.log(this.rolesNames);
+
+    if (this.allRoles.length === this.rolesNames.length) {
+      this.disabledInputAutoComplete();
+      return
+    };
+
+    this.enabledInputAutoComplete();
+  }
+
+  private roleAlreadyAdded(roleName: string): boolean {
+    return this.rolesNames.some(role => role === roleName);
   }
 
   get formInvalid(): boolean {

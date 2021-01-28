@@ -36,3 +36,11 @@ $cms-theme: mat-light-theme((
   width: 20px !important;
   height: 20px !important;
 }
+
+.mat-form-field-appearance-fill .mat-form-field-infix {
+  padding: 1em 0;
+}
+
+.mat-chip app-icon {
+  margin-right: -1rem !important;
+}

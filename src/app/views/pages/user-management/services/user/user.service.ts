@@ -24,17 +24,7 @@ export class UserService implements IUserService {
     }
 
     updateUser(user: User, userID: string): Observable<User> {
-
-      const roleIds = user.roles.map((role: Role) => role.id);
-
-      const payload = {
-        ...user,
-        roleIds
-      } as User;
-
-      delete payload.roles;
-
-      return this.apiService.put<User>(`v1/users/${userID}`, payload);
+      return this.apiService.put<User>(`v1/users/${userID}`, user);
     }
 
     updateStatusUser(status: StatusUser, userID: string): Observable<void> {

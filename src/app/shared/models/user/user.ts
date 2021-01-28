@@ -15,7 +15,8 @@ export class User {
     this.name = user.name,
     this.email = user.email,
     this.password = user.password,
-    this.roleIds = user.roleroleIds
+    this.roleIds = user.roleIds,
+    this.isActive = user.isActive
   }
 }
 
