@@ -1,0 +1,59 @@
+<div class="modal-content update-user">
+
+  <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+
+  <form class="c-form form-user" [formGroup]="formUser" (submit)="submitUserData()">
+
+    <mat-form-field appearance="fill">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="name" required>
+      <mat-error *ngIf="showMessageError('name')">{{getErrorMessage('name')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>E-mail</mat-label>
+      <input matInput formControlName="email" required>
+      <mat-error *ngIf="showMessageError('email')">{{getErrorMessage('email')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+
+      <mat-label>Perfis</mat-label>
+
+      <mat-chip-list #chipList aria-label="Role selection">
+          <mat-chip
+            *ngFor="let role of rolesNames"
+            [selectable]="selectableRole"
+            [removable]="removableRole"
+            (removed)="removeRoleChip(role)">
+            {{role}}
+            <app-icon name="times" matChipRemove *ngIf="removableRole"></app-icon>
+          </mat-chip>
+          <input
+            [placeholder]="textInputRole"
+            #roleInput
+            [formControl]="roleControl"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodesRoles"
+            (matChipInputTokenEnd)="addRoleChip($event)">
+      </mat-chip-list>
+
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedRole($event)">
+        <mat-option *ngFor="let role of filteredRolesOptions | async" [value]="role.name">
+          {{role.name}}
+        </mat-option>
+      </mat-autocomplete>
+
+    </mat-form-field>
+
+    <mat-checkbox formControlName="isActive">Ativo</mat-checkbox>
+
+    <button type="submit" mat-raised-button color="primary" [disabled]="formInvalid || isLoading">
+      Salvar
+    </button>
+
+    <button (click)="cancel()" class="bt-cancel">Cancelar</button>
+
+  </form>
+</div>

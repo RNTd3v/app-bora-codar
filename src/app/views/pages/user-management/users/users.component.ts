@@ -3,11 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { User, Option, TableAction, TableStatus } from '@cms/core';
-import { DialogComponent, DialogConfirmComponent } from '@cms/partials';
+import { DialogComponent } from '@cms/partials';
 import { Subscription } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 import { IUserService } from '../services';
-import { UserEditComponent } from './user-edit/user-edit.component';
+import { UpdateUserDataComponent } from './update-user-data/update-user-data.component';
 
 enum DialogType {
   DELETE = 'DELETE',
@@ -96,9 +96,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   private async editUser(user: User): Promise<void> {
-    // this.router.navigate([`user-management/users/${user.id}`]);
 
-    const confirmed = await this.handleDialog(`Editar ${user.name}`, null,  UserEditComponent, null, 'Salvar', user);
+    const confirmed = await this.handleDialog(`Editar ${user.name}`, null,  UpdateUserDataComponent, null, 'Salvar', user);
 
     if (confirmed) {
       this.getAllUsers();
