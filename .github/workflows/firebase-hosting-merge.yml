@@ -19,7 +19,7 @@ jobs:
           node-version: "12.16.1"
       # Install the dependencies need to build the app
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
       # Runs a set of commands to build
       - name: Build
         run: npm run build --prod
