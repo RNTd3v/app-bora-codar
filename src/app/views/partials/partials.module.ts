@@ -9,6 +9,7 @@ import { IconModule } from './icon/icon.module';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSortModule } from '@angular/material/sort';
@@ -23,16 +24,18 @@ import { PaginationComponent } from './pagination/pagination.component';
 import { SearchComponent } from './search/search.component';
 import { TableComponent } from './table/table.component';
 import { TitleComponent } from './title/title.component';
+import { AutoCompleteChipsComponent } from './form/auto-complete-chips/auto-complete-chips.component';
 
 @NgModule({
-  declarations: [DialogComponent, DialogConfirmComponent, PaginationComponent, SearchComponent, TableComponent, TitleComponent, ButtonComponent],
-  exports: [DialogComponent, DialogConfirmComponent, PaginationComponent, SearchComponent, TableComponent, TitleComponent, ButtonComponent],
+  declarations: [AutoCompleteChipsComponent, DialogComponent, DialogConfirmComponent, PaginationComponent, SearchComponent, TableComponent, TitleComponent, ButtonComponent],
+  exports: [AutoCompleteChipsComponent, DialogComponent, DialogConfirmComponent, PaginationComponent, SearchComponent, TableComponent, TitleComponent, ButtonComponent],
   imports: [
     CommonModule,
     IconModule,
     FormsModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
+    MatInputModule,
     MatChipsModule,
     MatDialogModule,
     MatProgressSpinnerModule,
