@@ -10,11 +10,13 @@ export function ConfirmedValidator(
     if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {
       return
     }
+
     if (control.value !== matchingControl.value) {
       matchingControl.setErrors({ confirmedValidator: true })
     } else {
       matchingControl.setErrors(null)
     }
+
   }
 }
 

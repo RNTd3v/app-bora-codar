@@ -19,16 +19,34 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 // Components
 import { ButtonComponent } from './button/button.component';
 import { DialogComponent } from './dialog/dialog.component';
-import { DialogConfirmComponent } from './dialog/dialog-confirm/dialog-confirm.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { SearchComponent } from './search/search.component';
 import { TableComponent } from './table/table.component';
 import { TitleComponent } from './title/title.component';
 import { AutoCompleteChipsComponent } from './form/auto-complete-chips/auto-complete-chips.component';
+import { ConfirmPasswordComponent } from './form/confirm-password/confirm-password.component';
 
 @NgModule({
-  declarations: [AutoCompleteChipsComponent, DialogComponent, DialogConfirmComponent, PaginationComponent, SearchComponent, TableComponent, TitleComponent, ButtonComponent],
-  exports: [AutoCompleteChipsComponent, DialogComponent, DialogConfirmComponent, PaginationComponent, SearchComponent, TableComponent, TitleComponent, ButtonComponent],
+  declarations: [
+    AutoCompleteChipsComponent,
+    ButtonComponent,
+    ConfirmPasswordComponent,
+    DialogComponent,
+    PaginationComponent,
+    SearchComponent,
+    TableComponent,
+    TitleComponent
+  ],
+  exports: [
+    AutoCompleteChipsComponent,
+    ButtonComponent,
+    ConfirmPasswordComponent,
+    DialogComponent,
+    PaginationComponent,
+    SearchComponent,
+    TableComponent,
+    TitleComponent
+  ],
   imports: [
     CommonModule,
     IconModule,

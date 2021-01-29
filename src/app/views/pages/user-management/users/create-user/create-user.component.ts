@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User, Role } from '@cms/core'
@@ -11,11 +11,10 @@ import { IRoleService, IUserService } from '../../services'
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss']
 })
-export class CreateUserComponent implements OnInit, OnDestroy {
+export class CreateUserComponent implements OnInit, OnDestroy, OnChanges {
 
   formUser: FormGroup;
-
-  userData = {} as User;
+  formGroupConfirmPass: FormGroup;
 
   isLoadingPage = true;
   isLoadingAction = false;
@@ -34,9 +33,13 @@ export class CreateUserComponent implements OnInit, OnDestroy {
     private service: IUserService,
   ) {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.formGroupConfirmPass)
+  }
+
   async ngOnInit(): Promise<void> {
 
-    this.createFormUser(new User(this.userData));
+    this.createFormUser();
 
     this.allRoles = await this.getRoles();
 
@@ -68,17 +71,19 @@ export class CreateUserComponent implements OnInit, OnDestroy {
 
   submitUserData(): void {
 
-    if (this.formUser.valid) {
+    console.log(this);
 
-      this.isLoadingAction = true;
+    // if (this.formUser.valid) {
 
-      this.subscription.add(
-        this.createUser()
-          .pipe(finalize(() => (this.isLoadingAction = false)))
-          .subscribe((user: User) => this.handleResult(user))
-      );
+    //   this.isLoadingAction = true;
 
-    }
+    //   this.subscription.add(
+    //     this.createUser()
+    //       .pipe(finalize(() => (this.isLoadingAction = false)))
+    //       .subscribe((user: User) => this.handleResult(user))
+    //   );
+
+    // }
 
   }
 
@@ -107,16 +112,20 @@ export class CreateUserComponent implements OnInit, OnDestroy {
 
   }
 
+  getPassword(password: string): void {
+    this.formUser.get('password').setValue(password);
+  }
+
   private async getRoles(): Promise<Role[]> {
     return await this.roleService.getAllRoles().toPromise();
   }
 
-  private createFormUser(user: User): void {
+  private createFormUser(): void {
     this.formUser = this.formBuilder.group({
-      name: [user.name, [Validators.required]],
-      email: [user.email, [Validators.required, Validators.email]],
-      isActive: [user.isActive],
-      roleIds: [user.roleIds, [Validators.required]]
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      roleIds: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     })
   }
 

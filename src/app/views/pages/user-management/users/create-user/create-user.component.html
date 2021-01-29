@@ -18,14 +18,16 @@
         <mat-error *ngIf="showMessageError('email')">{{getErrorMessage('email')}}</mat-error>
       </mat-form-field>
 
+      <app-confirm-password class="full-width" (validatedPassword)="getPassword($event)"></app-confirm-password>
+
       <app-auto-complete-chips
-        title="Perfis"
-        textInput="Add perfil ..."
-        [list]="allRoles"
-        [chips]="rolesNames"
-        (handleAddedAChip)="addRoleId($event)"
-        (handleRemovingAChip)="removeRoleId($event)">
-      </app-auto-complete-chips>
+          title="Perfis"
+          textInput="Add perfil ..."
+          [list]="allRoles"
+          [chips]="rolesNames"
+          (handleAddedAChip)="addRoleId($event)"
+          (handleRemovingAChip)="removeRoleId($event)">
+        </app-auto-complete-chips>
 
       <div class="bottom-grid">
         <app-button type="submit" buttonText="Salvar" iconLeftName="save" buttonClasses='-add' [disableButton]="formInvalid" [isLoadingAction]="isLoadingAction"></app-button>
