@@ -14,9 +14,9 @@ import { IRoleService } from '../../services';
 })
 export class RoleEditComponent implements OnInit, OnDestroy {
 
-  hide = true
-  formRole: FormGroup
-  roleId: string = null
+  hide = true;
+  formRole: FormGroup;
+  roleId: string = null;
   roleData = { name: '', admin: false } as Role;
   isLoading = false;
   isLoadingPage = true;
@@ -31,7 +31,7 @@ export class RoleEditComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private service: IRoleService,
   ) {
-    this.roleId = this.activatedRoute.snapshot.params.id
+    this.roleId = this.activatedRoute.snapshot.params.id;
   }
 
   async ngOnInit(): Promise<void> {
@@ -42,7 +42,7 @@ export class RoleEditComponent implements OnInit, OnDestroy {
     }
 
     this.isLoadingPage = false;
-    this.createFormRole(new Role(this.roleData))
+    this.createFormRole(new Role(this.roleData));
   }
 
   ngOnDestroy(): void {
@@ -57,33 +57,33 @@ export class RoleEditComponent implements OnInit, OnDestroy {
     this.formRole = this.formBuilder.group({
       name: [role.name, [Validators.required]],
       admin: [role.admin]
-    })
+    });
   }
 
   getErrorMessage(inputName: string) {
     if (this.formRole.get(inputName).hasError('required')) {
-      return 'Campo obrigatório'
+      return 'Campo obrigatório';
     }
 
     switch (inputName) {
       case 'email':
         return this.formRole.get(inputName).hasError('email')
           ? 'E-mail invalido'
-          : ''
+          : '';
     }
   }
 
   showMessageError(inputName: string): boolean {
-    return this.formRole.get(inputName).invalid
+    return this.formRole.get(inputName).invalid;
   }
 
   goBack(): void {
-    this.router.navigate(['/user-management/roles'])
+    this.router.navigate(['/user-management/roles']);
   }
 
   submitRoleData(): void {
     if (this.formRole.valid) {
-      this.isLoading = true
+      this.isLoading = true;
       this.subscription.add(
         this.createOrUpdateRoleData()
           .pipe(finalize(() => (this.isLoading = false)))
@@ -94,10 +94,10 @@ export class RoleEditComponent implements OnInit, OnDestroy {
 
   private createOrUpdateRoleData(): Observable<Role> {
     if (this.editMode) {
-      return this.updateRoleData()
+      return this.updateRoleData();
     }
 
-    return this.createRole()
+    return this.createRole();
   }
 
   private createRole(): Observable<Role> {
@@ -105,7 +105,7 @@ export class RoleEditComponent implements OnInit, OnDestroy {
   }
 
   private updateRoleData(): Observable<Role> {
-    return this.service.updateRole(this.formRole.value, this.roleId)
+    return this.service.updateRole(this.formRole.value, this.roleId);
   }
 
   private handleResult(_: Role): void {

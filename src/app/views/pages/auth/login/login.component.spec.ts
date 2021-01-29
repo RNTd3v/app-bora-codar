@@ -1,4 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { IAuthService } from '@cms/core';
+import { AuthModule } from '../auth.module';
 
 import { LoginComponent } from './login.component';
 
@@ -8,7 +11,8 @@ describe('LoginComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoginComponent ]
+      imports: [ AuthModule, RouterTestingModule ],
+      providers: [IAuthService]
     })
     .compileComponents();
   }));
@@ -16,10 +20,9 @@ describe('LoginComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('#constructor deve instanciar LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 });

@@ -9,6 +9,7 @@ import { IconModule } from './icon/icon.module';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSortModule } from '@angular/material/sort';
@@ -17,21 +18,42 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 // Components
 import { ButtonComponent } from './button/button.component';
-import { DialogConfirmComponent } from './dialog/dialog-confirm/dialog-confirm.component';
+import { DialogComponent } from './dialog/dialog.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { SearchComponent } from './search/search.component';
 import { TableComponent } from './table/table.component';
 import { TitleComponent } from './title/title.component';
+import { AutoCompleteChipsComponent } from './form/auto-complete-chips/auto-complete-chips.component';
+import { ConfirmPasswordComponent } from './form/confirm-password/confirm-password.component';
 
 @NgModule({
-  declarations: [DialogConfirmComponent, PaginationComponent, SearchComponent, TableComponent, TitleComponent, ButtonComponent],
-  exports: [DialogConfirmComponent, PaginationComponent, SearchComponent, TableComponent, TitleComponent, ButtonComponent],
+  declarations: [
+    AutoCompleteChipsComponent,
+    ButtonComponent,
+    ConfirmPasswordComponent,
+    DialogComponent,
+    PaginationComponent,
+    SearchComponent,
+    TableComponent,
+    TitleComponent
+  ],
+  exports: [
+    AutoCompleteChipsComponent,
+    ButtonComponent,
+    ConfirmPasswordComponent,
+    DialogComponent,
+    PaginationComponent,
+    SearchComponent,
+    TableComponent,
+    TitleComponent
+  ],
   imports: [
     CommonModule,
     IconModule,
     FormsModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
+    MatInputModule,
     MatChipsModule,
     MatDialogModule,
     MatProgressSpinnerModule,

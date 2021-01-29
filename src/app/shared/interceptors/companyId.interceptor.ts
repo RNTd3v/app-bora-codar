@@ -29,13 +29,13 @@ export class CompanyIDInterceptor implements HttpInterceptor {
     return request.clone({
       headers: request.headers
         .set('x_company_id', this.authService.companyID)
-    })
+    });
   }
 
   private generateRequestWithoutCompanyID(request: HttpRequest<any>): HttpRequest<any> {
     return request.clone({
       headers: request.headers.delete('no-company-id')
-    })
+    });
   }
 
 }

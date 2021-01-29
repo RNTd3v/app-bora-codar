@@ -1,14 +1,19 @@
 import { Option } from './option';
 
-export interface TableColumns extends Option {}
-
+export interface TableColumns extends Option {
+  uuid?: string;
+}
 export interface TableAction {
   data: any;
-  type: 'edit' | 'delete'
+  type: 'edit' | 'delete' | 'more';
 }
-export interface TableStatus<T>{
-  data: T,
+export interface TableStatus<T> {
+  data: T;
   checked: boolean;
+}
+export interface TableMoreAction {
+  icon: string;
+  text: string;
 }
 
 export enum TableContentType {
@@ -16,3 +21,4 @@ export enum TableContentType {
   TEXT = 'TEXT',
   TOGGLE = 'TOGGLE'
 }
+

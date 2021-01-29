@@ -1,5 +1,5 @@
-import { DictionaryFilter, QueryParamsModel, QueryResultsModel } from "@cms/core";
-import { Observable } from "rxjs";
+import { DictionaryFilter, QueryParamsModel, QueryResultsModel } from '@cms/core';
+import { Observable } from 'rxjs';
 
 export abstract class IConfigService {
 
@@ -11,7 +11,7 @@ export abstract class IConfigService {
 
   abstract get queryParams(): QueryParamsModel;
 
-  abstract set filter(filter: DictionaryFilter);
+  abstract set filter(df: DictionaryFilter);
 
   abstract get filter(): DictionaryFilter;
 

@@ -1,0 +1,13 @@
+.c-modal-content {
+  .bottom-grid {
+    grid-column: 1/3;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    .button-right {
+      justify-self: flex-end;
+    }
+  }
+  .full-width {
+    grid-column: 1/3;
+  }
+}

@@ -24,10 +24,10 @@ export class TokenInterceptor implements HttpInterceptor {
 
     return this.validateToken().pipe(mergeMap((result: boolean) => {
       if (result) {
-        return this.handleHttpRequest(next, this.generateRequestWithToken(this.authService.token, request))
+        return this.handleHttpRequest(next, this.generateRequestWithToken(this.authService.token, request));
       }
       return this.handleHttpRequest(next, request);
-    }))
+    }));
 
   }
 
@@ -35,13 +35,13 @@ export class TokenInterceptor implements HttpInterceptor {
     return request.clone({
       headers: request.headers
         .set('x_access_token', token)
-    })
+    });
   }
 
   private generateRequestWithoutToken(request: HttpRequest<any>): HttpRequest<any> {
     return request.clone({
       headers: request.headers.delete('no-token')
-    })
+    });
   }
 
   private validateToken(): Observable<boolean> {
@@ -56,7 +56,7 @@ export class TokenInterceptor implements HttpInterceptor {
                     this.authService.logout();
                 }
                 const message = !!error.error.message ? error.error.message : 'Houve um erro!';
-                this.snackBar.open(message, null, { duration: 2000})
+                this.snackBar.open(message, null, { duration: 2000});
                 return throwError(error);
             })
         );

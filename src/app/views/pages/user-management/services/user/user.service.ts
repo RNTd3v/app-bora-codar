@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IApiService, OptionsApi, Role, StatusUser, User } from '@cms/core';
+import { IApiService, OptionsApi, Role, StatusUser, User, UserChangePassword } from '@cms/core';
 import { Observable } from 'rxjs';
 import { IUserService } from './user.service.interface';
 
@@ -25,6 +25,10 @@ export class UserService implements IUserService {
 
     updateUser(user: User, userID: string): Observable<User> {
       return this.apiService.put<User>(`v1/users/${userID}`, user);
+    }
+
+    updateUserPassword(userPass: UserChangePassword, userID: string): Observable<void> {
+      return this.apiService.put<void>(`v1/users/${userID}/password`, userPass);
     }
 
     updateStatusUser(status: StatusUser, userID: string): Observable<void> {

@@ -54,6 +54,16 @@
               matTooltip="Deletar"
               >
             </app-button>
+
+            <app-button
+              *ngIf="moreAction"
+              buttonClasses='-icon'
+              [isLoadingAction]="isLoadingMoreAction(i)"
+              [iconLeftName]="moreAction.icon"
+              [matTooltip]="moreAction.text"
+              (clickButtonEvent)="action(data, 'more', i)">
+            </app-button>
+
           </div>
         </td>
       </ng-container>

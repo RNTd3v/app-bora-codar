@@ -1,4 +1,4 @@
-<button class="o-button" [ngClass]="buttonClasses" [disabled]="isLoadingAction" (click)="handleClick()" [matTooltip]="matTooltip">
+<button class="o-button" [ngClass]="buttonClasses" [disabled]="disabledButton" [type]="type" (click)="handleClick()" [matTooltip]="matTooltip">
   <div class="icon -left" *ngIf="showLeftIcon">
     <mat-spinner *ngIf="isLoadingAction; else iconLeft"></mat-spinner>
     <ng-template #iconLeft>

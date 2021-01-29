@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
-import { IConfigService, TableAction, QueryParamsModel, TableContentType, TableStatus, Option } from '@cms/core';
+import { IConfigService, TableAction, QueryParamsModel, TableContentType, TableStatus, Option, TableMoreAction } from '@cms/core';
 
 @Component({
   selector: 'app-table',
@@ -20,6 +20,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   @Input()
   columns: Option[] = [];
 
+  @Input()
+  moreAction: TableMoreAction = null;
+
   @Output()
   actionEvent = new EventEmitter();
 
@@ -38,7 +41,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild('tableContainer') elementView: ElementRef;
 
   private indexDeleteAction: number;
-  private indexToggleChange: number = 0;
+  private indexMoreAction: number;
+  private indexToggleChange = 0;
 
   private readonly rowHeight = 48;
 
@@ -61,15 +65,27 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
       const { currentValue } = changes.isLoadingAction;
 
       if (!currentValue) {
-        this.indexToggleChange = undefined;
         this.indexDeleteAction = undefined;
+        this.indexMoreAction = undefined;
+        this.indexToggleChange = undefined;
       }
     }
 
   }
 
-  action(data: any, type: 'edit' | 'delete', index: number): void {
-    this.indexDeleteAction = index;
+  action(data: any, type: 'edit' | 'delete' | 'more', index: number): void {
+
+    switch (type) {
+      case 'delete':
+        this.indexDeleteAction = index;
+        break;
+      case 'more':
+        this.indexMoreAction = index;
+        break;
+      default:
+        break;
+    }
+
     this.actionEvent.emit({ data, type } as TableAction);
   }
 
@@ -91,6 +107,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     return this.isLoadingAction && index === this.indexDeleteAction;
   }
 
+  isLoadingMoreAction(index: number): boolean {
+    return this.isLoadingAction && index === this.indexMoreAction;
+  }
+
   defineContentType(data: any): TableContentType {
 
     switch (typeof data) {
@@ -101,7 +121,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         return TableContentType.TOGGLE;
 
       default:
-        return TableContentType.TEXT
+        return TableContentType.TEXT;
     }
 
   }

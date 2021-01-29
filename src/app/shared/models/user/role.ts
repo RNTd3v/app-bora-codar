@@ -6,6 +6,6 @@ export class Role {
   constructor({ ...role }) {
     this.id = role.id,
     this.name = role.name,
-    this.admin = role.admin
+    this.admin = role.admin;
   }
 }

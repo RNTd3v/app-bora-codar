@@ -1,0 +1,41 @@
+<div class="c-modal-content update-user">
+
+  <mat-progress-bar mode="indeterminate" *ngIf="isLoadingPage; else form"></mat-progress-bar>
+
+  <ng-template #form>
+
+    <form class="c-form col-2 form-user" [formGroup]="formUser" (submit)="submitUserData()">
+
+      <mat-form-field appearance="fill">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="name" required>
+        <mat-error *ngIf="showMessageError('name')">{{getErrorMessage('name')}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>E-mail</mat-label>
+        <input matInput formControlName="email" required>
+        <mat-error *ngIf="showMessageError('email')">{{getErrorMessage('email')}}</mat-error>
+      </mat-form-field>
+
+      <app-auto-complete-chips
+        title="Perfis"
+        textInput="Add perfil ..."
+        [list]="allRoles"
+        [chips]="rolesNames"
+        (handleAddedAChip)="addRoleId($event)"
+        (handleRemovingAChip)="removeRoleId($event)">
+      </app-auto-complete-chips>
+
+      <mat-checkbox formControlName="isActive">Ativo</mat-checkbox>
+
+      <div class="bottom-grid">
+        <app-button type="submit" buttonText="Salvar" iconLeftName="save" buttonClasses='-add' [disableButton]="formInvalid" [isLoadingAction]="isLoadingAction"></app-button>
+        <app-button buttonText="Cancelar" buttonClasses='-link' (clickButtonEvent)="cancel()" class="button-right"></app-button>
+      </div>
+
+    </form>
+
+  </ng-template>
+
+</div>

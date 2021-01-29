@@ -63,7 +63,7 @@ export class SearchComponent implements OnInit, OnChanges {
 
   private filterKey(filter: string): FilterOptions[] {
     const filterValue = filter.toLowerCase();
-    return this.filters.filter(filter => filter.name.toLowerCase().indexOf(filterValue) === 0);
+    return this.filters.filter(f => f.name.toLowerCase().indexOf(filterValue) === 0);
   }
 
   get disabledSearchField(): boolean {
