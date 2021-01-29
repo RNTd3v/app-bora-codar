@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder } from '@angular/forms';
+import { PartialsModule } from '@cms/partials';
 
 import { ConfirmPasswordComponent } from './confirm-password.component';
 
@@ -8,7 +10,8 @@ describe('ConfirmPasswordComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConfirmPasswordComponent ]
+      imports: [ PartialsModule ],
+      providers: [ FormBuilder ]
     })
     .compileComponents();
   }));
@@ -16,10 +19,9 @@ describe('ConfirmPasswordComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfirmPasswordComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('#constructor deve instanciar ConfirmPasswordComponent', () => {
     expect(component).toBeTruthy();
   });
 });

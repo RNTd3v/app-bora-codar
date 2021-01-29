@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { IApiService } from '@cms/core';
+import { UserManagementModule } from '../../user-management.module';
 
 import { UpdateUserDataComponent } from './update-user-data.component';
 
@@ -8,7 +10,8 @@ describe('UpdateUserDataComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UpdateUserDataComponent ]
+      imports: [ UserManagementModule ],
+      providers: [ IApiService ] // TODO: Retirar quando for escrever os testes
     })
     .compileComponents();
   }));
@@ -16,10 +19,9 @@ describe('UpdateUserDataComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdateUserDataComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('#constructor deve instanciar UpdateUserDataComponent', () => {
     expect(component).toBeTruthy();
   });
 });

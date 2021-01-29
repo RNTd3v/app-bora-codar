@@ -1,4 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { IApiService, IConfigService } from '@cms/core';
+import { UserManagementModule } from '../user-management.module';
 
 import { UsersComponent } from './users.component';
 
@@ -8,7 +11,8 @@ describe('UsersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UsersComponent ]
+      imports: [ UserManagementModule, RouterTestingModule ],
+      providers: [ IApiService, IConfigService ] // TODO: Retirar quando for escrever os testes
     })
     .compileComponents();
   }));
@@ -16,10 +20,9 @@ describe('UsersComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UsersComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('#constructor deve instanciar UsersComponent', () => {
     expect(component).toBeTruthy();
   });
 });

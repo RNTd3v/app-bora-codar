@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { IApiService } from '@cms/core';
+import { UserManagementModule } from '../../user-management.module';
 
 import { UpdateUserPasswordComponent } from './update-user-password.component';
 
@@ -8,7 +10,8 @@ describe('UpdateUserPasswordComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UpdateUserPasswordComponent ]
+      imports: [ UserManagementModule ],
+      providers: [ IApiService ] // TODO: Retirar quando for escrever os testes
     })
     .compileComponents();
   }));
@@ -16,10 +19,9 @@ describe('UpdateUserPasswordComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdateUserPasswordComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('#constructor deve instanciar UpdateUserPasswordComponent', () => {
     expect(component).toBeTruthy();
   });
 });

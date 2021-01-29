@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { PartialsModule } from '@cms/partials';
 
 import { AutoCompleteChipsComponent } from './auto-complete-chips.component';
 
@@ -8,7 +9,7 @@ describe('AutoCompleteChipsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AutoCompleteChipsComponent ]
+      imports: [ PartialsModule ]
     })
     .compileComponents();
   }));
@@ -16,10 +17,9 @@ describe('AutoCompleteChipsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AutoCompleteChipsComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('#constructor deve instanciar AutoCompleteChipsComponent', () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,4 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { IApiService, IConfigService } from '@cms/core';
+import { UserManagementModule } from '../../user-management.module';
 
 import { RoleEditComponent } from './role-edit.component';
 
@@ -8,7 +11,8 @@ describe('RoleEditComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RoleEditComponent ]
+      imports: [ UserManagementModule, RouterTestingModule ],
+      providers: [ IApiService, IConfigService ]
     })
     .compileComponents();
   }));
@@ -16,10 +20,9 @@ describe('RoleEditComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RoleEditComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('#constructor deve instanciar RoleEditComponent', () => {
     expect(component).toBeTruthy();
   });
 });

@@ -10,7 +10,7 @@ describe('ConfigService', () => {
     service = TestBed.inject(ConfigService);
   });
 
-  it('should be created', () => {
+  it('#constructor deve instanciar o serviço', () => {
     expect(service).toBeTruthy();
   });
 });

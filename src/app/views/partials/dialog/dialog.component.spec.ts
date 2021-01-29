@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { PartialsModule } from '..';
 
 import { DialogComponent } from './dialog.component';
 
@@ -6,9 +8,21 @@ describe('DialogComponent', () => {
   let component: DialogComponent;
   let fixture: ComponentFixture<DialogComponent>;
 
+  const mockDialogRef = {
+    close: jasmine.createSpy('close')
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DialogComponent ]
+      imports: [ PartialsModule ],
+    })
+    .overrideComponent(DialogComponent, {
+      set: {
+        providers: [
+          { provide: MatDialogRef, useValue: mockDialogRef },
+          { provide: MAT_DIALOG_DATA, useValue: {}}
+        ]
+      },
     })
     .compileComponents();
   }));
@@ -19,7 +33,7 @@ describe('DialogComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('#constructor deve instanciar DialogComponent', () => {
     expect(component).toBeTruthy();
   });
 });
