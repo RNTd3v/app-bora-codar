@@ -52,8 +52,8 @@ export class ConfigService implements IConfigService {
     return { ...this._queryParams, ...this.filter };
   }
 
-  set filter(filter: DictionaryFilter) {
-    this._filters = filter;
+  set filter(df: DictionaryFilter) {
+    this._filters = df;
   }
 
   get filter(): DictionaryFilter {

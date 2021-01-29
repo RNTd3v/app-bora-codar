@@ -11,7 +11,7 @@ export abstract class IConfigService {
 
   abstract get queryParams(): QueryParamsModel;
 
-  abstract set filter(filter: DictionaryFilter);
+  abstract set filter(df: DictionaryFilter);
 
   abstract get filter(): DictionaryFilter;
 

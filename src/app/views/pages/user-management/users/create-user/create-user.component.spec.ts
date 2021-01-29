@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IApiService } from '@cms/core';
-import { UserManagementModule } from  '../../user-management.module';
+import { UserManagementModule } from '../../user-management.module';
 import { CreateUserComponent } from './create-user.component';
 
 describe('CreateUserComponent', () => {

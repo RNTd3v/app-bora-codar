@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
@@ -10,12 +10,12 @@ import { IUserService } from '../../services';
   templateUrl: './update-user-password.component.html',
   styleUrls: ['./update-user-password.component.scss']
 })
-export class UpdateUserPasswordComponent implements OnInit {
+export class UpdateUserPasswordComponent implements OnInit, OnDestroy {
 
   formChangePass: FormGroup;
   isLoadingAction = false;
 
-  @Input('componentData') componentData;
+  @Input() componentData;
   @Output() closeModal = new EventEmitter<any>();
 
   private subscription = new Subscription();

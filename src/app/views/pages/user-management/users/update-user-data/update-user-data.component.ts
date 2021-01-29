@@ -23,7 +23,7 @@ export class UpdateUserDataComponent implements OnInit, OnDestroy {
   allRoles: Role[] = [];
   rolesNames: string[] = [];
 
-  @Input('componentData') componentData;
+  @Input() componentData;
   @Output() closeModal = new EventEmitter<any>();
 
   private subscription = new Subscription();

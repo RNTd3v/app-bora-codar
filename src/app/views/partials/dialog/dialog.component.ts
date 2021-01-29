@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, ComponentRef, HostListener, Inject, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentFactoryResolver, ComponentRef, HostListener, Inject, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from '@cms/core';
 
@@ -7,7 +7,7 @@ import { DialogData } from '@cms/core';
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss']
 })
-export class DialogComponent implements OnInit {
+export class DialogComponent implements OnInit, OnDestroy {
 
   @ViewChild('target', { read: ViewContainerRef, static: true }) viewContainerRef: ViewContainerRef;
 
