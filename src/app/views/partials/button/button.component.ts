@@ -20,10 +20,16 @@ export class ButtonComponent implements OnInit {
   isLoadingAction = false;
 
   @Input()
+  disableButton = false;
+
+  @Input()
   buttonClasses = '';
 
   @Input()
   matTooltip = "";
+
+  @Input()
+  type = "button";
 
   @Output()
   clickButtonEvent = new EventEmitter();
@@ -42,6 +48,10 @@ export class ButtonComponent implements OnInit {
 
   get showRightIcon(): boolean {
     return !!this.iconRightName;
+  }
+
+  get disabledButton(): boolean {
+    return this.isLoadingAction || this.disableButton;
   }
 
 

@@ -16,6 +16,7 @@
   &:disabled {
     background-color: var(--bg-button-default-disabled);
     color: var(--color-button-default-disabled);
+    opacity: .5;
     cursor: default;
   }
   &:hover {
@@ -50,7 +51,7 @@
       }
     }
   }
-  &.-add {
+  &.-add, &.-success {
     background: var(--bg-button-success);
     &:disabled, &:hover {
       background-color: lighten($colorSuccess, 20%);
@@ -64,11 +65,25 @@
       color: darken($colorInfo, 20%);
     }
   }
-  &.-delete {
+  &.-delete, &.-error {
     background-color: var(--bg-button-error);
     &:disabled, &:hover {
       background-color: lighten($colorError, 20%);
       color: darken($colorError, 20%);
+    }
+  }
+  &.-link {
+    background: none;
+    border: none;
+    color: var(--font-color-dark);
+    font-weight: 300;
+    &:hover {
+      color: var(--first-secondary-color);
+    }
+    &.-alert {
+      &:hover {
+        color: darken($colorError, 20%);
+      }
     }
   }
 }
