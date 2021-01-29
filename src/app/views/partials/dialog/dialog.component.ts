@@ -9,7 +9,7 @@ import { DialogData } from '@cms/core';
 })
 export class DialogComponent implements OnInit {
 
-  @ViewChild('target', { read: ViewContainerRef, static: true }) vcRef: ViewContainerRef;
+  @ViewChild('target', { read: ViewContainerRef, static: true }) viewContainerRef: ViewContainerRef;
 
   componentRef: ComponentRef<any>;
 
@@ -20,12 +20,7 @@ export class DialogComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.hasComponent) {
-      const { component, componentData} = this.data;
-      const factory = this.resolver.resolveComponentFactory(component);
-      this.vcRef.clear();
-      const dyynamicComponent = <any>this.vcRef.createComponent(factory).instance;
-      dyynamicComponent.componentData = componentData;
-      dyynamicComponent.closeModal.subscribe((value: boolean) => this.close(value));
+      this.createDynamicComponent();
     }
   }
 
@@ -46,6 +41,28 @@ export class DialogComponent implements OnInit {
   @HostListener("keydown.esc")
   onEsc() {
     this.close(false);
+  }
+
+  private createDynamicComponent(): void {
+
+    const { component, componentData} = this.data;
+    const factory = this.resolver.resolveComponentFactory(component);
+
+    this.viewContainerRef.clear();
+
+    const dynamicComponent = <any>this.viewContainerRef.createComponent(factory).instance;
+
+    this.addComponentData(dynamicComponent, componentData);
+    this.listenerCloseModal(dynamicComponent);
+
+  }
+
+  private addComponentData(dynamicComponent, componentData): void {
+    dynamicComponent.componentData = componentData;
+  }
+
+  private listenerCloseModal(dynamicComponent): void {
+    dynamicComponent.closeModal.subscribe((value: boolean) => this.close(value));
   }
 
   private close(value) {
