@@ -8,3 +8,15 @@
     grid-column-gap: 2rem;
   }
 }
+
+.bt-cancel {
+  background: none;
+  border: none;
+  text-align: right;
+  padding-right: 2rem;
+  color: var(--third-color);
+  cursor: pointer;
+  &:hover {
+    color: var(--font-color-alert);
+  }
+}

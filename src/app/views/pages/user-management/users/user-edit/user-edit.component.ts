@@ -38,7 +38,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
   textInputRole = 'Add perfil ...';
 
   @Input('componentData') componentData;
-  @Output() cancel = new EventEmitter<any>();
+  @Output()
+  closeModal = new EventEmitter<any>();
 
   @ViewChild('roleInput') roleInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -58,13 +59,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
   async ngOnInit(): Promise<void> {
 
-    console.log(this.componentData);
-
-
-    if (!!this.userId) {
-      this.editMode = true;
-      await this.getUserById();
-    }
+    this.editMode = true;
+    this.fillFormData();
 
     this.isLoadingPage = false;
 
@@ -164,23 +160,24 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
   }
 
+  cancel(): void {
+    this.closeModal.emit(false);
+  }
+
   private async getRoles(): Promise<Role[]> {
     return await this.roleService.getAllRoles().toPromise();
   }
 
-  private async getUserById(): Promise<void> {
+  private fillFormData(): void {
 
-    const user = await this.service.getUser(this.userId).toPromise();
-    const roleIds = user.roles.map(role => role.id);
+    const roleIds = this.componentData.roles.map(role => role.id);
 
-    this.rolesNames = user.roles.map(role => role.name);
+    this.rolesNames = this.componentData.roles.map(role => role.name);
 
     this.userData = {
-      ...user,
+      ...this.componentData,
       roleIds
     }
-
-    return Promise.resolve();
 
   }
 
@@ -222,11 +219,12 @@ export class UserEditComponent implements OnInit, OnDestroy {
   }
 
   private updateUserData(): Observable<User> {
-    return this.service.updateUser(this.formUser.value, this.userId)
+    return this.service.updateUser(this.formUser.value, this.componentData.id)
   }
 
   private handleResult(_: User): void {
-    this.router.navigate(['/user-management']);
+    // this.router.navigate(['/user-management']);
+    this.closeModal.emit(true);
     this.snackBar.open('Usuário salvo com sucesso!', null, { duration: 2000 })
   }
 
@@ -284,8 +282,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
   }
 
   private handleWhenAllRolesAreAdded(): void {
-    console.log(this.allRoles);
-    console.log(this.rolesNames);
 
     if (this.allRoles.length === this.rolesNames.length) {
       this.disabledInputAutoComplete();

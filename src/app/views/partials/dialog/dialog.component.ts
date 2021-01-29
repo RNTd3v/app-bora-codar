@@ -25,8 +25,7 @@ export class DialogComponent implements OnInit {
       this.vcRef.clear();
       const dyynamicComponent = <any>this.vcRef.createComponent(factory).instance;
       dyynamicComponent.componentData = componentData;
-      // dyynamicComponent.onCheckedChange.subscribe(msg => console.log(msg));
-      console.log(dyynamicComponent);
+      dyynamicComponent.closeModal.subscribe((value: boolean) => this.close(value));
     }
   }
 

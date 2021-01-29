@@ -100,7 +100,10 @@ export class UsersComponent implements OnInit, OnDestroy {
 
     const confirmed = await this.handleDialog(`Editar ${user.name}`, null,  UserEditComponent, null, 'Salvar', user);
 
-    console.log(confirmed)
+    if (confirmed) {
+      this.getAllUsers();
+    }
+
   }
 
   private async deleteUser(user: User): Promise<void> {
@@ -128,7 +131,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   private handleDialog(title: string, text: string, component = null, cancelText?: string, confirmText?: string, user?: User): Promise<boolean> {
 
     const dialogRef = this.dialog.open(DialogComponent, {
-      width: component ? 'auto' : '300px',
+      width: component ? '80vw' : '300px',
+      maxWidth: '780px',
       data: { text, title, component, cancelText, confirmText, componentData: user }
     });
 

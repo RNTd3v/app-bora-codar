@@ -3,7 +3,7 @@
   <p class="text" *ngIf="hasntComponent; else target">{{ data.text }}</p>
   <ng-template #target></ng-template>
 </mat-dialog-content>
-<mat-dialog-actions>
+<mat-dialog-actions *ngIf="hasntComponent">
   <div class="c-buttons">
     <button class="o-button -delete" (click)="cancel()">{{ cancelText }}</button>
     <button class="o-button -add" mat-button (click)="confirm()" cdkFocusInitial>{{ confirmText }}</button>
