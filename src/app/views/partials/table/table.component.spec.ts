@@ -30,7 +30,7 @@ describe('TableComponent', () => {
           { provide: IConfigService, useClass: ConfigServiceMock}
         ],
       },
-    })
+    });
   }));
 
   beforeEach(() => {

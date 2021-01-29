@@ -4,10 +4,10 @@ export interface TableColumns extends Option {}
 
 export interface TableAction {
   data: any;
-  type: 'edit' | 'delete' | 'more'
+  type: 'edit' | 'delete' | 'more';
 }
 export interface TableStatus<T>{
-  data: T,
+  data: T;
   checked: boolean;
 }
 export interface TableMoreAction {

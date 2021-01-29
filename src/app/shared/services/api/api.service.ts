@@ -66,7 +66,7 @@ export class ApiService implements IApiService {
     }
 
     if (opt.itsAList) {
-      opt.params = new HttpParams({ fromObject: this.configService.queryParams as any })
+      opt.params = new HttpParams({ fromObject: this.configService.queryParams as any });
     }
 
     const options: any = {

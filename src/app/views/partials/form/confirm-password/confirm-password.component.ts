@@ -32,7 +32,7 @@ export class ConfirmPasswordComponent implements OnInit {
   getErrorMessage(inputName: string) {
 
     if (this.formPass.get(inputName).hasError('required')) {
-      return 'Campo obrigatório'
+      return 'Campo obrigatório';
     }
 
     switch (inputName) {
@@ -41,12 +41,12 @@ export class ConfirmPasswordComponent implements OnInit {
       case 'confirm':
         return this.formPass.get(inputName).hasError('confirmedValidator') ? 'As senhas não são iguais' : '';
       default:
-        return
+        return;
     }
   }
 
   showMessageError(inputName: string): boolean {
-    return this.formPass.get(inputName).invalid
+    return this.formPass.get(inputName).invalid;
   }
 
   private createFormPass(): void {
@@ -58,7 +58,7 @@ export class ConfirmPasswordComponent implements OnInit {
       {
         validator: ConfirmedValidator('password', 'confirm'),
       }
-    )
+    );
   }
 
 

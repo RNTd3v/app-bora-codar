@@ -126,8 +126,8 @@ export class AutoCompleteChipsComponent implements OnInit {
 
     if (this.list.length === this.chips.length) {
       this.disabledInputAutoComplete();
-      return
-    };
+      return;
+    }
 
     this.enabledInputAutoComplete();
   }

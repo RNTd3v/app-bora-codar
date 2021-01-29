@@ -1,4 +1,4 @@
-import { PasswordForm, Role } from ".";
+import { PasswordForm, Role } from '.';
 
 export class User {
   id?: string;
@@ -16,7 +16,7 @@ export class User {
     this.email = user.email,
     this.password = user.password,
     this.roleIds = user.roleIds,
-    this.isActive = user.isActive
+    this.isActive = user.isActive;
   }
 }
 

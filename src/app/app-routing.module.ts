@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core'
-import { Routes, RouterModule } from '@angular/router'
-import { BaseComponent } from './views/theme/base/base.component'
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { BaseComponent } from './views/theme/base/base.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
@@ -38,7 +38,7 @@ const routes: Routes = [
     redirectTo: 'error/403',
     pathMatch: 'full',
   },
-]
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

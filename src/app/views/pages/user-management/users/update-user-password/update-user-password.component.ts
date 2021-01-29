@@ -37,20 +37,20 @@ export class UpdateUserPasswordComponent implements OnInit {
   getErrorMessage(inputName: string) {
 
     if (this.formChangePass.get(inputName).hasError('required')) {
-      return 'Campo obrigatório'
+      return 'Campo obrigatório';
     }
 
     switch (inputName) {
       case 'password':
         return this.formChangePass.get(inputName).hasError('minlength') ? 'A senha precisa ter no mínimo 6 caracteres' : '';
       default:
-        return
+        return;
     }
 
   }
 
   showMessageError(inputName: string): boolean {
-    return this.formChangePass.get(inputName).invalid
+    return this.formChangePass.get(inputName).invalid;
   }
 
   submitPass(): void {
@@ -80,7 +80,7 @@ export class UpdateUserPasswordComponent implements OnInit {
 
   private handleResult(): void {
     this.closeModal.emit(true);
-    this.snackBar.open('Senha alterada com sucesso!', null, { duration: 1000 })
+    this.snackBar.open('Senha alterada com sucesso!', null, { duration: 1000 });
   }
 
   private createFormChangePass(): void {
@@ -88,11 +88,11 @@ export class UpdateUserPasswordComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
-    })
+    });
   }
 
   get formInvalid(): boolean {
-    return this.formChangePass.invalid
+    return this.formChangePass.invalid;
   }
 
 }

@@ -11,9 +11,9 @@ import { Observable } from 'rxjs';
 })
 export class RegisterComponent implements OnInit {
 
-  hide = true
-  formRegister: FormGroup
-  isLoading = false
+  hide = true;
+  formRegister: FormGroup;
+  isLoading = false;
 
   constructor(
     private router: Router,
@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.createFormRegister(new User(null))
+    this.createFormRegister(new User(null));
   }
 
   private createFormRegister(user: User): void {
@@ -46,39 +46,39 @@ export class RegisterComponent implements OnInit {
         },
       ),
       roles: [user.roles]
-    })
+    });
   }
 
   getErrorMessage(inputName: string) {
     if (this.formRegister.get(inputName).hasError('required')) {
-      return 'Campo obrigatório'
+      return 'Campo obrigatório';
     }
 
     switch (inputName) {
       case 'email':
         return this.formRegister.get(inputName).hasError('email')
           ? 'E-mail invalido'
-          : ''
+          : '';
       case 'password':
         return this.formRegister.get(inputName).hasError('minlength')
           ? 'Mínimo de 6 caracteres'
-          : ''
+          : '';
     }
   }
 
   showMessageError(inputName: string): boolean {
-    return this.formRegister.get(inputName).invalid
+    return this.formRegister.get(inputName).invalid;
   }
 
   goBack(): void {
-    this.router.navigate(['../'])
+    this.router.navigate(['../']);
   }
 
   async submitRegister(): Promise<void> {
 
     if (this.formRegister.valid) {
 
-      this.isLoading = true
+      this.isLoading = true;
 
       const registerUser = await this.registerUser().toPromise().catch(_ => this.handleError());
 
@@ -90,7 +90,7 @@ export class RegisterComponent implements OnInit {
         if (userIsLogged) {
           this.handleResult();
           this.isLoading = false;
-          return
+          return;
         }
 
       }
@@ -102,21 +102,21 @@ export class RegisterComponent implements OnInit {
   }
 
   private registerUser(): Observable<User> {
-    const formValue = this.formRegister.value
-    const { password } = formValue.passwordForm
+    const formValue = this.formRegister.value;
+    const { password } = formValue.passwordForm;
 
     const payload = {
       ...formValue,
       password,
-    }
+    };
 
-    delete payload.passwordForm
+    delete payload.passwordForm;
 
     return this.service.registerUser(payload);
   }
 
   private handleResult(): void {
-    this.router.navigate(['user-management'])
+    this.router.navigate(['user-management']);
     this.snackBar.open('Usuário criado com sucesso!', null, {
       duration: 2000,
     });
@@ -125,11 +125,11 @@ export class RegisterComponent implements OnInit {
   private handleError(): void {
     this.snackBar.open('Houve um erro!', null, {
       duration: 2000,
-    })
+    });
   }
 
   get formInvalid(): boolean {
-    return this.formRegister.invalid
+    return this.formRegister.invalid;
   }
 
 }

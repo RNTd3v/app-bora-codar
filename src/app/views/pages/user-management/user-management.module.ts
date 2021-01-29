@@ -65,7 +65,7 @@ const routesChild: Routes = [
       }
     ]
   }
-]
+];
 
 @NgModule({
   declarations: [

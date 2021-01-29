@@ -1,10 +1,10 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { User, Role } from '@cms/core'
-import { Observable, Subscription } from 'rxjs'
-import { finalize } from 'rxjs/operators'
-import { IRoleService, IUserService } from '../../services'
+import { User, Role } from '@cms/core';
+import { Observable, Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { IRoleService, IUserService } from '../../services';
 
 @Component({
   selector: 'app-create-user',
@@ -49,19 +49,19 @@ export class CreateUserComponent implements OnInit, OnDestroy {
   getErrorMessage(inputName: string) {
 
     if (this.formUser.get(inputName).hasError('required')) {
-      return 'Campo obrigatório'
+      return 'Campo obrigatório';
     }
 
     switch (inputName) {
       case 'email':
         return this.formUser.get(inputName).hasError('email') ? 'E-mail invalido' : '';
       default:
-        return
+        return;
     }
   }
 
   showMessageError(inputName: string): boolean {
-    return this.formUser.get(inputName).invalid
+    return this.formUser.get(inputName).invalid;
   }
 
   submitUserData(): void {
@@ -119,20 +119,20 @@ export class CreateUserComponent implements OnInit, OnDestroy {
       email: ['', [Validators.required, Validators.email]],
       roleIds: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]]
-    })
+    });
   }
 
   private createUser(): Observable<User> {
-    return this.service.createUser(this.formUser.value)
+    return this.service.createUser(this.formUser.value);
   }
 
   private handleResult(_: User): void {
     this.closeModal.emit(true);
-    this.snackBar.open('Usuário criado com sucesso!', null, { duration: 1000 })
+    this.snackBar.open('Usuário criado com sucesso!', null, { duration: 1000 });
   }
 
   get formInvalid(): boolean {
-    return this.formUser.invalid
+    return this.formUser.invalid;
   }
 
 }

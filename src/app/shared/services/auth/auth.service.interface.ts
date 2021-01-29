@@ -1,5 +1,5 @@
-import { AccessToken, Auth, User } from "@cms/core";
-import { Observable } from "rxjs";
+import { AccessToken, Auth, User } from '@cms/core';
+import { Observable } from 'rxjs';
 
 export abstract class IAuthService {
 

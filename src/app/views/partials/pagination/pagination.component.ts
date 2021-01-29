@@ -68,7 +68,7 @@ export class PaginationComponent implements OnInit, OnDestroy {
 
   private setPageNumbers(totalPage: number): void {
     for (let index = 0; index < totalPage; index++) {
-      this._pageNumbers.push(index+1);
+      this._pageNumbers.push(index + 1);
     }
     this.setVisiblePageNumbers();
   }
@@ -79,12 +79,12 @@ export class PaginationComponent implements OnInit, OnDestroy {
 
   private goToPage(page: number): void {
 
-    let { queryParams } = this.configService;
+    const { queryParams } = this.configService;
 
     this.configService.queryParams = {
       ...queryParams,
       page
-    }
+    };
 
     this._currentPage = page;
 
@@ -98,7 +98,7 @@ export class PaginationComponent implements OnInit, OnDestroy {
 
   private handleVisiblePageNumbers(page: number): void {
 
-    let start = 0
+    let start = 0;
     let end = this.totalVisiblePageNumbers;
 
     if (page >= this.totalVisiblePageNumbers) {

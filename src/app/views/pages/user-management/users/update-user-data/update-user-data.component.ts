@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { User, Role } from '@cms/core'
-import { Observable, Subscription } from 'rxjs'
-import { finalize } from 'rxjs/operators'
-import { IRoleService, IUserService } from '../../services'
+import { User, Role } from '@cms/core';
+import { Observable, Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { IRoleService, IUserService } from '../../services';
 
 @Component({
   selector: 'app-update-user-data',
@@ -54,19 +54,19 @@ export class UpdateUserDataComponent implements OnInit, OnDestroy {
   getErrorMessage(inputName: string) {
 
     if (this.formUser.get(inputName).hasError('required')) {
-      return 'Campo obrigatório'
+      return 'Campo obrigatório';
     }
 
     switch (inputName) {
       case 'email':
         return this.formUser.get(inputName).hasError('email') ? 'E-mail invalido' : '';
       default:
-        return
+        return;
     }
   }
 
   showMessageError(inputName: string): boolean {
-    return this.formUser.get(inputName).invalid
+    return this.formUser.get(inputName).invalid;
   }
 
   submitUserData(): void {
@@ -123,7 +123,7 @@ export class UpdateUserDataComponent implements OnInit, OnDestroy {
     this.userData = {
       ...this.componentData,
       roleIds
-    }
+    };
 
   }
 
@@ -133,20 +133,20 @@ export class UpdateUserDataComponent implements OnInit, OnDestroy {
       email: [user.email, [Validators.required, Validators.email]],
       isActive: [user.isActive],
       roleIds: [user.roleIds, [Validators.required]]
-    })
+    });
   }
 
   private updateUserData(): Observable<User> {
-    return this.service.updateUser(this.formUser.value, this.componentData.id)
+    return this.service.updateUser(this.formUser.value, this.componentData.id);
   }
 
   private handleResult(_: User): void {
     this.closeModal.emit(true);
-    this.snackBar.open('Usuário atualizado com sucesso!', null, { duration: 1000 })
+    this.snackBar.open('Usuário atualizado com sucesso!', null, { duration: 1000 });
   }
 
   get formInvalid(): boolean {
-    return this.formUser.invalid
+    return this.formUser.invalid;
   }
 
 }

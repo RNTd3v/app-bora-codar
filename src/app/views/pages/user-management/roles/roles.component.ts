@@ -84,7 +84,7 @@ export class RolesComponent implements OnInit, OnDestroy {
             .subscribe({ next: _ => {
               this.handleDeleteResult();
               this.getAllRoles();
-            }})
+            }});
         }
       }}));
   }

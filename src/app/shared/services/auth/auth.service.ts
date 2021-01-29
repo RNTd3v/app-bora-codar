@@ -84,7 +84,7 @@ export class AuthService implements IAuthService {
     }
 
     const body = new HttpParams()
-      .set('refresh_token', refreshToken.token)
+      .set('refresh_token', refreshToken.token);
 
     return await this.requestAccessToken(body);
   }
@@ -110,9 +110,9 @@ export class AuthService implements IAuthService {
     let authResult = false;
 
     if (!tokenResponse) {
-      //|| !tokenResponse.access_token
-      //|| !tokenResponse.expires_in
-      //|| !tokenResponse.refresh_expires_in) {
+      // || !tokenResponse.access_token
+      // || !tokenResponse.expires_in
+      // || !tokenResponse.refresh_expires_in) {
       this.notifyAuthResult(authResult);
       return authResult;
     }

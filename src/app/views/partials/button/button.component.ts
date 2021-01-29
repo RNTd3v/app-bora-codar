@@ -26,10 +26,10 @@ export class ButtonComponent implements OnInit {
   buttonClasses = '';
 
   @Input()
-  matTooltip = "";
+  matTooltip = '';
 
   @Input()
-  type = "button";
+  type = 'button';
 
   @Output()
   clickButtonEvent = new EventEmitter();

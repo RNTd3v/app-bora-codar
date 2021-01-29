@@ -42,7 +42,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   private indexDeleteAction: number;
   private indexMoreAction: number;
-  private indexToggleChange: number = 0;
+  private indexToggleChange = 0;
 
   private readonly rowHeight = 48;
 
@@ -121,7 +121,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         return TableContentType.TOGGLE;
 
       default:
-        return TableContentType.TEXT
+        return TableContentType.TEXT;
     }
 
   }

@@ -107,7 +107,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       this.subscription.add(
         this.service.updateStatusUser({ isActive: checked }, data.id)
           .subscribe({ next: _ => this.getAllUsers() })
-      )
+      );
     }
 
     this.isLoadingAction = false;
@@ -141,7 +141,7 @@ export class UsersComponent implements OnInit, OnDestroy {
             this.getAllUsers();
           }
         })
-      )
+      );
     }
 
     this.isLoadingAction = false;
@@ -162,13 +162,13 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.subscription.add(
       dialogRef.afterOpened()
         .pipe(finalize(() => this.isLoadingAction = true))
-        .subscribe())
+        .subscribe());
 
     return new Promise<boolean>((resolve) => {
       this.subscription.add(
         dialogRef.afterClosed()
           .subscribe({ next: confirmed => resolve(confirmed)}));
-    })
+    });
 
   }
 

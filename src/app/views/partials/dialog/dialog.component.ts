@@ -38,7 +38,7 @@ export class DialogComponent implements OnInit {
     this.close(true);
   }
 
-  @HostListener("keydown.esc")
+  @HostListener('keydown.esc')
   onEsc() {
     this.close(false);
   }
@@ -50,7 +50,7 @@ export class DialogComponent implements OnInit {
 
     this.viewContainerRef.clear();
 
-    const dynamicComponent = <any>this.viewContainerRef.createComponent(factory).instance;
+    const dynamicComponent = this.viewContainerRef.createComponent(factory).instance as any;
 
     this.addComponentData(dynamicComponent, componentData);
     this.listenerCloseModal(dynamicComponent);
