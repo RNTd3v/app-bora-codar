@@ -13,6 +13,8 @@ export class ConfirmPasswordComponent implements OnInit {
 
   formPass: FormGroup;
 
+  @Input() classes = '';
+
   @Output()
   validatedPassword = new EventEmitter();
 

@@ -2,7 +2,7 @@
   <header class="top">
     <app-title pageName="Usuários" iconName="users"></app-title>
     <app-search [filters]="userOptions" (searchEvent)="getAllUsers()"></app-search>
-    <app-button buttonText="Usuário" iconLeftName="plus" buttonClasses='-add' (clickButtonEvent)="addUser()" matTooltip="Adicionar usuário"></app-button>
+    <app-button buttonText="Usuário" iconLeftName="plus" buttonClasses='-add' (clickButtonEvent)="addUser()"></app-button>
   </header>
   <main class="middle">
     <div class="wrapper">
@@ -11,11 +11,13 @@
         [isLoadingAction]="isLoadingAction"
         [dataSource]="users"
         [columns]="userOptionsTable"
+        [moreAction]="changePassword"
         (loadContentEvent)="getAllUsers()"
         (actionEvent)="action($event)"
         (sortChangeEvent)="getAllUsers()"
         (toggleChangeEvent)="changeUserStatus($event)"
-      ></app-table>
+      >
+    </app-table>
     </div>
     <app-pagination (changePage)="getAllUsers()"></app-pagination>
   </main>

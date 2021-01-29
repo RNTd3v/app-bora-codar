@@ -1,4 +1,4 @@
-import { StatusUser, User } from '@cms/core';
+import { StatusUser, User, UserChangePassword } from '@cms/core';
 import { Observable } from 'rxjs';
 
 export abstract class IUserService {
@@ -10,6 +10,8 @@ export abstract class IUserService {
   abstract createUser(user: User): Observable<User>;
 
   abstract updateUser(user: User, userID: string): Observable<User>;
+
+  abstract updateUserPassword(userPass: UserChangePassword, userID: string): Observable<void>;
 
   abstract updateStatusUser(status: StatusUser, userID: string): Observable<void>;
 

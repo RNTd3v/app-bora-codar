@@ -35,6 +35,7 @@ import { RolesComponent } from './roles/roles.component';
 import { RoleEditComponent } from './roles/role-edit/role-edit.component';
 import { UpdateUserDataComponent } from './users/update-user-data/update-user-data.component';
 import { CreateUserComponent } from './users/create-user/create-user.component';
+import { UpdateUserPasswordComponent } from './users/update-user-password/update-user-password.component';
 
 const routesChild: Routes = [
   {
@@ -75,6 +76,7 @@ const routesChild: Routes = [
     RoleEditComponent,
     UpdateUserDataComponent,
     CreateUserComponent,
+    UpdateUserPasswordComponent,
   ],
   imports: [
     CommonModule,

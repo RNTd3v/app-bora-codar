@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core'
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User, Role } from '@cms/core'
@@ -11,10 +11,9 @@ import { IRoleService, IUserService } from '../../services'
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss']
 })
-export class CreateUserComponent implements OnInit, OnDestroy, OnChanges {
+export class CreateUserComponent implements OnInit, OnDestroy {
 
   formUser: FormGroup;
-  formGroupConfirmPass: FormGroup;
 
   isLoadingPage = true;
   isLoadingAction = false;
@@ -32,10 +31,6 @@ export class CreateUserComponent implements OnInit, OnDestroy, OnChanges {
     private roleService: IRoleService,
     private service: IUserService,
   ) {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.formGroupConfirmPass)
-  }
 
   async ngOnInit(): Promise<void> {
 

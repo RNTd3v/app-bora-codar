@@ -1,13 +1,13 @@
 .c-form {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  grid-column-gap: 2rem;
-  .pass-group {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: 2rem;
-  }
+  grid-row-gap: 1rem;
+  grid-template-columns: repeat(1, 1fr);
+  &.col-2 {grid-template-columns: repeat(2, 1fr); grid-column-gap: 2rem;}
+  &.col-3 {grid-template-columns: repeat(3, 1fr); grid-column-gap: 2rem;}
+  &.col-4 {grid-template-columns: repeat(4, 1fr); grid-column-gap: 2rem;}
+  &.col-5 {grid-template-columns: repeat(5, 1fr); grid-column-gap: 2rem;}
+  &.col-6 {grid-template-columns: repeat(6, 1fr); grid-column-gap: 2rem;}
+
   .mat-form-field {
     line-height: 2;
   }
@@ -23,4 +23,5 @@
     text-align: end;
     margin-top: -1px;
   }
+
 }

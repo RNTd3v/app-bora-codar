@@ -24,4 +24,10 @@ export interface StatusUser{
   isActive: boolean;
 }
 
+export interface UserChangePassword {
+  password: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
 
