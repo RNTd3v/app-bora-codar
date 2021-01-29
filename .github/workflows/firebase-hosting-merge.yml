@@ -28,7 +28,7 @@ jobs:
         run: npm run build -- --prod
       # Run tests
       - name: Test
-        run: npm run test
+        run: npm run test -- --configuration=ci
 
       # Deploy in Firebase
       - name: Firebase Deploy
