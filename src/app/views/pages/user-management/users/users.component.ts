@@ -7,6 +7,7 @@ import { DialogComponent } from '@cms/partials';
 import { Subscription } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 import { IUserService } from '../services';
+import { CreateUserComponent } from './create-user/create-user.component';
 import { UpdateUserDataComponent } from './update-user-data/update-user-data.component';
 
 enum DialogType {
@@ -74,8 +75,12 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.deleteUser(data as User);
   }
 
-  addUser(): void {
-    this.router.navigate(['user-management/users/add']);
+  async addUser(): Promise<void> {
+    const confirmed = await this.handleDialog(`Novo usuário`, null,  CreateUserComponent, null, 'Salvar');
+
+    if (confirmed) {
+      this.getAllUsers();
+    }
   }
 
   async changeUserStatus(statusUser: TableStatus<User>): Promise<void> {

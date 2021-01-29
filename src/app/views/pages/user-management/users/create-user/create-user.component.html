@@ -1,4 +1,4 @@
-<div class="c-modal-content update-user">
+<div class="c-modal-content create-user">
 
   <mat-progress-bar mode="indeterminate" *ngIf="isLoadingPage; else form"></mat-progress-bar>
 
@@ -27,8 +27,6 @@
         (handleRemovingAChip)="removeRoleId($event)">
       </app-auto-complete-chips>
 
-      <mat-checkbox formControlName="isActive">Ativo</mat-checkbox>
-
       <div class="bottom-grid">
         <app-button type="submit" buttonText="Salvar" iconLeftName="save" buttonClasses='-add' [disableButton]="formInvalid" [isLoadingAction]="isLoadingAction"></app-button>
         <app-button buttonText="Cancelar" buttonClasses='-link' (clickButtonEvent)="cancel()" class="button-right"></app-button>
@@ -39,3 +37,4 @@
   </ng-template>
 
 </div>
+
