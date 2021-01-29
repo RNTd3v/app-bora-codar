@@ -30,7 +30,6 @@ import { UserService } from './services/user/user.service';
 // Components
 import { UserManagementComponent } from './user-management.component';
 import { UsersComponent } from './users/users.component';
-import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { UserDetailComponent } from './users/user-detail/user-detail.component';
 import { RolesComponent } from './roles/roles.component';
 import { RoleEditComponent } from './roles/role-edit/role-edit.component';
@@ -52,14 +51,6 @@ const routesChild: Routes = [
         component: UsersComponent
       },
       {
-        path: 'users/add',
-        component: UserEditComponent
-      },
-      {
-        path: 'users/:id',
-        component: UserEditComponent
-      },
-      {
         path: 'roles',
         component: RolesComponent
       },
@@ -79,7 +70,6 @@ const routesChild: Routes = [
   declarations: [
     UserManagementComponent,
     UsersComponent,
-    UserEditComponent,
     UserDetailComponent,
     RolesComponent,
     RoleEditComponent,
