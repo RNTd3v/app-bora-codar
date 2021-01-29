@@ -71,19 +71,17 @@ export class CreateUserComponent implements OnInit, OnDestroy, OnChanges {
 
   submitUserData(): void {
 
-    console.log(this);
+    if (this.formUser.valid) {
 
-    // if (this.formUser.valid) {
+      this.isLoadingAction = true;
 
-    //   this.isLoadingAction = true;
+      this.subscription.add(
+        this.createUser()
+          .pipe(finalize(() => (this.isLoadingAction = false)))
+          .subscribe((user: User) => this.handleResult(user))
+      );
 
-    //   this.subscription.add(
-    //     this.createUser()
-    //       .pipe(finalize(() => (this.isLoadingAction = false)))
-    //       .subscribe((user: User) => this.handleResult(user))
-    //   );
-
-    // }
+    }
 
   }
 
