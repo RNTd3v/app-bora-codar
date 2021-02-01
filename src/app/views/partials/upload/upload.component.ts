@@ -40,7 +40,7 @@ export class UploadComponent implements OnInit {
 
   private submitUploadFile(): void {
 
-    let formData = new FormData();
+    const formData = new FormData();
     this.isLoadingAction = true;
 
     if (this.isAvatar) {
