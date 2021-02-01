@@ -19,6 +19,7 @@ export interface TableMoreAction {
 export enum TableContentType {
   LIST = 'LIST',
   TEXT = 'TEXT',
-  TOGGLE = 'TOGGLE'
+  TOGGLE = 'TOGGLE',
+  IMAGE = 'IMAGE'
 }
 

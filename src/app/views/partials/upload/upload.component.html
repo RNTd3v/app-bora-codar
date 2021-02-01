@@ -1,0 +1,11 @@
+<div class="c-upload">
+  <div class="preview" [class.avatar]="isAvatar" [style.backgroundImage]="backgroundImage">
+    <input type="file" (change)="uploadFile($event)" [attr.accept]="accept" class="input-file" />
+    <div class="loader" *ngIf="isLoadingAction; else icon">
+      <mat-spinner class="small"></mat-spinner>
+    </div>
+    <ng-template #icon>
+      <app-icon name="camera" class="ico-camera"></app-icon>
+    </ng-template>
+  </div>
+</div>

@@ -30,6 +30,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   ] as Option[];
 
   userOptionsTable = [
+    { id: 'avatar', name: 'Avatar'},
     ...this.userOptions,
     { id: 'roles', name: 'Perfis'},
     { id: 'isActive', name: 'Ativo'}

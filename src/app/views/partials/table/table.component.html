@@ -10,8 +10,11 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
           {{ column?.name }}
         </th>
-        <td mat-cell *matCellDef="let data; let i = index">
-          <div [ngSwitch]="defineContentType(data[column?.id])">
+        <td mat-cell *matCellDef="let data; let i = index" [ngStyle]= "{ 'width': tdWidth(column?.id) }">
+          <div [ngSwitch]="defineContentType(data[column?.id], column?.id)">
+            <span *ngSwitchCase="'IMAGE'">
+              <img [src]="getPathImage(data[column?.id])" alt="Image" class="o-image -thumbnail -round" />
+            </span>
             <span *ngSwitchCase="'LIST'">
               <mat-chip-list aria-label="">
                 <mat-chip *ngFor="let chip of data[column?.id]" [selected]="chip.admin">{{chip.name}}</mat-chip>

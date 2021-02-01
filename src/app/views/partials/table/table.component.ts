@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { IPaginationService, TableAction, QueryParamsModel, TableContentType, TableStatus, Option, TableMoreAction } from '@cms/core';
+import { environment } from '@cms/environment';
 
 @Component({
   selector: 'app-table',
@@ -111,7 +112,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     return this.isLoadingAction && index === this.indexMoreAction;
   }
 
-  defineContentType(data: any): TableContentType {
+  defineContentType(data: any, columnId: string): TableContentType {
+
+    if (this.isImage(columnId)) {
+      return TableContentType.IMAGE;
+    }
 
     switch (typeof data) {
       case 'object':
@@ -126,6 +131,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   }
 
+  getPathImage(image: string): string {
+    return !!image ? `${environment.IMAGE_URL}${image}` : '/assets/icons/user.svg';
+  }
+
   slideToggleChange({ checked }, data, index: number): void {
     this.indexToggleChange = index;
     this.toggleChangeEvent.emit({ checked, data } as TableStatus<any>);
@@ -133,6 +142,17 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   isLoadingToggleChange(index: number): boolean {
     return this.isLoadingAction && index === this.indexToggleChange;
+  }
+
+  tdWidth(columnId: string): string {
+    return this.isImage(columnId) ? '10rem' : 'max-content';
+  }
+
+  private isImage(columnId: string): boolean {
+    return  columnId === 'avatar' ||
+            columnId === 'photo'  ||
+            columnId === 'image'  ||
+            columnId === 'picture';
   }
 
   private setPerPageConfig(): void {

@@ -16,6 +16,7 @@ export class UpdateUserDataComponent implements OnInit, OnDestroy {
   formUser: FormGroup;
 
   userData = {} as User;
+  changedTheAvatar = false;
 
   isLoadingPage = true;
   isLoadingAction = false;
@@ -86,7 +87,7 @@ export class UpdateUserDataComponent implements OnInit, OnDestroy {
   }
 
   cancel(): void {
-    this.closeModal.emit(false);
+    this.closeModal.emit(this.changedTheAvatar);
   }
 
   addRoleId(roleName: string): void {
@@ -108,6 +109,10 @@ export class UpdateUserDataComponent implements OnInit, OnDestroy {
 
     this.formUser.get('roleIds').setValue([...roleIds]);
 
+  }
+
+  uploadedTheAvatarFile(): void {
+    this.changedTheAvatar = true;
   }
 
   private async getRoles(): Promise<Role[]> {

@@ -4,6 +4,8 @@
 
   <ng-template #form>
 
+    <app-upload [isAvatar]="true" [data]="componentData" (uploadedTheFile)="uploadedTheAvatarFile()"></app-upload>
+
     <form class="c-form col-2 form-user" [formGroup]="formUser" (submit)="submitUserData()">
 
       <mat-form-field appearance="fill">

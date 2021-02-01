@@ -16,6 +16,10 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+// Services
+import { IUploadService } from './upload/service/upload.service.interface';
+import { UploadService } from './upload/service/upload.service';
+
 // Components
 import { ButtonComponent } from './button/button.component';
 import { DialogComponent } from './dialog/dialog.component';
@@ -25,6 +29,8 @@ import { TableComponent } from './table/table.component';
 import { TitleComponent } from './title/title.component';
 import { AutoCompleteChipsComponent } from './form/auto-complete-chips/auto-complete-chips.component';
 import { ConfirmPasswordComponent } from './form/confirm-password/confirm-password.component';
+import { UploadComponent } from './upload/upload.component';
+
 
 @NgModule({
   declarations: [
@@ -35,7 +41,8 @@ import { ConfirmPasswordComponent } from './form/confirm-password/confirm-passwo
     PaginationComponent,
     SearchComponent,
     TableComponent,
-    TitleComponent
+    TitleComponent,
+    UploadComponent
   ],
   exports: [
     AutoCompleteChipsComponent,
@@ -45,7 +52,8 @@ import { ConfirmPasswordComponent } from './form/confirm-password/confirm-passwo
     PaginationComponent,
     SearchComponent,
     TableComponent,
-    TitleComponent
+    TitleComponent,
+    UploadComponent
   ],
   imports: [
     CommonModule,
@@ -61,6 +69,9 @@ import { ConfirmPasswordComponent } from './form/confirm-password/confirm-passwo
     MatSortModule,
     MatTableModule,
     MatTooltipModule
-  ]
+  ],
+  providers: [
+    { provide: IUploadService, useClass: UploadService }
+  ],
 })
 export class PartialsModule {}
