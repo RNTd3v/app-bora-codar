@@ -1,4 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { PartialsModule } from '..';
+import { IUploadService } from './service/upload.service.interface';
 
 import { UploadComponent } from './upload.component';
 
@@ -8,7 +11,8 @@ describe('UploadComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UploadComponent ]
+      imports: [ PartialsModule ],
+      providers: [ IUploadService, MatSnackBar ]
     })
     .compileComponents();
   }));
@@ -16,10 +20,9 @@ describe('UploadComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UploadComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('#constructor deve instanciar UploadComponent', () => {
     expect(component).toBeTruthy();
   });
 });
