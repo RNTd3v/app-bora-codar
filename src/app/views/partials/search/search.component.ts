@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { FilterOptions, IConfigService, DictionaryFilter } from '@cms/core';
+import { FilterOptions, IPaginationService, DictionaryFilter } from '@cms/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
@@ -21,7 +21,7 @@ export class SearchComponent implements OnInit, OnChanges {
 
   private time = null;
 
-  constructor(private config: IConfigService) { }
+  constructor(private config: IPaginationService) { }
 
   ngOnInit(): void {
     this.filteredOptions = this.filterControl.valueChanges.pipe(

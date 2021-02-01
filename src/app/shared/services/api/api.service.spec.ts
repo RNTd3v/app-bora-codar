@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { IConfigService } from '@cms/core';
+import { IPaginationService } from '@cms/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ApiService } from './api.service';
 
@@ -11,7 +11,7 @@ describe('ApiService', () => {
       imports: [
         HttpClientTestingModule
       ],
-      providers: [IConfigService]
+      providers: [IPaginationService]
     });
     service = TestBed.inject(ApiService);
   });

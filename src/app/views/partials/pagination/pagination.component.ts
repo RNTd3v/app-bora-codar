@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { IConfigService } from '@cms/core';
+import { IPaginationService } from '@cms/core';
 import { first } from 'rxjs/operators';
 enum GoTo {
   FIRST_PAGE = 'FIRST_PAGE',
@@ -25,10 +25,10 @@ export class PaginationComponent implements OnInit, OnDestroy {
 
   private readonly totalVisiblePageNumbers = 3;
 
-  constructor(private configService: IConfigService) { }
+  constructor(private PaginationService: IPaginationService) { }
 
   ngOnInit(): void {
-    this.configService.totalPage
+    this.PaginationService.totalPage
       .pipe(first())
         .subscribe(totalPage => {
           this.totalPage = totalPage;
@@ -37,12 +37,12 @@ export class PaginationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.configService.applyDefaultValues();
+    this.PaginationService.applyDefaultValues();
   }
 
   handleClick(goTo: GoTo | number): void {
 
-    const { page } = this.configService.queryParams;
+    const { page } = this.PaginationService.queryParams;
 
     switch (goTo) {
 
@@ -79,9 +79,9 @@ export class PaginationComponent implements OnInit, OnDestroy {
 
   private goToPage(page: number): void {
 
-    const { queryParams } = this.configService;
+    const { queryParams } = this.PaginationService;
 
-    this.configService.queryParams = {
+    this.PaginationService.queryParams = {
       ...queryParams,
       page
     };
@@ -111,11 +111,11 @@ export class PaginationComponent implements OnInit, OnDestroy {
   }
 
   get hasPreviousPage(): boolean {
-    return this.configService.queryResults.hasPreviousPage;
+    return this.PaginationService.queryResults.hasPreviousPage;
   }
 
   get hasNextPage(): boolean {
-    return this.configService.queryResults.hasNextPage;
+    return this.PaginationService.queryResults.hasNextPage;
   }
 
   get pageNumbers(): number[] {

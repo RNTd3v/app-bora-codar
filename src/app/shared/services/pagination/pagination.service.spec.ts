@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ConfigService } from './config.service';
+import { PaginationService } from './pagination.service';
 
-describe('ConfigService', () => {
-  let service: ConfigService;
+describe('PaginationService', () => {
+  let service: PaginationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ConfigService);
+    service = TestBed.inject(PaginationService);
   });
 
   it('#constructor deve instanciar o serviço', () => {

@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IConfigService, QueryParamsModel, DictionaryFilter, QueryResultsModel } from '@cms/core';
+import { IPaginationService, QueryParamsModel, DictionaryFilter, QueryResultsModel } from '@cms/core';
 import { Observable } from 'rxjs';
 import { PartialsModule } from '..';
 
@@ -9,9 +9,9 @@ import { PaginationComponent } from './pagination.component';
 describe('PaginationComponent', () => {
   let component: PaginationComponent;
   let fixture: ComponentFixture<PaginationComponent>;
-  let configService: ConfigServiceMock;
+  let PaginationService: ConfigServiceMock;
 
-  class ConfigServiceMock implements IConfigService {
+  class ConfigServiceMock implements IPaginationService {
     setTotalPage: jasmine.Spy = jasmine.createSpy('setTotalPage');
     applyDefaultValues: jasmine.Spy = jasmine.createSpy('applyDefaultValues');
     queryParams: QueryParamsModel;
@@ -27,7 +27,7 @@ describe('PaginationComponent', () => {
     .overrideComponent(PaginationComponent, {
       set: {
         providers: [
-          { provide: IConfigService, useClass: ConfigServiceMock}
+          { provide: IPaginationService, useClass: ConfigServiceMock}
         ],
       },
     })
@@ -37,7 +37,7 @@ describe('PaginationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PaginationComponent);
     component = fixture.componentInstance;
-    configService = fixture.debugElement.injector.get<ConfigServiceMock>((IConfigService as unknown) as Type<ConfigServiceMock>);
+    PaginationService = fixture.debugElement.injector.get<ConfigServiceMock>((IPaginationService as unknown) as Type<ConfigServiceMock>);
   });
 
   it('#constructor deve instanciar PaginationComponent', () => {

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
-import { IConfigService, TableAction, QueryParamsModel, TableContentType, TableStatus, Option, TableMoreAction } from '@cms/core';
+import { IPaginationService, TableAction, QueryParamsModel, TableContentType, TableStatus, Option, TableMoreAction } from '@cms/core';
 
 @Component({
   selector: 'app-table',
@@ -46,7 +46,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   private readonly rowHeight = 48;
 
-  constructor(private configService: IConfigService) { }
+  constructor(private PaginationService: IPaginationService) { }
 
 
   ngOnInit(): void {
@@ -91,9 +91,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   sortData(sort: Sort) {
 
-    const { queryParams } = this.configService;
+    const { queryParams } = this.PaginationService;
 
-    this.configService.queryParams = {
+    this.PaginationService.queryParams = {
       ...queryParams,
       sortBy: sort.active,
       order: sort.direction.toUpperCase()
@@ -140,9 +140,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     const tableHeight = this.elementView.nativeElement.getBoundingClientRect().height;
     const perPage = Math.floor(tableHeight / this.rowHeight) - 1;
 
-    const { queryParams } = this.configService;
+    const { queryParams } = this.PaginationService;
 
-    this.configService.queryParams = {
+    this.PaginationService.queryParams = {
       ...queryParams,
       perPage
     } as QueryParamsModel;

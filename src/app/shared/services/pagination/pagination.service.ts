@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DictionaryFilter, IConfigService, QueryParamsModel, QueryResultsModel } from '@cms/core';
+import { DictionaryFilter, IPaginationService, QueryParamsModel, QueryResultsModel } from '@cms/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -23,7 +23,7 @@ const queryResultsDefault = {
 @Injectable({
   providedIn: 'root'
 })
-export class ConfigService implements IConfigService {
+export class PaginationService implements IPaginationService {
 
   private _filters = {} as DictionaryFilter;
   private _totalPage: BehaviorSubject<number> = new BehaviorSubject<number>(undefined);

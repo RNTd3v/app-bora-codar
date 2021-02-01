@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { IApiService, IConfigService, OptionsApi, QueryResultsModel } from '@cms/core';
+import { IApiService, IPaginationService, OptionsApi, QueryResultsModel } from '@cms/core';
 import { environment } from '@cms/environment';
 import { mergeMap, tap } from 'rxjs/operators';
 
@@ -11,7 +11,7 @@ import { mergeMap, tap } from 'rxjs/operators';
 export class ApiService implements IApiService {
 
   constructor(
-    private configService: IConfigService,
+    private PaginationService: IPaginationService,
     private http: HttpClient
   ) { }
 
@@ -47,8 +47,8 @@ export class ApiService implements IApiService {
     return this.http.get<T>(url, options).pipe(
       tap((result: any) => {
         const queryResults = result as QueryResultsModel;
-        this.configService.setTotalPage(queryResults.totalPage);
-        this.configService.queryResults = queryResults;
+        this.PaginationService.setTotalPage(queryResults.totalPage);
+        this.PaginationService.queryResults = queryResults;
       }),
       mergeMap((result: any) => of(result.data))
     );
@@ -66,7 +66,7 @@ export class ApiService implements IApiService {
     }
 
     if (opt.itsAList) {
-      opt.params = new HttpParams({ fromObject: this.configService.queryParams as any });
+      opt.params = new HttpParams({ fromObject: this.PaginationService.queryParams as any });
     }
 
     const options: any = {
