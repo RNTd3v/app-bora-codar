@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { IApiService } from '@cms/core';
+import { UserManagementModule } from '../../user-management.module';
 
 import { CreateRoleComponent } from './create-role.component';
 
@@ -8,7 +10,8 @@ describe('CreateRoleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateRoleComponent ]
+      imports: [ UserManagementModule ],
+      providers: [IApiService]
     })
     .compileComponents();
   }));
@@ -16,10 +19,9 @@ describe('CreateRoleComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateRoleComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('#constructor deve instanciar CreateRoleComponent', () => {
     expect(component).toBeTruthy();
   });
 });
