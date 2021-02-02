@@ -7,6 +7,8 @@ import { DialogComponent } from '@cms/partials';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { IRoleService } from '../services';
+import { CreateRoleComponent } from './create-role/create-role.component';
+import { UpdateRoleDataComponent } from './update-role-data/update-role-data.component';
 
 @Component({
   selector: 'app-roles',
@@ -41,7 +43,7 @@ export class RolesComponent implements OnInit, OnDestroy {
   getAllRoles(): void {
     this.subscription.add(
       this.service.getAllRoles()
-        .pipe(finalize(() => this.isLoadingResults = false))
+        .pipe(finalize(() => this.stopLoaders()))
         .subscribe({next: roles => this.roles = roles})
     );
 
@@ -51,46 +53,81 @@ export class RolesComponent implements OnInit, OnDestroy {
 
     const { data, type } = tableAction;
 
-    if (type === 'edit') {
-      this.editRole(data as Role);
-      return;
+    switch (type) {
+      case 'edit':
+        this.editRole(data as Role);
+        break;
+      case 'delete':
+        this.deleteRole(data as Role);
+        break;
+      default:
+        break;
     }
 
-    this.deleteRole(data as Role);
   }
 
-  addRole(): void {
-    this.router.navigate(['user-management/roles/add']);
+  async addRole(): Promise<void> {
+    const confirmed = await this.handleDialog(`Novo perfil`, null,  CreateRoleComponent, null, 'Salvar', null, '80vh');
+    this.getAllRolesAgain(confirmed);
   }
 
-  private editRole(role: Role): void {
-    this.router.navigate([`user-management/roles/${role.id}`]);
+  private async editRole(role: Role): Promise<void> {
+    const confirmed = await this.handleDialog(`Editar ${role.name}`, null,  UpdateRoleDataComponent, null, 'Salvar', role, '80vw');
+    this.getAllRolesAgain(confirmed);
   }
 
-  private deleteRole(role: Role): void {
+  private async deleteRole(role: Role): Promise<void> {
 
-    this.isLoadingAction = true;
+    const confirmed = await this.handleDialog('Deletar perfil', `Tem certeza que deseja excluir o perfil ${role.name}` );
 
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '300px',
-      data: { text: `Tem certeza que deseja excluir o perfil ${role.name}`, title: 'Deletar perfil' }
-    });
+    if (confirmed) {
+      this.subscription.add(
+        this.service.deleteRole(role.id)
+          .subscribe({ next: _ => {
+            this.handleDeleteResult();
+            this.getAllRolesAgain(true);
+          }
+        })
+      );
+    }
 
-    this.subscription.add(dialogRef.afterClosed()
-      .pipe(finalize(() => this.isLoadingAction = false))
-      .subscribe({next: confirmed => {
-        if (confirmed) {
-          this.service.deleteRole(role.id)
-            .subscribe({ next: _ => {
-              this.handleDeleteResult();
-              this.getAllRoles();
-            }});
-        }
-      }}));
+    this.isLoadingAction = false;
+  }
+
+  private getAllRolesAgain(confirmed: boolean): void {
+    if (confirmed) {
+      this.getAllRoles();
+    }
   }
 
   private handleDeleteResult(): void {
     this.snackBar.open('Perfil excluido com sucesso!', null, { duration: 2000});
+  }
+
+  private handleDialog(title: string, text: string, component = null, cancelText?: string, confirmText?: string, role?: Role, width = '300px'): Promise<boolean> {
+
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width,
+      maxWidth: '780px',
+      data: { text, title, component, cancelText, confirmText, componentData: role }
+    });
+
+    this.subscription.add(
+      dialogRef.afterOpened()
+        .pipe(finalize(() => this.isLoadingAction = true))
+        .subscribe());
+
+    return new Promise<boolean>((resolve) => {
+      this.subscription.add(
+        dialogRef.afterClosed()
+          .subscribe({ next: confirmed => resolve(confirmed)}));
+    });
+
+  }
+
+  private stopLoaders(): void {
+    this.isLoadingAction = false;
+    this.isLoadingResults = false;
   }
 
 }

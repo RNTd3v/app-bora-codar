@@ -32,10 +32,11 @@ import { UserManagementComponent } from './user-management.component';
 import { UsersComponent } from './users/users.component';
 import { UserDetailComponent } from './users/user-detail/user-detail.component';
 import { RolesComponent } from './roles/roles.component';
-import { RoleEditComponent } from './roles/role-edit/role-edit.component';
 import { UpdateUserDataComponent } from './users/update-user-data/update-user-data.component';
 import { CreateUserComponent } from './users/create-user/create-user.component';
 import { UpdateUserPasswordComponent } from './users/update-user-password/update-user-password.component';
+import { CreateRoleComponent } from './roles/create-role/create-role.component';
+import { UpdateRoleDataComponent } from './roles/update-role-data/update-role-data.component';
 
 const routesChild: Routes = [
   {
@@ -54,14 +55,6 @@ const routesChild: Routes = [
       {
         path: 'roles',
         component: RolesComponent
-      },
-      {
-        path: 'roles/add',
-        component: RoleEditComponent
-      },
-      {
-        path: 'roles/:id',
-        component: RoleEditComponent
       }
     ]
   }
@@ -73,10 +66,11 @@ const routesChild: Routes = [
     UsersComponent,
     UserDetailComponent,
     RolesComponent,
-    RoleEditComponent,
     UpdateUserDataComponent,
     CreateUserComponent,
     UpdateUserPasswordComponent,
+    CreateRoleComponent,
+    UpdateRoleDataComponent,
   ],
   imports: [
     CommonModule,

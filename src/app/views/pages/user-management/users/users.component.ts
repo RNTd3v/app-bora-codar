@@ -61,10 +61,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   getAllUsers(): void {
     this.subscription.add(
       this.service.getAllUsers()
-        .pipe(finalize(() => {
-          this.isLoadingResults = false;
-          this.isLoadingAction = false;
-        }))
+        .pipe(finalize(() => this.stopLoaders()))
         .subscribe({ next: users => this.users = users })
     );
 
@@ -171,6 +168,11 @@ export class UsersComponent implements OnInit, OnDestroy {
           .subscribe({ next: confirmed => resolve(confirmed)}));
     });
 
+  }
+
+  private stopLoaders(): void {
+    this.isLoadingAction = false;
+    this.isLoadingResults = false;
   }
 
 }
