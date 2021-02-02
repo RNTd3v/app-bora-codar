@@ -122,7 +122,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   private async editUser(user: User): Promise<void> {
 
-    const confirmed = await this.handleDialog(`Editar ${user.name}`, null,  UpdateUserDataComponent, null, 'Salvar', user, '80vh');
+    const confirmed = await this.handleDialog(`Editar ${user.name}`, null,  UpdateUserDataComponent, null, 'Salvar', user, '80vw');
 
     if (confirmed) {
       this.getAllUsers();
