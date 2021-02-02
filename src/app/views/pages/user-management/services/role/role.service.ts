@@ -1,12 +1,18 @@
 import { Injectable } from '@angular/core';
-import { IApiService, OptionsApi, Role } from '@cms/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogData, IApiService, OptionsApi, Role } from '@cms/core';
+import { IDialogService } from '@cms/partials';
 import { Observable } from 'rxjs';
 import { IRoleService } from './role.service.interface';
 
 @Injectable()
 export class RoleService implements IRoleService {
 
-  constructor(private apiService: IApiService) { }
+  constructor(
+    private apiService: IApiService,
+    private dialogService: IDialogService,
+    private snackBar: MatSnackBar
+    ) { }
 
   getAllRoles(): Observable<Role[]> {
     const options = { itsAList: true } as OptionsApi;
@@ -27,5 +33,23 @@ export class RoleService implements IRoleService {
 
   deleteRole(roleID: string): Observable<Role> {
     return this.apiService.delete<Role>(`v1/roles/${roleID}`);
+  }
+
+  async handleRoleDialogs(dialogData: DialogData<any>, roleId: string = null): Promise<Role[]> {
+
+    const wasItConfirmed = await this.dialogService.openDialog(dialogData);
+
+    if (wasItConfirmed) {
+
+      if (!!roleId) {
+        await this.deleteRole(roleId).toPromise()
+          .then(_ => this.snackBar.open('Perfil excluido com sucesso!', null, { duration: 2000}));
+      }
+
+      return await this.getAllRoles().toPromise();
+    }
+
+    Promise.resolve(null);
+
   }
 }

@@ -1,9 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { Role, TableAction, Option } from '@cms/core';
-import { DialogComponent } from '@cms/partials';
+import { Role, TableAction, Option, DialogData } from '@cms/core';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { IRoleService } from '../services';
@@ -23,16 +19,17 @@ export class RolesComponent implements OnInit, OnDestroy {
     { id: 'name', name: 'Nome' }
   ] as Option[];
 
+  dialogDataDefault = {
+    confirmText: 'Salvar',
+    width: '80vw'
+  } as DialogData<any>;
+
   isLoadingResults = true;
   isLoadingAction = false;
 
   private subscription = new Subscription();
 
-  constructor(
-    public dialog: MatDialog,
-    private service: IRoleService,
-    private snackBar: MatSnackBar,
-    private router: Router) {}
+  constructor(private service: IRoleService) {}
 
   ngOnInit(): void {}
 
@@ -55,10 +52,10 @@ export class RolesComponent implements OnInit, OnDestroy {
 
     switch (type) {
       case 'edit':
-        this.editRole(data as Role);
+        this.openDialogToUpdateRole(data as Role);
         break;
       case 'delete':
-        this.deleteRole(data as Role);
+        this.openDialogToDeleteRole(data as Role);
         break;
       default:
         break;
@@ -66,62 +63,43 @@ export class RolesComponent implements OnInit, OnDestroy {
 
   }
 
-  async addRole(): Promise<void> {
-    const confirmed = await this.handleDialog(`Novo perfil`, null,  CreateRoleComponent, null, 'Salvar', null, '80vh');
-    this.getAllRolesAgain(confirmed);
+  async openDialogToCreateRole(): Promise<void> {
+
+    this.handleRoleDialogs(new DialogData<null>({
+      ...this.dialogDataDefault,
+      title: 'Novo perfil',
+      component: CreateRoleComponent
+    }))
+
   }
 
-  private async editRole(role: Role): Promise<void> {
-    const confirmed = await this.handleDialog(`Editar ${role.name}`, null,  UpdateRoleDataComponent, null, 'Salvar', role, '80vw');
-    this.getAllRolesAgain(confirmed);
+  private async openDialogToUpdateRole(role: Role): Promise<void> {
+
+    this.handleRoleDialogs(new DialogData<null>({
+      ...this.dialogDataDefault,
+      title: `Editar ${role.name}`,
+      component: UpdateRoleDataComponent,
+      componentData: role
+    }))
+
   }
 
-  private async deleteRole(role: Role): Promise<void> {
+  private async openDialogToDeleteRole(role: Role): Promise<void> {
 
-    const confirmed = await this.handleDialog('Deletar perfil', `Tem certeza que deseja excluir o perfil ${role.name}` );
+    this.handleRoleDialogs(new DialogData<null>({
+      title: 'Deletar perfil',
+      text: `Tem certeza que deseja excluir o perfil ${role.name}`
+    }), role.id);
 
-    if (confirmed) {
-      this.subscription.add(
-        this.service.deleteRole(role.id)
-          .subscribe({ next: _ => {
-            this.handleDeleteResult();
-            this.getAllRolesAgain(true);
-          }
-        })
-      );
+  }
+
+  private async handleRoleDialogs(dialogData: DialogData<any>, roleId: string = null): Promise<void> {
+
+    const roles = await this.service.handleRoleDialogs(dialogData, roleId);
+
+    if (!!roles) {
+      this.roles = roles;
     }
-
-    this.isLoadingAction = false;
-  }
-
-  private getAllRolesAgain(confirmed: boolean): void {
-    if (confirmed) {
-      this.getAllRoles();
-    }
-  }
-
-  private handleDeleteResult(): void {
-    this.snackBar.open('Perfil excluido com sucesso!', null, { duration: 2000});
-  }
-
-  private handleDialog(title: string, text: string, component = null, cancelText?: string, confirmText?: string, role?: Role, width = '300px'): Promise<boolean> {
-
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width,
-      maxWidth: '780px',
-      data: { text, title, component, cancelText, confirmText, componentData: role }
-    });
-
-    this.subscription.add(
-      dialogRef.afterOpened()
-        .pipe(finalize(() => this.isLoadingAction = true))
-        .subscribe());
-
-    return new Promise<boolean>((resolve) => {
-      this.subscription.add(
-        dialogRef.afterClosed()
-          .subscribe({ next: confirmed => resolve(confirmed)}));
-    });
 
   }
 

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { IApiService, OptionsApi, Role, StatusUser, User, UserChangePassword } from '@cms/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogData, DialogTarget, IApiService, OptionsApi, StatusUser, User, UserChangePassword, UserDialogData, UserDialogTarget } from '@cms/core';
+import { IDialogService } from '@cms/partials';
 import { Observable } from 'rxjs';
 import { IUserService } from './user.service.interface';
 
@@ -7,7 +9,9 @@ import { IUserService } from './user.service.interface';
 export class UserService implements IUserService {
 
   constructor(
-    private apiService: IApiService
+    private apiService: IApiService,
+    private dialogService: IDialogService,
+    private snackBar: MatSnackBar
     ) {}
 
     getAllUsers(): Observable<User[]> {
@@ -37,6 +41,39 @@ export class UserService implements IUserService {
 
     deleteUser(userID: string): Observable<User> {
       return this.apiService.delete<User>(`v1/users/${userID}`);
+    }
+
+    async handleUserDialogs(dialogData: DialogData<any>, dialogTarget?: DialogTarget<UserDialogData, UserDialogTarget>): Promise<User[]> {
+
+      const wasItConfirmed = await this.dialogService.openDialog(dialogData);
+
+      if (wasItConfirmed) {
+
+        if (!!dialogTarget) {
+          await this.handleDialogTarget(dialogTarget);
+        }
+
+        return await this.getAllUsers().toPromise();
+      }
+
+      Promise.resolve(null);
+
+    }
+
+    private async handleDialogTarget(dialogTarget: DialogTarget<UserDialogData, UserDialogTarget>): Promise<any> {
+
+      switch (dialogTarget.target) {
+
+        case UserDialogTarget.delete:
+          return await this.deleteUser(dialogTarget.data.id).toPromise()
+            .then(_ => this.snackBar.open('Usuário excluido com sucesso!', null, { duration: 2000}));
+
+        case UserDialogTarget.changeStatus:
+          return await this.updateStatusUser(dialogTarget.data.status, dialogTarget.data.id).toPromise();
+
+        default:
+          break;
+      }
     }
 
 

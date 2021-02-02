@@ -2,7 +2,7 @@
   <header class="top">
     <app-title pageName="Usuários" iconName="users"></app-title>
     <app-search [filters]="userOptions" (searchEvent)="getAllUsers()"></app-search>
-    <app-button buttonText="Usuário" iconLeftName="plus" buttonClasses='-add' (clickButtonEvent)="addUser()"></app-button>
+    <app-button buttonText="Usuário" iconLeftName="plus" buttonClasses='-add' (clickButtonEvent)="openDialogToCreateUser()"></app-button>
   </header>
   <main class="middle">
     <div class="wrapper">
@@ -15,7 +15,7 @@
         (loadContentEvent)="getAllUsers()"
         (actionEvent)="action($event)"
         (sortChangeEvent)="getAllUsers()"
-        (toggleChangeEvent)="changeUserStatus($event)"
+        (toggleChangeEvent)="openDialogToChangeStatusUser($event)"
       >
     </app-table>
     </div>

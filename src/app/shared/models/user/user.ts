@@ -30,4 +30,16 @@ export interface UserChangePassword {
   confirmPassword: string;
 }
 
+export interface UserDialogData {
+  id?: string;
+  status?: StatusUser;
+  password?: UserChangePassword;
+}
+
+export enum UserDialogTarget {
+  delete,
+  changeStatus,
+  changePassword
+}
+
 

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { User, Option, TableAction, TableStatus, TableMoreAction } from '@cms/core';
+import { User, Option, TableAction, TableStatus, TableMoreAction, DialogData, DialogTarget, UserDialogData, UserDialogTarget } from '@cms/core';
 import { DialogComponent } from '@cms/partials';
 import { Subscription } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
@@ -36,6 +36,11 @@ export class UsersComponent implements OnInit, OnDestroy {
     { id: 'isActive', name: 'Ativo'}
   ] as Option[];
 
+  dialogDataDefault = {
+    confirmText: 'Salvar',
+    width: '80vw'
+  } as DialogData<any>;
+
   changePassword = {
     icon: 'lock',
     text: 'Alterar a senha'
@@ -46,11 +51,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(
-    public dialog: MatDialog,
-    private service: IUserService,
-    private snackBar: MatSnackBar,
-    private router: Router) {}
+  constructor(private service: IUserService) {}
 
   ngOnInit(): void {}
 
@@ -73,13 +74,13 @@ export class UsersComponent implements OnInit, OnDestroy {
 
     switch (type) {
       case 'edit':
-        this.editUser(data as User);
+        this.openDialogToUpdateUser(data as User);
         break;
       case 'delete':
-        this.deleteUser(data as User);
+        this.openDialogToDeleteUser(data as User);
         break;
       case 'more':
-        this.changeUserPassword(data as User);
+        this.openDialogToChangePasswordUser(data as User);
         break;
       default:
         break;
@@ -87,86 +88,69 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   }
 
-  async addUser(): Promise<void> {
-    const confirmed = await this.handleDialog(`Novo usuário`, null,  CreateUserComponent, null, 'Salvar', null, '80vh');
+  openDialogToCreateUser(): void {
 
-    if (confirmed) {
-      this.getAllUsers();
-    }
+    this.handleUserDialogs(new DialogData<null>({
+      ...this.dialogDataDefault,
+      title: 'Novo usuário',
+      component: CreateUserComponent
+    }))
   }
 
-  async changeUserStatus(statusUser: TableStatus<User>): Promise<void> {
+  openDialogToChangeStatusUser(statusUser: TableStatus<User>): void {
 
     const { data, checked } = statusUser;
 
-    const confirmed = await this.handleDialog('Alterar o status do usuário', `Tem certeza que deseja alterar o status do usuário ${data.name}` );
-
-    if (confirmed) {
-      this.subscription.add(
-        this.service.updateStatusUser({ isActive: checked }, data.id)
-          .subscribe({ next: _ => this.getAllUsers() })
-      );
-    }
-
-    this.isLoadingAction = false;
-
-  }
-
-  async changeUserPassword(user: User): Promise<void> {
-    await this.handleDialog(`Alterar senha do usuário`, null,  UpdateUserPasswordComponent, null, 'Alterar', user);
-    this.isLoadingAction = false;
-  }
-
-  private async editUser(user: User): Promise<void> {
-
-    const confirmed = await this.handleDialog(`Editar ${user.name}`, null,  UpdateUserDataComponent, null, 'Salvar', user, '80vw');
-
-    if (confirmed) {
-      this.getAllUsers();
-    }
-
-  }
-
-  private async deleteUser(user: User): Promise<void> {
-
-    const confirmed = await this.handleDialog('Deletar usuário', `Tem certeza que deseja excluir o usuário ${user.name}` );
-
-    if (confirmed) {
-      this.subscription.add(
-        this.service.deleteUser(user.id)
-          .subscribe({ next: _ => {
-            this.handleDeleteResult();
-            this.getAllUsers();
-          }
-        })
-      );
-    }
-
-    this.isLoadingAction = false;
-  }
-
-  private handleDeleteResult(): void {
-    this.snackBar.open('Usuário excluido com sucesso!', null, { duration: 2000});
-  }
-
-  private handleDialog(title: string, text: string, component = null, cancelText?: string, confirmText?: string, user?: User, width = '300px'): Promise<boolean> {
-
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width,
-      maxWidth: '780px',
-      data: { text, title, component, cancelText, confirmText, componentData: user }
+    this.handleUserDialogs(new DialogData<null>({
+      title: 'Alterar o status do usuário',
+      text: `Tem certeza que deseja alterar o status do usuário ${data.name}`
+    }), {
+      data: { id: data.id, status: { isActive: checked } },
+      target: UserDialogTarget.changeStatus
     });
 
-    this.subscription.add(
-      dialogRef.afterOpened()
-        .pipe(finalize(() => this.isLoadingAction = true))
-        .subscribe());
+  }
 
-    return new Promise<boolean>((resolve) => {
-      this.subscription.add(
-        dialogRef.afterClosed()
-          .subscribe({ next: confirmed => resolve(confirmed)}));
+  private openDialogToChangePasswordUser(user: User): void {
+
+    this.handleUserDialogs(new DialogData<User>({
+      title: 'Alterar senha do usuário',
+      component: UpdateUserPasswordComponent,
+      confirmText: 'Alterar',
+      componentData: user
+    }));
+  }
+
+  private openDialogToUpdateUser(user: User): void {
+
+    this.handleUserDialogs(new DialogData<User>({
+      ...this.dialogDataDefault,
+      title: `Editar ${user.name}`,
+      component: UpdateUserDataComponent,
+      componentData: user
+    }))
+
+  }
+
+  private openDialogToDeleteUser(user: User): void {
+
+    this.handleUserDialogs(new DialogData<null>({
+      title: 'Deletar usuário',
+      text: `Tem certeza que deseja excluir o usuário ${user.name}`
+    }), {
+      data: { id: user.id },
+      target: UserDialogTarget.delete
     });
+
+  }
+
+  private async handleUserDialogs(dialogData: DialogData<any>, dialogTarget: DialogTarget<UserDialogData, UserDialogTarget> = null): Promise<void> {
+
+    const users = await this.service.handleUserDialogs(dialogData, dialogTarget);
+
+    if (!!users) {
+      this.users = users;
+    }
 
   }
 

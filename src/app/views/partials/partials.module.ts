@@ -19,6 +19,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 // Services
 import { IUploadService } from './upload/service/upload.service.interface';
 import { UploadService } from './upload/service/upload.service';
+import { IDialogService } from './dialog/service/dialog.service.interface';
+import { DialogService } from './dialog/service/dialog.service';
 
 // Components
 import { ButtonComponent } from './button/button.component';
@@ -71,6 +73,7 @@ import { UploadComponent } from './upload/upload.component';
     MatTooltipModule
   ],
   providers: [
+    { provide: IDialogService, useClass: DialogService },
     { provide: IUploadService, useClass: UploadService }
   ],
 })

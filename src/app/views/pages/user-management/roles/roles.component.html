@@ -2,7 +2,7 @@
   <header class="top">
     <app-title pageName="Perfis" iconName="user-shield"></app-title>
     <app-search [filters]="roleOptions" (searchEvent)="getAllRoles()"></app-search>
-    <app-button buttonText="Perfil" iconLeftName="plus" buttonClasses='-add' (clickButtonEvent)="addRole()" matTooltip="Adicionar perfil"></app-button>
+    <app-button buttonText="Perfil" iconLeftName="plus" buttonClasses='-add' (clickButtonEvent)="openDialogToCreateRole()" matTooltip="Adicionar perfil"></app-button>
   </header>
   <main class="middle">
     <div class="wrapper">

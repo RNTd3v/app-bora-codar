@@ -1,4 +1,4 @@
-import { Role } from '@cms/core';
+import { DialogData, Role } from '@cms/core';
 import { Observable } from 'rxjs';
 
 export abstract class IRoleService {
@@ -12,5 +12,7 @@ export abstract class IRoleService {
   abstract updateRole(role: Role, roleID: string): Observable<Role>;
 
   abstract deleteRole(roleID: string): Observable<Role>;
+
+  abstract handleRoleDialogs(dialogData: DialogData<any>, roleId?: string): Promise<Role[]>;
 
 }
