@@ -32,12 +32,12 @@ import { TitleComponent } from './title/title.component';
 import { AutoCompleteChipsComponent } from './form/auto-complete-chips/auto-complete-chips.component';
 import { ConfirmPasswordComponent } from './form/confirm-password/confirm-password.component';
 import { UploadComponent } from './upload/upload.component';
+import { ButtonModule } from './button/button.module';
 
 
 @NgModule({
   declarations: [
     AutoCompleteChipsComponent,
-    ButtonComponent,
     ConfirmPasswordComponent,
     DialogComponent,
     PaginationComponent,
@@ -58,6 +58,7 @@ import { UploadComponent } from './upload/upload.component';
     UploadComponent
   ],
   imports: [
+    ButtonModule,
     CommonModule,
     IconModule,
     FormsModule,

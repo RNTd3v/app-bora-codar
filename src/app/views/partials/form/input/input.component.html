@@ -1,0 +1,18 @@
+<div class="c-field -input" [formGroup]="group" [ngSwitch]="field.name">
+
+  <label class="label">{{field.label}}</label>
+
+    <!-- Input Password -->
+    <input [type]="hidePassword ? 'password' : 'text'" [formControlName]="field.name" *ngSwitchCase="'password'" class="field" />
+    <button type="button" (click)="hidePassword = !hidePassword" class="button-eye" *ngSwitchCase="'password'">
+      <app-icon [name]="hidePassword ? 'eye-slash' : 'eye'" class="o-icon-eye"></app-icon>
+    </button>
+    <!-- fim: Input Password -->
+
+    <input [type]="field.inputType" [formControlName]="field.name" class="field" *ngSwitchDefault />
+
+  <ng-container *ngFor="let validation of field.validations" ngProjectAs="field-error">
+    <span class="message" *ngIf="showMessageError(field.name, validation.name)">{{validation.message}}</span>
+  </ng-container>
+
+</div>

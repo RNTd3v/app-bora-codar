@@ -1,15 +1,15 @@
-<button class="o-button" [ngClass]="buttonClasses" [disabled]="disabledButton" [type]="type" (click)="handleClick()" [matTooltip]="matTooltip">
+<button class="o-button" [ngClass]="button?.classes" [disabled]="button?.disabled" [type]="button?.type" (click)="handleClick()" [matTooltip]="button?.matTooltip">
   <div class="icon -left" *ngIf="showLeftIcon">
     <mat-spinner *ngIf="isLoadingAction; else iconLeft"></mat-spinner>
     <ng-template #iconLeft>
-      <app-icon [name]="iconLeftName"></app-icon>
+      <app-icon [name]="button?.iconLeftName"></app-icon>
     </ng-template>
   </div>
-  {{buttonText}}
+  {{button?.text}}
   <div class="icon -right" *ngIf="showRightIcon">
     <mat-spinner *ngIf="isLoadingAction; else iconRight"></mat-spinner>
-    <ng-template #iconRight>iconRigh
-      <app-icon [name]="iconRightName"></app-icon>
+    <ng-template #iconRight>
+      <app-icon [name]="button?.iconRightName"></app-icon>
     </ng-template>
   </div>
 </button>

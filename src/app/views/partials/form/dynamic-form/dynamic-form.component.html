@@ -1,0 +1,10 @@
+<form class="c-dynamic-form" [formGroup]="form" (submit)="onSubmit($event)">
+  <div class="fields">
+    <ng-container *ngFor="let field of formConfig.fields" dynamicField [field]="field" [group]="form">
+    </ng-container>
+  </div>
+  <div class="buttons">
+    <ng-container *ngFor="let button of formConfig.buttons" dynamicButton [button]="button" (clickButtonEvent)="onClick($event)">
+    </ng-container>
+  </div>
+</form>

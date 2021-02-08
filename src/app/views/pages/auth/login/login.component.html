@@ -1,32 +1,7 @@
 <div class="ui-page-auth-content">
-  <header class="top">
-    <h2 class="o-title">
-      Faça login para acessar o CMS
-    </h2>
-  </header>
   <main class="middle">
     <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
-    <form class="c-form" [formGroup]="formLogin" (submit)="login()">
-      <mat-form-field appearance="fill">
-        <mat-label>E-mail</mat-label>
-        <input matInput formControlName="email" required>
-        <mat-error *ngIf="showMessageError('email')">{{getErrorMessage('email')}}</mat-error>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Senha</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" required>
-        <button type="button" matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" class="button-eye">
-          <app-icon [name]="hide ? 'eye-slash' : 'eye'" class="o-icon-eye"></app-icon>
-        </button>
-      </mat-form-field>
-      <a href="javascript:;" routerLink="/auth/forgot-password">Esqueci a senha</a>.
-      <button type="submit" class="o-button" [disabled]="formInvalid || isLoading">
-        Entrar
-      </button>
-    </form>
+    <cms-dynamic-form [formConfig]="formConfig" (submit)="login($event)" (clickButton)="onClick($event)"></cms-dynamic-form>
   </main>
-</div>
-<div class="link-register">
-  Não tem cadastro, <a href="javascript:;" routerLink="/auth/register">clique aqui</a>.
 </div>
 

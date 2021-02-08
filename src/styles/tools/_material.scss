@@ -40,3 +40,14 @@ $cms-theme: mat-light-theme((
 .mat-chip app-icon {
   margin-right: -1rem !important;
 }
+
+.c-form .mat-form-field-appearance-outline .mat-form-field-outline-gap,
+.c-form .mat-form-field-appearance-outline .mat-form-field-outline-start,
+.c-form .mat-form-field-appearance-outline .mat-form-field-outline-end,
+.c-form .mat-input-element {
+  border-color: var(--border-color-field);
+}
+
+.c-form .mat-form-field-label {
+  color: var(--border-color-field);
+}

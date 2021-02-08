@@ -29,6 +29,8 @@ $colorSuccess: #0fab65;
   // color buttons
   --color-button-default-hover: var(--second-color);
   --color-button-default-disabled: rgba(var(--fifth-color-rgb), .5);
+  --color-button-error: var(--second-secondary-color);
+  --color-button-error-disabled: rgba(var(--second-secondary-color), .5);
 
   // navigation colors
   --bg-item-active: var(--bg-page-color);
@@ -37,6 +39,17 @@ $colorSuccess: #0fab65;
   // search colors
   --bg-filter: var(--fourth-color);
   --color-filter: var(--first-color);
+
+  // form colors
+  --color-field: white;
+  --color-label-field: var(--fifth-color);
+  --color-message-field: var(--second-secondary-color);
+  --color-eye-button: var(--fifth-color);
+  --border-color-field: var(--fifth-color);
+  --border-color-field-error: var(--second-secondary-color);
+  --bg-field: rgba(var(--fifth-color-rgb), .2);
+  --bg-field-error: rgba(var(--second-secondary-color-rgb), .2);
+  --font-field: 'Ubuntu', sans-serif;
 
   --font-brand: 'Ubuntu Mono', monospace;
   --font-title: 'Ubuntu Mono', monospace;

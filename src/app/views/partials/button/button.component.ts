@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ButtonConfig } from '@cms/core';
 
 @Component({
   selector: 'app-button',
@@ -8,7 +9,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class ButtonComponent implements OnInit {
 
   @Input()
-  buttonText: string = null;
+  button: ButtonConfig = null;
 
   @Input()
   iconLeftName: string = null;
@@ -34,20 +35,21 @@ export class ButtonComponent implements OnInit {
   @Output()
   clickButtonEvent = new EventEmitter();
 
+
   constructor() { }
 
   ngOnInit(): void {}
 
   handleClick(): void {
-    this.clickButtonEvent.emit();
+    this.clickButtonEvent.emit(this.button);
   }
 
   get showLeftIcon(): boolean {
-    return !!this.iconLeftName;
+    return !!this.button.iconLeftName;
   }
 
   get showRightIcon(): boolean {
-    return !!this.iconRightName;
+    return !!this.button.iconRightName;
   }
 
   get disabledButton(): boolean {

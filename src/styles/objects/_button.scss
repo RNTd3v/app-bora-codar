@@ -18,6 +18,10 @@
     color: var(--color-button-default-disabled);
     opacity: .5;
     cursor: default;
+    &:hover {
+      background-color: var(--bg-button-default-disabled);
+      color: var(--color-button-default-disabled);
+    }
   }
   &:hover {
     background-color: lighten($colorDefault, 20%);
@@ -35,6 +39,9 @@
     }
     &.-left {
       margin-right: 1rem;
+    }
+    &.-right {
+      margin-left: 1rem;
     }
   }
   &.-icon {
@@ -77,10 +84,13 @@
     border: none;
     color: var(--font-color-dark);
     font-weight: 300;
+    font-size: 1.2rem;
+    padding: 0;
     &:hover {
       color: var(--first-secondary-color);
     }
     &.-alert {
+      color: var(--color-button-error);
       &:hover {
         color: darken($colorError, 20%);
       }
