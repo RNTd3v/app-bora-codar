@@ -56,9 +56,5 @@ export class ButtonComponent implements OnInit {
     return !!this.button.iconRightName;
   }
 
-  get disabledButton(): Observable<boolean> {
-    return !!this.button && this.button.disabled !== null ? of(this.button.disabled) : this.uiStateService.isLoadingAction$;
-  }
-
 
 }

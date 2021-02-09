@@ -1,5 +1,6 @@
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AccessToken, Auth, IApiService, IAuthService } from '@cms/core';
 import { Observable, Subject } from 'rxjs';
@@ -21,6 +22,7 @@ export class AuthService implements IAuthService {
   constructor(
     private api: IApiService,
     private router: Router,
+    private snackBar: MatSnackBar,
     private storage: IStorageService
     ) { }
 
@@ -100,7 +102,11 @@ export class AuthService implements IAuthService {
     this.tokenInValidation = true;
 
     const tokenResponse: AuthResponse = await this.api.post<TokenResponse>('v1/auth', body, options)
-      .toPromise().catch(() => null);
+      .toPromise().catch((error) => {
+        const message = !!error.error.message ? error.error.message : 'Houve um erro!';
+        this.snackBar.open(message, null, { duration: 2000});
+        return null
+      });
 
     return this.createAccessToken(tokenResponse);
 

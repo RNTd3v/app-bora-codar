@@ -36,6 +36,7 @@ export class DynamicFormComponent implements OnInit {
 
     if (this.form.valid) {
       this.submit.emit(this.form.value);
+      this.disableButton(true);
       return;
     }
 

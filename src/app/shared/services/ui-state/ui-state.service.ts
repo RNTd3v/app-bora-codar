@@ -21,7 +21,7 @@ export class UiStateService implements IUIStateService {
   }
 
   get isLoadingAction$(): Observable<boolean> {
-    return this.UIState$.pipe(map(uiState => uiState === UIState.loadingAction))
+    return this.UIState$.pipe(map(uiState => uiState == UIState.loadingAction))
   }
 
   get isLoadingPage$(): Observable<boolean> {

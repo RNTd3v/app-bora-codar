@@ -1,4 +1,4 @@
-<button class="o-button" [ngClass]="button?.classes" [disabled]="disabledButton | async" [type]="button?.type" (click)="handleClick()" [matTooltip]="button?.matTooltip">
+<button class="o-button" [ngClass]="button?.classes" [disabled]="button?.disabled" [type]="button?.type" (click)="handleClick()" [matTooltip]="button?.matTooltip">
   <div class="icon -left" *ngIf="showLeftIcon">
     <mat-spinner *ngIf="showSpinner | async; else iconLeft"></mat-spinner>
     <ng-template #iconLeft>
