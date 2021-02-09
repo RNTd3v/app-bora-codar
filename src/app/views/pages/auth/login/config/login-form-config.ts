@@ -52,7 +52,8 @@ const loginButtons: ButtonConfig[] = [
     id: ButtonId.forgotPassword,
     type: 'button',
     text: "Esqueci a senha",
-    classes: '-link -alert'
+    classes: '-link -alert',
+    disabled: false
   }
 ] as ButtonConfig[];
 

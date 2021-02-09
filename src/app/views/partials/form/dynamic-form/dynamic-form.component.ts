@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ButtonConfig, FieldConfig, FormConfig } from '@cms/core';
+import { ButtonConfig, FieldConfig, FormConfig, IUIStateService, UIState } from '@cms/core';
 
 @Component({
   selector: 'cms-dynamic-form',
@@ -17,7 +17,10 @@ export class DynamicFormComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private uiStateService: IUIStateService
+    ) { }
 
   ngOnInit(): void {
     this.form = this.createControl();
@@ -28,6 +31,8 @@ export class DynamicFormComponent implements OnInit {
 
     event.preventDefault();
     event.stopPropagation();
+
+    this.uiStateService.setUIState(UIState.loadingAction);
 
     if (this.form.valid) {
       this.submit.emit(this.form.value);

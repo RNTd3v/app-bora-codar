@@ -30,18 +30,18 @@
   > .icon {
     display: block;
     mat-spinner, mat-spinner svg {
-      width: 20px !important;
-      height: 20px !important;
+      width: 1rem !important;
+      height: 1rem !important;
     }
     .mat-progress-spinner circle, .mat-spinner circle {
-      stroke: white;
+      stroke: var(--color-spinner-button);
       stroke-width: 15% !important;
     }
     &.-left {
-      margin-right: 1rem;
+      margin-right: 1.6rem;
     }
     &.-right {
-      margin-left: 1rem;
+      margin-left: 1.6rem;
     }
   }
   &.-icon {

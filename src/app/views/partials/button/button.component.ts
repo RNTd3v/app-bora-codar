@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ButtonConfig } from '@cms/core';
+import { ButtonConfig, IUIStateService, UIState } from '@cms/core';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-button',
@@ -21,7 +22,7 @@ export class ButtonComponent implements OnInit {
   isLoadingAction = false;
 
   @Input()
-  disableButton = false;
+  disableButton = null;
 
   @Input()
   buttonClasses = '';
@@ -35,13 +36,16 @@ export class ButtonComponent implements OnInit {
   @Output()
   clickButtonEvent = new EventEmitter();
 
-
-  constructor() { }
+  constructor(private uiStateService: IUIStateService) { }
 
   ngOnInit(): void {}
 
   handleClick(): void {
     this.clickButtonEvent.emit(this.button);
+  }
+
+  get showSpinner(): Observable<boolean> {
+    return this.uiStateService.isLoadingAction$ || of(this.isLoadingAction);
   }
 
   get showLeftIcon(): boolean {
@@ -52,8 +56,8 @@ export class ButtonComponent implements OnInit {
     return !!this.button.iconRightName;
   }
 
-  get disabledButton(): boolean {
-    return this.isLoadingAction || this.disableButton;
+  get disabledButton(): Observable<boolean> {
+    return !!this.button && this.button.disabled !== null ? of(this.button.disabled) : this.uiStateService.isLoadingAction$;
   }
 
 

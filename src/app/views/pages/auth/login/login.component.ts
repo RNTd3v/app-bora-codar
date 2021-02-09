@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Auth, ButtonConfig, ButtonId, FormConfig, IAuthService } from '@cms/core';
+import { Auth, ButtonConfig, ButtonId, FormConfig, IAuthService, IUIStateService, UIState } from '@cms/core';
 import { loginFormConfig } from './config/login-form-config';
 @Component({
   selector: 'app-login',
@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private uiStateService: IUIStateService,
     private service: IAuthService
     ) { }
 
@@ -22,17 +23,15 @@ export class LoginComponent implements OnInit {
 
     const { email, password }  = auth;
 
-    this.isLoading = true;
-
     const userIsLogged = await this.service.login(email, password);
 
     if (userIsLogged) {
       this.handleResult();
-      this.isLoading = false;
+      this.uiStateService.setUIState(UIState.loaded);
       return;
     }
 
-    this.isLoading = false;
+    this.uiStateService.setUIState(UIState.error);
 
   }
 

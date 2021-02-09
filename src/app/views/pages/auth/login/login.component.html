@@ -1,6 +1,5 @@
 <div class="ui-page-auth-content">
   <main class="middle">
-    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
     <cms-dynamic-form [formConfig]="formConfig" (submit)="login($event)" (clickButton)="onClick($event)"></cms-dynamic-form>
   </main>
 </div>
