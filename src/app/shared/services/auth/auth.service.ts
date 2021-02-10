@@ -2,9 +2,8 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { AccessToken, Auth, IApiService, IAuthService } from '@cms/core';
+import { AccessToken, Auth, AuthResponse, IApiService, IAuthService, Menu, TokenResponse, User } from '@cms/core';
 import { Observable, Subject } from 'rxjs';
-import { AuthResponse, TokenResponse, User } from '../../models';
 import { IStorageService } from '../storage/storage.service.interface';
 
 @Injectable({
@@ -16,6 +15,8 @@ export class AuthService implements IAuthService {
   private readonly keyRefreshToken = 'refreshToken';
   private readonly keyCompanyId = 'companyId';
   private readonly keyUserId = 'userId';
+  private readonly keyUserData = 'userData';
+  private readonly keyUserMenu = 'userMenu';
 
   private tokenInValidation = false;
   private tokenSubject: Subject<boolean>;
@@ -31,7 +32,15 @@ export class AuthService implements IAuthService {
 
     const body = { email, password } as Auth;
 
-    return await this.requestAccessToken(body);
+    let loginStatus = false;
+
+    loginStatus = await this.requestAccessToken(body);
+
+    if (loginStatus) {
+      loginStatus = await this.saveAuthenticatedUserData();
+    }
+
+    return loginStatus;
 
   }
 
@@ -56,6 +65,36 @@ export class AuthService implements IAuthService {
     }*/
     const token = this.storage.get(this.keyAccessToken);
     return Promise.resolve(this.tokenIsValid(token));
+  }
+
+  private async saveAuthenticatedUserData(): Promise<boolean> {
+
+    let userDataStatus = false;
+
+    const userData = await this.api.get<User>(`v1/users/${this.userID}`).toPromise();
+
+    if (!!userData) {
+      this.storeUserData(userData);
+      userDataStatus = await this.saveAuthenticatedUserMenu();
+    }
+
+    return userDataStatus;
+
+  }
+
+  private async saveAuthenticatedUserMenu(): Promise<boolean> {
+
+    let userMenuStatus = false;
+
+    const userMenu = await this.api.get<Menu>(`v1/menus/showUserMenu`).toPromise();
+
+    if (!!userMenu) {
+      userMenuStatus = true;
+      this.storeUserMenu(userMenu);
+    }
+
+    return userMenuStatus;
+
   }
 
   private invalidateSection(): void {
@@ -173,6 +212,14 @@ export class AuthService implements IAuthService {
     this.storage.set(key, id);
   }
 
+  private storeUserData(userData: User): void {
+    this.storage.set(this.keyUserData, userData);
+  }
+
+  private storeUserMenu(userMenu: Menu): void {
+    this.storage.set(this.keyUserMenu, userMenu);
+  }
+
   get token(): string {
     return this.storage.get(this.keyAccessToken).token;
   }
@@ -183,6 +230,14 @@ export class AuthService implements IAuthService {
 
   get userID(): string {
     return this.storage.get(this.keyUserId);
+  }
+
+  get userData(): string {
+    return this.storage.get(this.keyUserData);
+  }
+
+  get userMenu(): string {
+    return this.storage.get(this.keyUserMenu);
   }
 
   private get refreshToken(): AccessToken {
