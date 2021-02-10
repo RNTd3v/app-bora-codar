@@ -33,6 +33,7 @@ import { AutoCompleteChipsComponent } from './form/auto-complete-chips/auto-comp
 import { ConfirmPasswordComponent } from './form/confirm-password/confirm-password.component';
 import { UploadComponent } from './upload/upload.component';
 import { ButtonModule } from './button/button.module';
+import { UserComponent } from './user/user.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { ButtonModule } from './button/button.module';
     SearchComponent,
     TableComponent,
     TitleComponent,
-    UploadComponent
+    UploadComponent,
+    UserComponent
   ],
   exports: [
     AutoCompleteChipsComponent,
@@ -55,7 +57,8 @@ import { ButtonModule } from './button/button.module';
     SearchComponent,
     TableComponent,
     TitleComponent,
-    UploadComponent
+    UploadComponent,
+    UserComponent
   ],
   imports: [
     ButtonModule,

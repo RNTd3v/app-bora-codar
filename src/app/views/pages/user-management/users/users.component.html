@@ -2,7 +2,7 @@
   <header class="top">
     <app-title pageName="Usuários" iconName="users"></app-title>
     <app-search [filters]="userOptions" (searchEvent)="getAllUsers()"></app-search>
-    <app-button buttonText="Usuário" iconLeftName="plus" buttonClasses='-add' (clickButtonEvent)="openDialogToCreateUser()"></app-button>
+    <cms-button buttonText="Usuário" iconLeftName="plus" buttonClasses='-add' (clickButtonEvent)="openDialogToCreateUser()"></cms-button>
   </header>
   <main class="middle">
     <div class="wrapper">

@@ -26,6 +26,12 @@ $colorSuccess: #0fab65;
   --bg-button-pagination-current-page: var(--first-secondary-color);
   --bg-button-pagination-arrow: var(--fifth-color);
 
+  // border color buttons
+  --border-color-button: var(--fourth-color);
+
+  // text color buttons
+  --text-color-button: var(--fourth-color);
+
   // color buttons
   --color-button-default-hover: var(--second-color);
   --color-button-default-disabled: rgba(var(--fifth-color-rgb), .5);

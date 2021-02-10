@@ -21,4 +21,8 @@ export abstract class IAuthService {
 
   abstract get userID(): string;
 
+  abstract get userData(): User;
+
+  abstract get userMenu(): Menu;
+
 }

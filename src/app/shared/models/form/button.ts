@@ -1,6 +1,6 @@
 export interface ButtonConfig {
   id?: ButtonId;
-  text: string;
+  text?: string;
   iconLeftName?: string;
   iconRightName?: string;
   disabled?: boolean;

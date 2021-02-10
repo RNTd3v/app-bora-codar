@@ -4,6 +4,7 @@ export class User {
   id?: string;
   name: string;
   email: string;
+  avatar?: string;
   isActive?: boolean;
   roles?: Role[];
   password?: string;
@@ -14,6 +15,7 @@ export class User {
     this.id = user.id,
     this.name = user.name,
     this.email = user.email,
+    this.avatar = user.avatar,
     this.password = user.password,
     this.roleIds = user.roleIds,
     this.isActive = user.isActive;

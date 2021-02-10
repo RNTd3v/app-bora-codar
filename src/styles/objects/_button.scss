@@ -79,6 +79,16 @@
       color: darken($colorError, 20%);
     }
   }
+  &.-border {
+    background: none;
+    border: thin solid var(--border-color-button);
+    color: var(--text-color-button);
+    &:hover {
+      background: $colorDefault;
+      border: none;
+      color: white;
+    }
+  }
   &.-link {
     background: none;
     border: none;

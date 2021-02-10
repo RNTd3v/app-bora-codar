@@ -232,11 +232,11 @@ export class AuthService implements IAuthService {
     return this.storage.get(this.keyUserId);
   }
 
-  get userData(): string {
+  get userData(): User {
     return this.storage.get(this.keyUserData);
   }
 
-  get userMenu(): string {
+  get userMenu(): Menu {
     return this.storage.get(this.keyUserMenu);
   }
 

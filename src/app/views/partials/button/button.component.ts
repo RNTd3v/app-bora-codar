@@ -3,7 +3,7 @@ import { ButtonConfig, IUIStateService, UIState } from '@cms/core';
 import { Observable, of } from 'rxjs';
 
 @Component({
-  selector: 'app-button',
+  selector: 'cms-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss']
 })

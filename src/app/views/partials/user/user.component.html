@@ -1,0 +1,25 @@
+<div class="c-user">
+  <div class="avatar">
+    <img [src]="pathAvatar" alt="Image" class="o-image -thumbnail -round" />
+  </div>
+  <h2 class="name">{{ user?.name }}</h2>
+  <small class="office">{{ user?.email }}</small>
+  <div class="actions">
+    <cms-button
+      [button]="buttonConfig"
+      (clickButtonEvent)="goToSettings()"
+    ></cms-button>
+    <cms-button
+      [button]="buttonContact"
+      (clickButtonEvent)="goToContact()"
+    ></cms-button>
+    <cms-button
+      [button]="buttonUsers"
+      (clickButtonEvent)="goToUsers()"
+    ></cms-button>
+    <cms-button
+      [button]="buttonLogout"
+      (clickButtonEvent)="logout()"
+    ></cms-button>
+  </div>
+</div>

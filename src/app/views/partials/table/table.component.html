@@ -42,30 +42,30 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let data; let i = index">
           <div class="c-buttons -end">
-            <app-button
+            <cms-button
               iconLeftName="pen"
               buttonClasses='-icon -edit'
               (clickButtonEvent)="action(data, 'edit')"
               matTooltip="Editar"
               >
-            </app-button>
-            <app-button
+            </cms-button>
+            <cms-button
               iconLeftName="trash"
               buttonClasses='-icon -delete'
               [isLoadingAction]="isLoadingDeleteAction(i)"
               (clickButtonEvent)="action(data, 'delete', i)"
               matTooltip="Deletar"
               >
-            </app-button>
+            </cms-button>
 
-            <app-button
+            <cms-button
               *ngIf="moreAction"
               buttonClasses='-icon'
               [isLoadingAction]="isLoadingMoreAction(i)"
               [iconLeftName]="moreAction.icon"
               [matTooltip]="moreAction.text"
               (clickButtonEvent)="action(data, 'more', i)">
-            </app-button>
+            </cms-button>
 
           </div>
         </td>
