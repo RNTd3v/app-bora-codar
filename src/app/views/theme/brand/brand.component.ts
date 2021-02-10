@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,13 +8,18 @@ import { Router } from '@angular/router';
 })
 export class BrandComponent implements OnInit {
 
+  @Input() asideIsClosed = false;
+
   constructor(private router: Router) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   goToHome(): void {
     this.router.navigate(['/']);
+  }
+
+  get textLogo(): string {
+    return this.asideIsClosed ? '/b' : '/bora.codar';
   }
 
 }

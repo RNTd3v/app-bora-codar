@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IAsideService } from '@cms/core';
 
 @Component({
   selector: 'app-aside',
@@ -7,8 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AsideComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service: IAsideService) { }
 
   ngOnInit(): void {}
+
+  toggleAside(): void {
+
+  }
+
+  get asideIsClosed(): boolean {
+    return this.service.asideIsClosed;
+  }
 
 }

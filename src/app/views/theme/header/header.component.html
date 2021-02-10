@@ -1,9 +1,23 @@
 <header class="header">
-  <!-- <cms-button
-    iconLeftName="sign-out-alt"
-    buttonClasses='-icon -delete'
-    (clickButtonEvent)="logout()"
-    matTooltip="Sair"
-    >
-  </cms-button> -->
+  <button class="bt-toggle-aside" (click)="toggleAside()">
+    <app-icon [name]="toggleIconName" size="2rem"></app-icon>
+  </button>
+  <div class="c-buttons">
+    <cms-button
+      [button]="buttonTheme"
+      (clickButtonEvent)="changeTheme()"
+    ></cms-button>
+    <cms-button
+      [button]="buttonVisitPage"
+      (clickButtonEvent)="visitPage()"
+    ></cms-button>
+    <cms-button
+      [button]="buttonReportBug"
+      (clickButtonEvent)="reportBug()"
+    ></cms-button>
+    <cms-button
+      [button]="buttonShowNotifications"
+      (clickButtonEvent)="showNotifications()"
+    ></cms-button>
+  </div>
 </header>

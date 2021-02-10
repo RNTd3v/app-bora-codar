@@ -6,10 +6,12 @@ $colorSuccess: #0fab65;
 
 :root {
 
+  --width-aside: 30rem;
+
   --brand-color: var(--sixth-color);
 
   --bg-header-color: var(--second-color);
-  --bg-page-color: rgba(var(--fourth-color-rgb), 0.4);
+  --bg-page-color: white;
   --bg-page-color-dark: var(--first-color);
   --bg-aside-color: var(--second-color);
   --bg-card-color: white;
@@ -37,6 +39,7 @@ $colorSuccess: #0fab65;
   --color-button-default-disabled: rgba(var(--fifth-color-rgb), .5);
   --color-button-error: var(--second-secondary-color);
   --color-button-error-disabled: rgba(var(--second-secondary-color), .5);
+  --color-button-toggle-aside: var(--fifth-color);
 
   // navigation colors
   --bg-item-active: var(--sixth-color);

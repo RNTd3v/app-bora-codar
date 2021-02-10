@@ -9,5 +9,6 @@ export class IconComponent {
 
   @Input() prefix = 'fas';
   @Input() name: string;
+  @Input() size = '1.2rem';
 
 }
