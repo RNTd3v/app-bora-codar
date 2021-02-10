@@ -33,6 +33,9 @@ export class ButtonComponent implements OnInit {
   @Input()
   type = 'button';
 
+  @Input()
+  size = '1.5rem'
+
   @Output()
   clickButtonEvent = new EventEmitter();
 

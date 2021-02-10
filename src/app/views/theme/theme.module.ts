@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { ButtonModule, IconModule } from '@cms/partials';
 import { PartialsModule } from '../partials/partials.module';
 import { NavComponent } from './nav/nav.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { NavComponent } from './nav/nav.component';
     CommonModule,
     IconModule,
     PartialsModule,
-    RouterModule
+    RouterModule,
+    MatTooltipModule
   ]
 })
 export class ThemeModule { }

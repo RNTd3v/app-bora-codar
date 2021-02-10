@@ -2,7 +2,7 @@
   <ul class="list">
     <li class="item">
       <a routerLink="/dashboard" routerLinkActive="active" class="link">
-        <app-icon [name]="'th-large'" [size]="iconSize"  class="icon"></app-icon>
+        <app-icon [name]="'th-large'" [size]="iconSize"  class="icon" [matTooltip]="asideIsClosed ? 'Dashboard' : ''"></app-icon>
         <span *ngIf="!asideIsClosed">Dashboard</span>
       </a>
     </li>
@@ -10,13 +10,13 @@
   <ul class="list">
     <li class="item">
       <a routerLink="/user-management/roles" routerLinkActive="active" class="link">
-        <app-icon [name]="'user-shield'" [size]="iconSize" class="icon"></app-icon>
+        <app-icon [name]="'user-shield'" [size]="iconSize" class="icon" [matTooltip]="asideIsClosed ? 'Perfis' : ''"></app-icon>
         <span *ngIf="!asideIsClosed">Perfis</span>
       </a>
     </li>
     <li class="item">
       <a routerLink="/user-management/users" routerLinkActive="active" class="link">
-        <app-icon [name]="'users'" [size]="iconSize" class="icon"></app-icon>
+        <app-icon [name]="'users'" [size]="iconSize" class="icon" [matTooltip]="asideIsClosed ? 'Usuários' : ''"></app-icon>
         <span *ngIf="!asideIsClosed">Usuários</span>
       </a>
     </li>

@@ -2,14 +2,14 @@
   <div class="icon -left" *ngIf="showLeftIcon">
     <mat-spinner *ngIf="showSpinner | async; else iconLeft"></mat-spinner>
     <ng-template #iconLeft>
-      <app-icon [name]="button?.iconLeftName"></app-icon>
+      <app-icon [name]="button?.iconLeftName" [size]="size"></app-icon>
     </ng-template>
   </div>
   {{button?.text}}
   <div class="icon -right" *ngIf="showRightIcon">
     <mat-spinner *ngIf="showSpinner | async; else iconRight"></mat-spinner>
     <ng-template #iconRight>
-      <app-icon [name]="button?.iconRightName"></app-icon>
+      <app-icon [name]="button?.iconRightName" [size]="size"></app-icon>
     </ng-template>
   </div>
 </button>
