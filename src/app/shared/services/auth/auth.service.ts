@@ -15,6 +15,7 @@ export class AuthService implements IAuthService {
   private readonly keyAccessToken = 'token';
   private readonly keyRefreshToken = 'refreshToken';
   private readonly keyCompanyId = 'companyId';
+  private readonly keyUserId = 'userId';
 
   private tokenInValidation = false;
   private tokenSubject: Subject<boolean>;
@@ -147,7 +148,8 @@ export class AuthService implements IAuthService {
       timestampExp: tokenExpirationDate.getTime()
     } as AccessToken);
 
-    this.storeCompanyId(this.keyCompanyId, tokenResponse.companyId);
+    this.storeId(this.keyCompanyId, tokenResponse.companyId);
+    this.storeId(this.keyUserId, tokenResponse.userId);
 
     authResult = true;
     this.notifyAuthResult(authResult);
@@ -167,8 +169,8 @@ export class AuthService implements IAuthService {
     this.storage.set(key, token);
   }
 
-  private storeCompanyId(key: string, companyId: string): void {
-    this.storage.set(key, companyId);
+  private storeId(key: string, id: string): void {
+    this.storage.set(key, id);
   }
 
   get token(): string {
@@ -177,6 +179,10 @@ export class AuthService implements IAuthService {
 
   get companyID(): string {
     return this.storage.get(this.keyCompanyId);
+  }
+
+  get userID(): string {
+    return this.storage.get(this.keyUserId);
   }
 
   private get refreshToken(): AccessToken {

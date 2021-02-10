@@ -19,4 +19,6 @@ export abstract class IAuthService {
 
   abstract get companyID(): string;
 
+  abstract get userID(): string;
+
 }

@@ -11,7 +11,7 @@ $colorSuccess: #0fab65;
   --bg-header-color: var(--second-color);
   --bg-page-color: rgba(var(--fourth-color-rgb), 0.4);
   --bg-page-color-dark: var(--first-color);
-  --bg-aside-color: white;
+  --bg-aside-color: var(--second-color);
   --bg-card-color: white;
 
   // background buttons
@@ -33,8 +33,10 @@ $colorSuccess: #0fab65;
   --color-button-error-disabled: rgba(var(--second-secondary-color), .5);
 
   // navigation colors
-  --bg-item-active: var(--bg-page-color);
-  --color-item-active: var(--fifth-color);
+  --bg-item-active: var(--sixth-color);
+  --color-item-active: var(--second-color);
+  --color-item: white;
+  --color-section: white;
 
   // search colors
   --bg-filter: var(--fourth-color);

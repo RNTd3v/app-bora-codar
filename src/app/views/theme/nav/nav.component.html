@@ -1,0 +1,24 @@
+<nav class="c-navigation">
+  <ul class="list">
+    <li class="item">
+      <a routerLink="/dashboard" routerLinkActive="active" class="link">
+        <app-icon [name]="'chart-pie'" class="icon"></app-icon>
+        Dashboard
+      </a>
+    </li>
+  </ul>
+  <ul class="list">
+    <li class="item">
+      <a routerLink="/user-management/roles" routerLinkActive="active" class="link">
+        <app-icon [name]="'user-shield'" class="icon"></app-icon>
+        Perfis
+      </a>
+    </li>
+    <li class="item">
+      <a routerLink="/user-management/users" routerLinkActive="active" class="link">
+        <app-icon [name]="'users'" class="icon"></app-icon>
+        Usuários
+      </a>
+    </li>
+  </ul>
+</nav>

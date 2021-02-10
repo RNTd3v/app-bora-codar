@@ -9,6 +9,7 @@ import { ContentComponent } from './content/content.component';
 import { RouterModule } from '@angular/router';
 import { ButtonModule, IconModule } from '@cms/partials';
 import { PartialsModule } from '../partials/partials.module';
+import { NavComponent } from './nav/nav.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { PartialsModule } from '../partials/partials.module';
     FooterComponent,
     AsideComponent,
     BrandComponent,
-    ContentComponent
+    ContentComponent,
+    NavComponent
   ],
   imports: [
     ButtonModule,

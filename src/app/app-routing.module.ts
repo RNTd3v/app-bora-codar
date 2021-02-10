@@ -15,6 +15,13 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
+        path: 'dashboard',
+        loadChildren: () =>
+          import('./views/pages/dashboard/dashboard.module').then(
+            (m) => m.DashboardModule
+          ),
+      },
+      {
         path: 'user-management',
         loadChildren: () =>
           import('./views/pages/user-management/user-management.module').then(
@@ -23,12 +30,12 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'user-management', // TODO: Trocar para Dashboard
+        redirectTo: 'dashboard',
         pathMatch: 'full',
       },
       {
         path: '**',
-        redirectTo: 'user-management', // TODO: Trocar para Dashboard
+        redirectTo: 'dashboard',
         pathMatch: 'full',
       },
     ],

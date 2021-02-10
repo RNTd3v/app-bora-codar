@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
   }
 
   private handleResult(): void {
-    this.router.navigate(['user-management']);
+    this.router.navigate(['dashboard']);
   }
 
 
