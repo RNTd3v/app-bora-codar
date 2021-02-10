@@ -1,10 +1,10 @@
-<div class="c-user">
+<div class="c-user" [class.-is-closed]="asideIsClosed">
   <div class="avatar">
     <img [src]="pathAvatar" alt="Image" class="o-image -thumbnail -round" />
   </div>
-  <h2 class="name">{{ user?.name }}</h2>
-  <small class="office">{{ user?.email }}</small>
-  <div class="actions">
+  <h2 class="name" *ngIf="!asideIsClosed">{{ user?.name }}</h2>
+  <small class="office" *ngIf="!asideIsClosed">{{ user?.email }}</small>
+  <div class="actions" *ngIf="!asideIsClosed">
     <cms-button
       [button]="buttonConfig"
       (clickButtonEvent)="goToSettings()"

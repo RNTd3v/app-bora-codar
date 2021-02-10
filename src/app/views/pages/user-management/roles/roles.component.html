@@ -1,6 +1,6 @@
 <div class="ui-page-content">
   <header class="top">
-    <app-title pageName="Perfis" iconName="user-shield"></app-title>
+    <cms-title pageName="Perfis" iconName="user-shield"></cms-title>
     <app-search [filters]="roleOptions" (searchEvent)="getAllRoles()"></app-search>
     <cms-button buttonText="Perfil" iconLeftName="plus" buttonClasses='-add' (clickButtonEvent)="openDialogToCreateRole()" matTooltip="Adicionar perfil"></cms-button>
   </header>

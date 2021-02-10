@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonConfig, IAuthService, User } from '@cms/core';
 import { environment } from '@cms/environment';
@@ -14,6 +14,8 @@ export class UserComponent implements OnInit {
     classes: '-icon -border',
     type: 'button'
   } as ButtonConfig;
+
+  @Input() asideIsClosed = false;
 
   constructor(
     private authService: IAuthService,

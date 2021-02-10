@@ -6,7 +6,6 @@
 
   app-header {
     grid-area: header;
-    padding: 1rem 2rem;
     overflow: overlay;
     position: fixed;
     left: var(--width-aside, 20rem);
@@ -19,6 +18,7 @@
       font-size: 2rem;
       font-weight: bold;
       color: white;
+      padding: 1.6rem 2.4rem 3rem;
     }
   }
 

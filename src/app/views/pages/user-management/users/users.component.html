@@ -1,6 +1,6 @@
 <div class="ui-page-content">
   <header class="top">
-    <app-title pageName="Usuários" iconName="users"></app-title>
+    <cms-title pageName="Usuários" iconName="users"></cms-title>
     <app-search [filters]="userOptions" (searchEvent)="getAllUsers()"></app-search>
     <cms-button buttonText="Usuário" iconLeftName="plus" buttonClasses='-add' (clickButtonEvent)="openDialogToCreateUser()"></cms-button>
   </header>

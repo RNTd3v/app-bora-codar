@@ -4,6 +4,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  &.-is-closed {
+    margin: 2rem 0;
+    .avatar {
+      margin: 0;
+      .o-image {
+        width: 4.5rem;
+        height: 4.5rem;
+      }
+    }
+  }
   .avatar {
     margin-bottom: .8rem;
     .o-image {
