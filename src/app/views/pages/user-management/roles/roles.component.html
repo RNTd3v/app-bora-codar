@@ -1,11 +1,11 @@
 <div class="ui-page-content">
   <header class="top">
     <cms-title pageName="Perfis" iconName="user-shield"></cms-title>
-    <app-search [filters]="roleOptions" (searchEvent)="getAllRoles()"></app-search>
-    <cms-button buttonText="Perfil" iconLeftName="plus" buttonClasses='-add' (clickButtonEvent)="openDialogToCreateRole()" matTooltip="Adicionar perfil"></cms-button>
+    <!-- <app-search [filters]="roleOptions" (searchEvent)="getAllRoles()"></app-search>
+    <cms-button buttonText="Perfil" iconLeftName="plus" buttonClasses='-add' (clickButtonEvent)="openDialogToCreateRole()" matTooltip="Adicionar perfil"></cms-button> -->
   </header>
   <main class="middle">
-    <div class="wrapper">
+    <!-- <div class="wrapper">
       <app-table
         [isLoadingResults]="isLoadingResults"
         [isLoadingAction]="isLoadingAction"
@@ -16,6 +16,6 @@
         (sortChangeEvent)="getAllRoles()"
       ></app-table>
     </div>
-    <app-pagination (changePage)="getAllRoles()"></app-pagination>
+    <app-pagination (changePage)="getAllRoles()"></app-pagination> -->
   </main>
 </div>

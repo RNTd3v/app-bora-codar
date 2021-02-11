@@ -7,7 +7,26 @@
       </a>
     </li>
   </ul>
-  <ul class="list">
+  <ul class="list" *ngFor="let menu of menuItens; let i = index">
+    <li class="item" [class.-is-open]="menu.closeTab">
+      <a [routerLink]="menu.path" routerLinkActive="active" class="link">
+        <app-icon [name]="'th-large'" [size]="iconSize"  class="icon" [matTooltip]="asideIsClosed ? menu.name : ''"></app-icon>
+        <span *ngIf="!asideIsClosed">{{menu.name}}</span>
+        <app-icon [name]="getIconArrow(menu.closeTab)" class="icon-arrow" *ngIf="menu.childrens.length > 0" (click)="toggleSubMenu(i)"></app-icon>
+      </a>
+      <ng-container *ngIf="!menu.closeTab">
+        <ul class="list -sublist">
+          <li class="item" *ngFor="let submenu of menu.childrens">
+            <a [routerLink]="submenu.path" routerLinkActive="active" class="link">
+              <app-icon [name]="'angle-double-right'" [size]="iconSize"  class="icon" [matTooltip]="asideIsClosed ? submenu.name : ''"></app-icon>
+              <span *ngIf="!asideIsClosed">{{submenu.name}}</span>
+            </a>
+          </li>
+        </ul>
+      </ng-container>
+    </li>
+  </ul>
+  <!-- <ul class="list">
     <li class="item">
       <a routerLink="/user-management/roles" routerLinkActive="active" class="link">
         <app-icon [name]="'user-shield'" [size]="iconSize" class="icon" [matTooltip]="asideIsClosed ? 'Perfis' : ''"></app-icon>
@@ -20,5 +39,5 @@
         <span *ngIf="!asideIsClosed">Usuários</span>
       </a>
     </li>
-  </ul>
+  </ul> -->
 </nav>

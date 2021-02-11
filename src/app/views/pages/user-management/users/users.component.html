@@ -1,12 +1,12 @@
 <div class="ui-page-content">
   <header class="top">
     <cms-title pageName="Usuários" iconName="users"></cms-title>
-    <app-search [filters]="userOptions" (searchEvent)="getAllUsers()"></app-search>
-    <cms-button buttonText="Usuário" iconLeftName="plus" buttonClasses='-add' (clickButtonEvent)="openDialogToCreateUser()"></cms-button>
+    <!-- <app-search [filters]="userOptions" (searchEvent)="getAllUsers()"></app-search>
+    <cms-button buttonText="Usuário" iconLeftName="plus" buttonClasses='-add' (clickButtonEvent)="openDialogToCreateUser()"></cms-button> -->
   </header>
   <main class="middle">
     <div class="wrapper">
-      <app-table
+      <!-- <app-table
         [isLoadingResults]="isLoadingResults"
         [isLoadingAction]="isLoadingAction"
         [dataSource]="users"
@@ -17,8 +17,8 @@
         (sortChangeEvent)="getAllUsers()"
         (toggleChangeEvent)="openDialogToChangeStatusUser($event)"
       >
-    </app-table>
+    </app-table> -->
     </div>
-    <app-pagination (changePage)="getAllUsers()"></app-pagination>
+    <!-- <app-pagination (changePage)="getAllUsers()"></app-pagination> -->
   </main>
 </div>

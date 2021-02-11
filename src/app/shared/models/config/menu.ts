@@ -12,5 +12,6 @@ export interface Menu {
   path: string;
   uri: string;
   action: string;
+  closeTab: boolean;
   childrens: Menu[]
 }

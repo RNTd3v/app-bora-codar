@@ -67,6 +67,10 @@ export class AuthService implements IAuthService {
     return Promise.resolve(this.tokenIsValid(token));
   }
 
+  getUserMenu(): Menu[] {
+    return this.storage.get(this.keyUserMenu);
+  }
+
   private async saveAuthenticatedUserData(): Promise<boolean> {
 
     let userDataStatus = false;
@@ -234,10 +238,6 @@ export class AuthService implements IAuthService {
 
   get userData(): User {
     return this.storage.get(this.keyUserData);
-  }
-
-  get userMenu(): Menu {
-    return this.storage.get(this.keyUserMenu);
   }
 
   private get refreshToken(): AccessToken {

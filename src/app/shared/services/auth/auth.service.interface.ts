@@ -15,6 +15,8 @@ export abstract class IAuthService {
 
   // abstract requestPassword(email: string): Observable<any>;
 
+  abstract getUserMenu(): Menu[];
+
   abstract get token(): string;
 
   abstract get companyID(): string;
@@ -23,6 +25,5 @@ export abstract class IAuthService {
 
   abstract get userData(): User;
 
-  abstract get userMenu(): Menu;
 
 }

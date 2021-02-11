@@ -1,5 +1,4 @@
 .c-navigation {
-
   .section {
     font-weight: bold;
     text-transform: uppercase;
@@ -30,15 +29,22 @@
       .link {
         color: var(--color-item);
         text-decoration: none;
-        font-size: 1.5rem;
-        padding: 1rem;
+        font-size: 1.8rem;
+        font-weight: 400;
+        padding: 1.6rem;
         padding-left: 2rem;
         width: 100%;
         display: block;
+        position: relative;
         @include transition;
         .icon {
-          margin-right: 1rem;
+          margin-right: 1.6rem;
           color: var(--grey);
+        }
+        .icon-arrow {
+          position: absolute;
+          right: 2rem;
+          color: var(--bg-item-active);
         }
         &.active {
           color: var(--color-item-active);
@@ -50,9 +56,30 @@
           .icon {
             color: var(--color-item-active);
           }
+          .icon-arrow {
+            color: var(--color-item-active);
+          }
         }
         &:hover {
           color: darken($colorDefault, 10%);
+        }
+      }
+    }
+    &.-sublist {
+      .item {
+        border-bottom: thin solid var(--color-border-sub-item);
+        margin-left: 5rem;
+        &:last-child {
+          border: none;
+        }
+        .link {
+          &.active {
+            background: none;
+            color: darken($colorDefault, 10%);
+            .icon {
+              color: darken($colorDefault, 10%);
+            }
+          }
         }
       }
     }
