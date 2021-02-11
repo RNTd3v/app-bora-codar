@@ -15,7 +15,8 @@ $colorSuccess: #0fab65;
   --bg-page-color-dark: var(--first-color);
   --bg-page-highlighted-color: rgba(var(--fourth-color-rgb), .3);
   --bg-aside-color: var(--second-color);
-  --bg-card-color: white;
+  --bg-card-color: rgba(var(--fourth-color-rgb), .3);
+  --bg-card-color-highlighted: white;
 
   // background buttons
   --bg-button-default: var(--fifth-color);

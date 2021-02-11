@@ -18,15 +18,12 @@
   .middle {
     flex: 1;
     background: white;
-    margin: 2rem;
-    margin-top: 1rem;
-    overflow: hidden;
     border-radius: .5rem;
-    padding: 2rem;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
+    margin-top: 3.2rem;
     &.-isLoading {
       justify-content: center;
     }
