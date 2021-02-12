@@ -22,10 +22,10 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'user-management',
+        path: 'admin',
         loadChildren: () =>
-          import('./views/pages/user-management/user-management.module').then(
-            (m) => m.UserManagementModule,
+          import('./views/pages/admin/admin.module').then(
+            (m) => m.AdminModule,
           ),
       },
       {

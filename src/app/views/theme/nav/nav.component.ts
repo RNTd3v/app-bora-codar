@@ -19,7 +19,7 @@ export class NavComponent implements OnInit {
 
   ngOnInit(): void {
     this.menuItens = this.authService.getUserMenu();
-    this.menuItens[0].path = '/user-management';
+    // this.menuItens[0].path = '/user-management';
   }
 
   toggleSubMenu(index: number): void {
@@ -43,6 +43,10 @@ export class NavComponent implements OnInit {
       return;
     }
     this.router.navigate([path]);
+  }
+
+  getPath(mainPath: string, childrenPath: string = null): string {
+    return childrenPath ? mainPath + childrenPath : mainPath;
   }
 
   get iconSize(): string {
