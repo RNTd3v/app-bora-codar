@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { User, Option, TableAction, TableStatus, TableMoreAction, DialogData, DialogTarget, UserDialogData, UserDialogTarget } from '@cms/core';
+import { User, Option, TableAction, TableStatus, TableMoreAction, DialogData, DialogTarget, UserDialogData, UserDialogTarget, ButtonConfig } from '@cms/core';
+import { environment } from '@cms/environment';
 import { DialogComponent } from '@cms/partials';
 import { Subscription } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
@@ -46,6 +47,34 @@ export class UsersComponent implements OnInit, OnDestroy {
     text: 'Alterar a senha'
   } as TableMoreAction;
 
+  buttonAddConfig = {
+    type: 'button',
+    text: 'Novo usuário',
+    iconLeftName: 'user-plus',
+    classes: '-add'
+  } as ButtonConfig;
+
+  buttonEditConfig = {
+    type: 'button',
+    iconLeftName: 'pen',
+    classes: '-icon -edit',
+    matTooltip: 'Editar'
+  } as ButtonConfig;
+
+  buttonDeleteConfig = {
+    type: 'button',
+    iconLeftName: 'trash',
+    classes: '-icon -delete',
+    matTooltip: 'Deletar'
+  } as ButtonConfig;
+
+  buttonForgotPassConfig = {
+    type: 'button',
+    iconLeftName: 'lock',
+    classes: '-icon',
+    matTooltip: 'Alterar Senha'
+  } as ButtonConfig;
+
   isLoadingResults = true;
   isLoadingAction = false;
 
@@ -53,7 +82,9 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   constructor(private service: IUserService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getAllUsers();
+  }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -66,6 +97,10 @@ export class UsersComponent implements OnInit, OnDestroy {
         .subscribe({ next: users => this.users = users })
     );
 
+  }
+
+  getPathImage(image: string): string {
+    return !!image ? `${environment.IMAGE_URL}${image}` : '/assets/icons/user.svg';
   }
 
   action(tableAction: TableAction): void {

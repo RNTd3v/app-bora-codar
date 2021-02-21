@@ -1,0 +1,40 @@
+.c-cards {
+  display: grid;
+  gap: 3.2rem;
+  margin: 0;
+  padding: 0;
+  .card {
+    width: 100%;
+    padding: 2rem;
+    border-radius: 1rem;
+    &.-blue {
+      background: var(--first-secondary-color);
+    }
+    &.-red {
+      background: var(--second-secondary-color);
+    }
+    &.-orange {
+      background: var(--third-secondary-color);
+    }
+    .title {
+      color: white;
+      font-size: 1.6rem;
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      .icon {
+        width: 3.5rem;
+        height: 3.5rem;
+        background: rgba(255,255,255,.1);
+        border-radius: 5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1.6rem;
+      }
+    }
+  }
+  &.-col-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

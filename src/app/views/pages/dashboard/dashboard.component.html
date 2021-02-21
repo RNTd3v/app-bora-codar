@@ -3,7 +3,7 @@
     <cms-title pageName="Dashboard"></cms-title>
   </header>
   <main class="middle">
-    <section class="welcome">
+    <section class="section -welcome">
       <h3 class="title">
         Olá, bem-vindo {{user.name}}!
       </h3>
@@ -12,21 +12,32 @@
       </p>
       <img src="/assets/illustrations/graph-man.svg" alt="Welcome" class="illustration" />
     </section>
-    <section class="common">
+    <section class="section">
       <h2 class="title">
         Em destaque
       </h2>
-      <ul class="cards">
+      <ul class="c-cards -col-3">
         <li class="card -blue">
-
+          <div class="title">
+            <app-icon class="icon" name="users" size="1.4rem"></app-icon> Novos clientes
+          </div>
         </li>
         <li class="card -red">
-
+          <div class="title">
+            <app-icon class="icon" name="box" size="1.4rem"></app-icon> Produtos vendidos
+          </div>
         </li>
         <li class="card -orange">
-
+          <div class="title">
+            <app-icon class="icon" name="dollar-sign" size="1.4rem"></app-icon> Lucro no período
+          </div>
         </li>
       </ul>
+    </section>
+    <section class="section">
+      <h2 class="title">
+        Últimos usuários
+      </h2>
     </section>
   </main>
 </div>

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import { PartialsModule } from '@cms/partials';
+import { IconModule, PartialsModule } from '@cms/partials';
 
 
 @NgModule({
@@ -11,6 +11,7 @@ import { PartialsModule } from '@cms/partials';
   imports: [
     CommonModule,
     DashboardRoutingModule,
+    IconModule,
     PartialsModule
   ]
 })
