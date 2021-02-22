@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
 
 // Material Modules
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -75,6 +76,7 @@ const routesChild: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routesChild),
+    StoreModule.forFeature('users', {}),
     FormsModule,
     ReactiveFormsModule,
     IconModule,

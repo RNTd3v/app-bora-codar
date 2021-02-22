@@ -1,25 +1,27 @@
-<div class="c-user" [class.-is-closed]="asideIsClosed">
+<div class="c-user" [class.-is-closed]="!(openMenu | async)">
   <div class="avatar">
     <img [src]="pathAvatar" alt="Image" class="o-image -thumbnail -round" />
   </div>
-  <h2 class="name" *ngIf="!asideIsClosed">{{ user?.name }}</h2>
-  <small class="office" *ngIf="!asideIsClosed">{{ user?.email }}</small>
-  <div class="actions" *ngIf="!asideIsClosed">
-    <cms-button
-      [button]="buttonConfig"
-      (clickButtonEvent)="goToSettings()"
-    ></cms-button>
-    <cms-button
-      [button]="buttonContact"
-      (clickButtonEvent)="goToContact()"
-    ></cms-button>
-    <cms-button
-      [button]="buttonUsers"
-      (clickButtonEvent)="goToUsers()"
-    ></cms-button>
-    <cms-button
-      [button]="buttonLogout"
-      (clickButtonEvent)="logout()"
-    ></cms-button>
-  </div>
+  <ng-container *ngIf="openMenu | async">
+    <h2 class="name">{{ user?.name }}</h2>
+    <small class="office">{{ user?.email }}</small>
+    <div class="actions">
+      <cms-button
+        [button]="buttonConfig"
+        (clickButtonEvent)="goToSettings()"
+      ></cms-button>
+      <cms-button
+        [button]="buttonContact"
+        (clickButtonEvent)="goToContact()"
+      ></cms-button>
+      <cms-button
+        [button]="buttonUsers"
+        (clickButtonEvent)="goToUsers()"
+      ></cms-button>
+      <cms-button
+        [button]="buttonLogout"
+        (clickButtonEvent)="logout()"
+      ></cms-button>
+    </div>
+  </ng-container>
 </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ButtonConfig, IAsideService, IAuthService } from '@cms/core';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-header',
@@ -15,7 +16,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private authService: IAuthService,
-    private asideService: IAsideService) { }
+    private asideService: IAsideService,
+    private store: Store<any>) { }
 
   ngOnInit(): void {}
 
@@ -25,6 +27,9 @@ export class HeaderComponent implements OnInit {
 
   toggleAside(): void {
     this.asideService.toggleAside();
+    this.store.dispatch({
+      type: '[Aside] Toggle Open Menu'
+    })
   }
 
   changeTheme(): void {}

@@ -1,6 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'cms-brand',
   templateUrl: './brand.component.html',
@@ -8,18 +10,17 @@ import { Router } from '@angular/router';
 })
 export class BrandComponent implements OnInit {
 
-  @Input() asideIsClosed = false;
+  openMenu: Observable<boolean>;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private store: Store<any>) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.openMenu = this.store.select('theme')
+      .pipe(map(item => item.openMenu));
+  }
 
   goToHome(): void {
     this.router.navigate(['/']);
-  }
-
-  get textLogo(): string {
-    return this.asideIsClosed ? '/b' : '/bora.codar';
   }
 
 }

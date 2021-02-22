@@ -8,7 +8,9 @@ import { IAsideService } from '@cms/core';
 })
 export class AsideComponent implements OnInit {
 
-  constructor(private service: IAsideService) { }
+  constructor(
+    private service: IAsideService
+  ) { }
 
   ngOnInit(): void {}
 

@@ -1,6 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IAuthService, Menu } from '@cms/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cms-nav',
@@ -9,17 +12,18 @@ import { IAuthService, Menu } from '@cms/core';
 })
 export class NavComponent implements OnInit {
 
-  @Input() asideIsClosed = false;
-
   menuItens = [] as Menu[];
+  openMenu: Observable<boolean>;
 
   constructor(
     private authService: IAuthService,
+    private store: Store<any>,
     private router: Router) { }
 
   ngOnInit(): void {
     this.menuItens = this.authService.getUserMenu();
-    // this.menuItens[0].path = '/user-management';
+    this.openMenu = this.store.select('theme')
+      .pipe(map(item => item.openMenu));
   }
 
   toggleSubMenu(index: number): void {
@@ -49,8 +53,12 @@ export class NavComponent implements OnInit {
     return childrenPath ? mainPath + childrenPath : mainPath;
   }
 
-  get iconSize(): string {
-    return this.asideIsClosed ? '2rem' : '1.6rem';
+  iconSize(openMenu: boolean): string {
+    return openMenu ? '1.6rem' : '2rem';
+  }
+
+  getToolTip(openMenu: boolean, text: string): string | null {
+    return openMenu ? null : text;
   }
 
 }

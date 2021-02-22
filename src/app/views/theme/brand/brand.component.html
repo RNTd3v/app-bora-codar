@@ -1,3 +1,8 @@
 <a href="javascript:;" (click)="goToHome()" class="o-brand-logo">
-  {{textLogo}}
+  <span *ngIf="openMenu | async; else showInitials">
+    /bora.codar
+  </span>
+  <ng-template #showInitials>
+    /b
+  </ng-template>
 </a>

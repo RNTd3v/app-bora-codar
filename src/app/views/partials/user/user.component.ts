@@ -2,6 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonConfig, IAuthService, User } from '@cms/core';
 import { environment } from '@cms/environment';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cms-user',
@@ -16,13 +19,18 @@ export class UserComponent implements OnInit {
   } as ButtonConfig;
 
   @Input() asideIsClosed = false;
+  openMenu: Observable<boolean>;
 
   constructor(
     private authService: IAuthService,
-    private router: Router
+    private router: Router,
+    private store: Store<any>
     ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.openMenu = this.store.select('theme')
+      .pipe(map(item => item.openMenu));
+  }
 
   goToSettings(): void {
     this.router.navigate(['settings']);
