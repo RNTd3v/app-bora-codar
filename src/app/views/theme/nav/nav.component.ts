@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { IAuthService, Menu } from '@cms/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { getOpenMenuState, State } from '../state/app.reducer';
 
 @Component({
   selector: 'cms-nav',
@@ -13,17 +13,16 @@ import { map } from 'rxjs/operators';
 export class NavComponent implements OnInit {
 
   menuItens = [] as Menu[];
-  openMenu: Observable<boolean>;
+  openMenu$: Observable<boolean>;
 
   constructor(
     private authService: IAuthService,
-    private store: Store<any>,
-    private router: Router) { }
+    private store: Store<State>,
+    private router: Router) {}
 
   ngOnInit(): void {
     this.menuItens = this.authService.getUserMenu();
-    this.openMenu = this.store.select('theme')
-      .pipe(map(item => item.openMenu));
+    this.openMenu$ = this.store.select(getOpenMenuState);
   }
 
   toggleSubMenu(index: number): void {

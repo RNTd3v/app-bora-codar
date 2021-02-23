@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ButtonConfig, IAsideService, IAuthService } from '@cms/core';
 import { Store } from '@ngrx/store';
+import * as AppActions from '../state/app.actions';
 
 @Component({
   selector: 'app-header',
@@ -27,9 +28,7 @@ export class HeaderComponent implements OnInit {
 
   toggleAside(): void {
     this.asideService.toggleAside();
-    this.store.dispatch({
-      type: '[Aside] Toggle Open Menu'
-    })
+    this.store.dispatch(AppActions.toggleOpenMenu());
   }
 
   changeTheme(): void {}

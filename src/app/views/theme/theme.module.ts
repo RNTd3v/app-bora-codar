@@ -12,7 +12,7 @@ import { ButtonModule, IconModule } from '@cms/partials';
 import { PartialsModule } from '../partials/partials.module';
 import { NavComponent } from './nav/nav.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { themeReducer } from './state/theme.reducer';
+import { appReducer } from './state/app.reducer';
 
 @NgModule({
   declarations: [
@@ -31,7 +31,7 @@ import { themeReducer } from './state/theme.reducer';
     PartialsModule,
     RouterModule,
     MatTooltipModule,
-    StoreModule.forFeature('theme', themeReducer)
+    StoreModule.forFeature('app', appReducer)
   ]
 })
 export class ThemeModule { }

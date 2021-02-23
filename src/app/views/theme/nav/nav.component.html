@@ -1,25 +1,25 @@
-<nav class="c-navigation" [class.-is-closed]="!(openMenu | async)">
+<nav class="c-navigation" [class.-is-closed]="!(openMenu$ | async)">
   <ul class="list">
     <li class="item">
       <a routerLink="/dashboard" routerLinkActive="active" class="link">
-        <app-icon [name]="'th-large'" [size]="iconSize(openMenu | async)"  class="icon" [matTooltip]="getToolTip((openMenu | async), 'Dashboard')"></app-icon>
-        <span *ngIf="openMenu | async">Dashboard</span>
+        <app-icon [name]="'th-large'" [size]="iconSize(openMenu$ | async)"  class="icon" [matTooltip]="getToolTip((openMenu$ | async), 'Dashboard')"></app-icon>
+        <span *ngIf="openMenu$ | async">Dashboard</span>
       </a>
     </li>
   </ul>
   <ul class="list" *ngFor="let menu of menuItens; let i = index">
     <li class="item" [class.-is-open]="menu.closeTab">
       <a [routerLink]="getPath(menu.path)" routerLinkActive="active" class="link">
-        <app-icon [name]="'th-large'" [size]="iconSize(openMenu | async)"  class="icon" [matTooltip]="getToolTip((openMenu | async), menu.name)"></app-icon>
-        <span *ngIf="openMenu | async">{{menu.name}}</span>
+        <app-icon [name]="'th-large'" [size]="iconSize(openMenu$ | async)"  class="icon" [matTooltip]="getToolTip((openMenu$ | async), menu.name)"></app-icon>
+        <span *ngIf="openMenu$ | async">{{menu.name}}</span>
         <app-icon [name]="getIconArrow(menu.closeTab)" class="icon-arrow" *ngIf="menu.childrens.length > 0" (click)="toggleSubMenu(i)"></app-icon>
       </a>
       <ng-container *ngIf="!menu.closeTab">
         <ul class="list -sublist">
           <li class="item" *ngFor="let submenu of menu.childrens">
             <a [routerLink]="getPath(menu.path, submenu.path)" routerLinkActive="active" class="link">
-              <app-icon [name]="'angle-double-right'" [size]="iconSize(openMenu | async)"  class="icon" [matTooltip]="getToolTip((openMenu | async), submenu.name)"></app-icon>
-              <span *ngIf="openMenu | async">{{submenu.name}}</span>
+              <app-icon [name]="'angle-double-right'" [size]="iconSize(openMenu$ | async)"  class="icon" [matTooltip]="getToolTip((openMenu$ | async), submenu.name)"></app-icon>
+              <span *ngIf="openMenu$ | async">{{submenu.name}}</span>
             </a>
           </li>
         </ul>

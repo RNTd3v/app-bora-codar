@@ -1,8 +1,8 @@
-<div class="c-user" [class.-is-closed]="!(openMenu | async)">
+<div class="c-user" [class.-is-closed]="!(openMenu$ | async)">
   <div class="avatar">
     <img [src]="pathAvatar" alt="Image" class="o-image -thumbnail -round" />
   </div>
-  <ng-container *ngIf="openMenu | async">
+  <ng-container *ngIf="openMenu$ | async">
     <h2 class="name">{{ user?.name }}</h2>
     <small class="office">{{ user?.email }}</small>
     <div class="actions">

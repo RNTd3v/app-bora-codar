@@ -39,6 +39,8 @@ import { UpdateUserPasswordComponent } from './users/update-user-password/update
 import { CreateRoleComponent } from './roles/create-role/create-role.component';
 import { UpdateRoleDataComponent } from './roles/update-role-data/update-role-data.component';
 
+import { userReducer } from './state/users.reducer';
+
 const routesChild: Routes = [
   {
     path: '',
@@ -76,7 +78,7 @@ const routesChild: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routesChild),
-    StoreModule.forFeature('users', {}),
+    StoreModule.forFeature('users', userReducer),
     FormsModule,
     ReactiveFormsModule,
     IconModule,

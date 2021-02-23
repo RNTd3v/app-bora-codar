@@ -5,12 +5,16 @@ import { Router } from '@angular/router';
 import { User, Option, TableAction, TableStatus, TableMoreAction, DialogData, DialogTarget, UserDialogData, UserDialogTarget, ButtonConfig } from '@cms/core';
 import { environment } from '@cms/environment';
 import { DialogComponent } from '@cms/partials';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 import { IUserService } from '../services';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { UpdateUserDataComponent } from './update-user-data/update-user-data.component';
 import { UpdateUserPasswordComponent } from './update-user-password/update-user-password.component';
+
+import { UserState } from '../state/users.reducer';
+import * as UserActions from '../state/users.actions';
 
 enum DialogType {
   DELETE = 'DELETE',
@@ -54,6 +58,12 @@ export class UsersComponent implements OnInit, OnDestroy {
     classes: '-add'
   } as ButtonConfig;
 
+  buttonViewConfig = {
+    type: 'button',
+    iconLeftName: 'eye',
+    classes: '-add'
+  } as ButtonConfig;
+
   buttonEditConfig = {
     type: 'button',
     iconLeftName: 'pen',
@@ -80,7 +90,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private service: IUserService) {}
+  constructor(private service: IUserService, private store: Store<UserState>) {}
 
   ngOnInit(): void {
     this.getAllUsers();
@@ -103,19 +113,18 @@ export class UsersComponent implements OnInit, OnDestroy {
     return !!image ? `${environment.IMAGE_URL}${image}` : '/assets/icons/user.svg';
   }
 
-  action(tableAction: TableAction): void {
-
-    const { data, type } = tableAction;
+  action(user: User, type: string): void {
 
     switch (type) {
       case 'edit':
-        this.openDialogToUpdateUser(data as User);
+        this.store.dispatch(UserActions.setCurrentUser({ user }))
+        this.openDialogToUpdateUser(user);
         break;
       case 'delete':
-        this.openDialogToDeleteUser(data as User);
+        this.openDialogToDeleteUser(user);
         break;
       case 'more':
-        this.openDialogToChangePasswordUser(data as User);
+        this.openDialogToChangePasswordUser(user);
         break;
       default:
         break;

@@ -24,9 +24,10 @@
             <div class="chip" *ngFor="let role of user.roles">{{role.name}}</div>
           </div>
           <div class="actions">
-            <cms-button [button]="buttonEditConfig" (clickButtonEvent)="action(data, 'edit')"></cms-button>
-            <cms-button [button]="buttonDeleteConfig" (clickButtonEvent)="action(data, 'delete')"></cms-button>
-            <cms-button [button]="buttonForgotPassConfig" (clickButtonEvent)="action(data, 'forgot')"></cms-button>
+            <cms-button [button]="buttonViewConfig" (clickButtonEvent)="action(user, 'view')"></cms-button>
+            <cms-button [button]="buttonEditConfig" (clickButtonEvent)="action(user, 'edit')"></cms-button>
+            <cms-button [button]="buttonDeleteConfig" (clickButtonEvent)="action(user, 'delete')"></cms-button>
+            <cms-button [button]="buttonForgotPassConfig" (clickButtonEvent)="action(user, 'forgot')"></cms-button>
           </div>
         </li>
       </ul>

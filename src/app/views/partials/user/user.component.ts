@@ -1,10 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonConfig, IAuthService, User } from '@cms/core';
 import { environment } from '@cms/environment';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { getOpenMenuState, State } from '../../theme/state/app.reducer';
 
 @Component({
   selector: 'cms-user',
@@ -18,18 +18,16 @@ export class UserComponent implements OnInit {
     type: 'button'
   } as ButtonConfig;
 
-  @Input() asideIsClosed = false;
-  openMenu: Observable<boolean>;
+  openMenu$: Observable<boolean>;
 
   constructor(
     private authService: IAuthService,
     private router: Router,
-    private store: Store<any>
+    private store: Store<State>
     ) { }
 
   ngOnInit(): void {
-    this.openMenu = this.store.select('theme')
-      .pipe(map(item => item.openMenu));
+    this.openMenu$ = this.store.select(getOpenMenuState);
   }
 
   goToSettings(): void {

@@ -17,6 +17,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 @NgModule({
   declarations: [
     AppComponent
@@ -32,7 +34,12 @@ import { StoreModule } from '@ngrx/store';
     ThemeModule,
     MatSnackBarModule,
     FontAwesomeModule,
-    StoreModule.forRoot({}, {})
+    StoreModule.forRoot({}),
+    StoreDevtoolsModule.instrument({
+      name: 'Boracodar App DevTools',
+      maxAge: 25,
+      logOnly: environment.production
+    })
   ],
   providers: [...servicesProviders, ...interceptorProvider],
   bootstrap: [AppComponent]
