@@ -28,7 +28,7 @@ export class CompanyIDInterceptor implements HttpInterceptor {
   private generateRequestWithCompanyID(request: HttpRequest<any>): HttpRequest<any> {
     return request.clone({
       headers: request.headers
-        .set('x_company_id', this.authService.companyID)
+        .set('x-company-id', this.authService.companyID)
     });
   }
 

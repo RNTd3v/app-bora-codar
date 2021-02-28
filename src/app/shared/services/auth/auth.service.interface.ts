@@ -11,6 +11,10 @@ export abstract class IAuthService {
 
   abstract sessionIsValid(): Promise<boolean>;
 
+  abstract requestNewToken(): Observable<{ token: string }>;
+
+  abstract updateToken(token: string): Promise<boolean>;
+
   // abstract register(user: User): Observable<User>;
 
   // abstract requestPassword(email: string): Observable<any>;

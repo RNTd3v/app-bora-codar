@@ -8,7 +8,7 @@ import {
 } from '@angular/common/http';
 import { from, Observable, throwError } from 'rxjs';
 import { IAuthService } from '../services';
-import { catchError, mergeMap } from 'rxjs/operators';
+import { catchError, flatMap, mergeMap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
@@ -34,7 +34,7 @@ export class TokenInterceptor implements HttpInterceptor {
   private generateRequestWithToken(token: string, request: HttpRequest<any>): HttpRequest<any> {
     return request.clone({
       headers: request.headers
-        .set('x_access_token', token)
+        .set('x-access-token', token)
     });
   }
 
@@ -53,7 +53,18 @@ export class TokenInterceptor implements HttpInterceptor {
         .pipe(
             catchError((error: HttpErrorResponse) => {
                 if (error.status === 401) {
-                    this.authService.logout();
+                  return this.authService.requestNewToken().pipe(
+                    flatMap(({ token }) => {
+                      if (!!token) {
+                        this.authService.updateToken(token)
+                        req = req.clone({
+                          headers: req.headers.set('x-access-token', token)
+                        })
+                        return next.handle(req);
+                      }
+                      this.authService.logout();
+                    })
+                  )
                 }
                 const message = !!error.error.message ? error.error.message : 'Houve um erro!';
                 this.snackBar.open(message, null, { duration: 2000});
@@ -61,4 +72,6 @@ export class TokenInterceptor implements HttpInterceptor {
             })
         );
   }
+
+
 }

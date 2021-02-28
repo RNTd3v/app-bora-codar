@@ -6,12 +6,12 @@
   </header>
   <main class="middle">
     <div class="wrapper">
-      <ul class="list">
+      <ul class="list" *ngIf="users$ | async as users">
         <li class="item" *ngFor="let user of users">
           <div class="checkbox" [class.-border]="!user.isActive">
             <app-icon name="check-circle" size="2.5rem" *ngIf="user.isActive"></app-icon>
           </div>
-          <picture class="photo">
+          <picture class="photo" (click)="goToDetail(user)">
             <img [src]="getPathImage(user.avatar)" alt="" />
           </picture>
           <div class="text">
@@ -24,7 +24,6 @@
             <div class="chip" *ngFor="let role of user.roles">{{role.name}}</div>
           </div>
           <div class="actions">
-            <cms-button [button]="buttonViewConfig" (clickButtonEvent)="action(user, 'view')"></cms-button>
             <cms-button [button]="buttonEditConfig" (clickButtonEvent)="action(user, 'edit')"></cms-button>
             <cms-button [button]="buttonDeleteConfig" (clickButtonEvent)="action(user, 'delete')"></cms-button>
             <cms-button [button]="buttonForgotPassConfig" (clickButtonEvent)="action(user, 'forgot')"></cms-button>

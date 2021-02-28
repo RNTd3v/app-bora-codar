@@ -4,8 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AccessToken, Auth, AuthResponse, IApiService, IAuthService, Menu, TokenResponse, User } from '@cms/core';
 import { Observable, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { IStorageService } from '../storage/storage.service.interface';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -54,21 +54,24 @@ export class AuthService implements IAuthService {
   }
 
   async sessionIsValid(): Promise<boolean> {
-    /*const token = this.token;
-    const refreshToken = this.refreshToken;
-    if (!this.tokenIsValid(token)) {
-      if (!this.tokenIsValid(refreshToken)) {
-        return Promise.resolve(false);
-      }
-
-      return await this.updateToken(refreshToken);
-    }*/
     const token = this.storage.get(this.keyAccessToken);
     return Promise.resolve(this.tokenIsValid(token));
   }
 
   getUserMenu(): Menu[] {
     return this.storage.get(this.keyUserMenu);
+  }
+
+  requestNewToken(): Observable<{ token: string }> {
+
+    const options = {
+      headers: new HttpHeaders()
+        .set('no-token', 'true')
+        .set('x-refresh-token', this.refreshToken)
+    };
+
+    return this.api.post<{ token: string}>('v1/auth/refresh-token', {}, options).pipe(tap((_) => console.log(_)));
+
   }
 
   private async saveAuthenticatedUserData(): Promise<boolean> {
@@ -105,34 +108,21 @@ export class AuthService implements IAuthService {
     this.storage.clear();
   }
 
-  // requestPassword(email: string): Observable<any> {}
-
   private tokenIsValid(token: AccessToken): boolean {
-    return token
-      && token.token
-      && token.timestampExp
-      && new Date() <= new Date(token.timestampExp);
+    return !!token && !!token.token;
   }
 
-  private async updateToken(refreshToken: AccessToken): Promise<boolean> {
+  async updateToken(token: string): Promise<boolean> {
 
-    if (this.tokenInValidation) {
-      if (!this.tokenSubject) {
-        this.tokenSubject = new Subject<boolean>();
-      }
+      const newToken = {
+        userId: this.userID,
+        companyId: this.companyID,
+        token,
+        refreshToken: this.refreshToken
+      } as unknown as AuthResponse;
 
-      const tokenObservable = this.tokenSubject.asObservable();
+    return this.createAccessToken(newToken);
 
-      return tokenObservable.toPromise()
-        .then((result: boolean) => {
-          return result;
-        });
-    }
-
-    const body = new HttpParams()
-      .set('refresh_token', refreshToken.token);
-
-    return await this.requestAccessToken(body);
   }
 
   private async requestAccessToken(body: any): Promise<boolean> {
@@ -160,35 +150,13 @@ export class AuthService implements IAuthService {
     let authResult = false;
 
     if (!tokenResponse) {
-      // || !tokenResponse.access_token
-      // || !tokenResponse.expires_in
-      // || !tokenResponse.refresh_expires_in) {
       this.notifyAuthResult(authResult);
       return authResult;
     }
 
-    /*
-    const tokenExpirationDate = new Date();
-    const refreshTokenExpirationDate = new Date();
-    tokenExpirationDate.setSeconds(tokenExpirationDate.getSeconds() + tokenResponse.expires_in);
-    refreshTokenExpirationDate.setSeconds(refreshTokenExpirationDate.getSeconds() + tokenResponse.refresh_expires_in);
-
-    this.storeAccessToken(this.keyAccessToken, {
-      token: tokenResponse.access_token,
-      timestampExp: tokenExpirationDate.getTime()
-    } as AccessToken);
-
-    this.storeAccessToken(this.keyRefreshToken, {
-      token: tokenResponse.refresh_token,
-      timestampExp: refreshTokenExpirationDate.getTime()
-    } as AccessToken); */
-
-    const tokenExpirationDate = new Date();
-    tokenExpirationDate.setSeconds(tokenExpirationDate.getSeconds() + 3600);
-
     this.storeAccessToken(this.keyAccessToken, {
       token: tokenResponse.token,
-      timestampExp: tokenExpirationDate.getTime()
+      refreshToken: tokenResponse.refreshToken
     } as AccessToken);
 
     this.storeId(this.keyCompanyId, tokenResponse.companyId);
@@ -240,7 +208,7 @@ export class AuthService implements IAuthService {
     return this.storage.get(this.keyUserData);
   }
 
-  private get refreshToken(): AccessToken {
-    return this.storage.get(this.keyRefreshToken);
+  private get refreshToken(): string {
+    return this.storage.get(this.keyAccessToken).refreshToken;
   }
 }

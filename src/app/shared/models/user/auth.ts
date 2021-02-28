@@ -7,9 +7,11 @@ export interface AuthResponse {
   userId: string;
   companyId: string;
   token: string;
+  refreshToken: string;
 }
 export interface AccessToken {
   token: string;
+  refreshToken: string;
   timestampExp: number;
   userId: string;
 }

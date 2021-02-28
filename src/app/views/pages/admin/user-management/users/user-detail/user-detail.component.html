@@ -1,1 +1,42 @@
-<p>user-detail works!</p>
+<div class="ui-page-content user-page">
+  <header class="top">
+    <cms-title pageName="Usuário"></cms-title>
+  </header>
+  <main class="middle">
+    <div class="wrapper">
+      <div class="col -left">
+        <div class="user-info">
+          <div class="checkbox" [class.-border]="!(user$ | async).isActive">
+            <app-icon name="check-circle" size="2.5rem" *ngIf="(user$ | async).isActive"></app-icon>
+          </div>
+          <picture class="avatar">
+            <img [src]="getPathImage((user$ | async).avatar)" alt="" />
+          </picture>
+          <h2 class="name">{{(user$ | async).name}}</h2>
+          <div class="about">
+            <strong>Sobre:</strong>
+            <p>Voluptate labore ea nisi consectetur officia labore et non tempor sit sunt amet eiusmod. Sint proident commodo consectetur eu proident incididunt Lorem enim pariatur dolor ipsum. Nostrud ut et magna commodo aliqua cillum occaecat sit consequat nulla dolor irure dolor.</p>
+          </div>
+          <div class="roles">
+            <strong>Perfis:</strong>
+            <div class="chips">
+              <div class="chip" *ngFor="let role of (user$ | async).roles">{{role.name}}</div>
+            </div>
+          </div>
+        </div>
+        <button class="change-password">
+
+        </button>
+        <div class="contacts">
+
+        </div>
+        <button class="delete-user">
+          Excluir usuário
+        </button>
+      </div>
+      <div class="col -form">
+        <cms-dynamic-form [formConfig]="formConfig" (submit)="saveUser($event)"></cms-dynamic-form>
+      </div>
+    </div>
+  </main>
+</div>

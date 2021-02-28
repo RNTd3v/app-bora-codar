@@ -6,14 +6,14 @@ import { User, Option, TableAction, TableStatus, TableMoreAction, DialogData, Di
 import { environment } from '@cms/environment';
 import { DialogComponent } from '@cms/partials';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 import { IUserService } from '../services';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { UpdateUserDataComponent } from './update-user-data/update-user-data.component';
 import { UpdateUserPasswordComponent } from './update-user-password/update-user-password.component';
 
-import { UserState } from '../state/users.reducer';
+import { getError, getUsers, State } from '../state/users.reducer';
 import * as UserActions from '../state/users.actions';
 
 enum DialogType {
@@ -27,7 +27,8 @@ enum DialogType {
 })
 export class UsersComponent implements OnInit, OnDestroy {
 
-  users: User[];
+  users$: Observable<User[]>;
+  errorMessage$: Observable<string>;
 
   userOptions = [
     { id: 'name', name: 'Nome' },
@@ -90,34 +91,40 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private service: IUserService, private store: Store<UserState>) {}
+  constructor(private service: IUserService, private store: Store<State>, private router: Router) {}
 
   ngOnInit(): void {
-    this.getAllUsers();
+    this.users$ = this.store.select(getUsers);
+    this.errorMessage$ = this.store.select(getError);
+    this.store.dispatch(UserActions.loadUsers());
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  getAllUsers(): void {
-    this.subscription.add(
-      this.service.getAllUsers()
-        .pipe(finalize(() => this.stopLoaders()))
-        .subscribe({ next: users => this.users = users })
-    );
+  // getAllUsers(): void {
+  //   this.subscription.add(
+  //     this.service.getAllUsers()
+  //       .pipe(finalize(() => this.stopLoaders()))
+  //       .subscribe({ next: users => this.users = users })
+  //   );
 
-  }
+  // }
 
   getPathImage(image: string): string {
     return !!image ? `${environment.IMAGE_URL}${image}` : '/assets/icons/user.svg';
+  }
+
+  goToDetail(user: User): void {
+    this.store.dispatch(UserActions.setCurrentUser({ currentUserId: user.id }))
   }
 
   action(user: User, type: string): void {
 
     switch (type) {
       case 'edit':
-        this.store.dispatch(UserActions.setCurrentUser({ user }))
+        // this.store.dispatch(UserActions.setCurrentUser({ user }))
         this.openDialogToUpdateUser(user);
         break;
       case 'delete':
@@ -192,9 +199,9 @@ export class UsersComponent implements OnInit, OnDestroy {
 
     const users = await this.service.handleUserDialogs(dialogData, dialogTarget);
 
-    if (!!users) {
-      this.users = users;
-    }
+    // if (!!users) {
+    //   this.users = users;
+    // }
 
   }
 

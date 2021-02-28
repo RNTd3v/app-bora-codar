@@ -2,11 +2,14 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogData, DialogTarget, IApiService, OptionsApi, StatusUser, User, UserChangePassword, UserDialogData, UserDialogTarget } from '@cms/core';
 import { IDialogService } from '@cms/partials';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { IUserService } from './user.service.interface';
 
 @Injectable()
 export class UserService implements IUserService {
+
+  private selectedUserSource = new BehaviorSubject<User | null>(null);
+  selectedUserChanges$ = this.selectedUserSource.asObservable();
 
   constructor(
     private apiService: IApiService,

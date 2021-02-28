@@ -20,7 +20,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 
 // Modules
-import { IconModule, PartialsModule } from '@cms/partials';
+import { FormModule, IconModule, PartialsModule } from '@cms/partials';
 
 
 // Services
@@ -40,6 +40,8 @@ import { CreateRoleComponent } from './roles/create-role/create-role.component';
 import { UpdateRoleDataComponent } from './roles/update-role-data/update-role-data.component';
 
 import { userReducer } from './state/users.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { UserEffects } from './state/users.effects';
 
 const routesChild: Routes = [
   {
@@ -54,6 +56,10 @@ const routesChild: Routes = [
       {
         path: 'users',
         component: UsersComponent
+      },
+      {
+        path: 'user-detail/:id',
+        component: UserDetailComponent
       },
       {
         path: 'roles',
@@ -73,12 +79,13 @@ const routesChild: Routes = [
     CreateUserComponent,
     UpdateUserPasswordComponent,
     CreateRoleComponent,
-    UpdateRoleDataComponent,
+    UpdateRoleDataComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routesChild),
     StoreModule.forFeature('users', userReducer),
+    EffectsModule.forFeature([UserEffects]),
     FormsModule,
     ReactiveFormsModule,
     IconModule,
@@ -95,6 +102,7 @@ const routesChild: Routes = [
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatSortModule,
+    FormModule,
     PartialsModule
   ],
     providers: [
