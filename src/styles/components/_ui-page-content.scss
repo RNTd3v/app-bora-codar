@@ -29,6 +29,7 @@
     scrollbar-width: thin;
     scrollbar-color: var(--bg-scrollbar-thumb) var(--bg-scrollbar);
     &::-webkit-scrollbar {
+      border-radius: 1rem;
       width: .5rem;
       background-color: var(--bg-scrollbar);
     }
