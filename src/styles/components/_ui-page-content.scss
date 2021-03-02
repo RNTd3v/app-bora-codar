@@ -24,6 +24,18 @@
     align-items: center;
     flex-direction: column;
     margin-top: 3.2rem;
+    padding-right: 1rem;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--bg-scrollbar-thumb) var(--bg-scrollbar);
+    &::-webkit-scrollbar {
+      width: .5rem;
+      background-color: var(--bg-scrollbar);
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 1rem;
+      background-color: var(--bg-scrollbar-thumb);
+    }
     &.-isLoading {
       justify-content: center;
     }
