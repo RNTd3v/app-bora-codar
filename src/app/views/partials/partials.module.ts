@@ -34,6 +34,7 @@ import { ConfirmPasswordComponent } from './form/confirm-password/confirm-passwo
 import { UploadComponent } from './upload/upload.component';
 import { ButtonModule } from './button/button.module';
 import { UserComponent } from './user/user.component';
+import { ChipsComponent } from './chips/chips.component';
 
 
 @NgModule({
@@ -46,11 +47,13 @@ import { UserComponent } from './user/user.component';
     TableComponent,
     TitleComponent,
     UploadComponent,
-    UserComponent
+    UserComponent,
+    ChipsComponent
   ],
   exports: [
     AutoCompleteChipsComponent,
     ButtonComponent,
+    ChipsComponent,
     ConfirmPasswordComponent,
     DialogComponent,
     PaginationComponent,

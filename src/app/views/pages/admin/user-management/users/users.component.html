@@ -6,22 +6,14 @@
   </header>
   <main class="middle">
     <div class="wrapper">
-      <ul class="list" *ngIf="users$ | async as users">
+      <ul class="c-list" *ngIf="users$ | async as users">
         <li class="item" *ngFor="let user of users">
-          <div class="checkbox" [class.-border]="!user.isActive">
-            <app-icon name="check-circle" size="2.5rem" *ngIf="user.isActive"></app-icon>
-          </div>
-          <picture class="photo" (click)="goToDetail(user)">
-            <img [src]="getPathImage(user.avatar)" alt="" />
-          </picture>
-          <div class="text">
-            {{user.name}}
-          </div>
-          <div class="text">
-            {{user.email}}
-          </div>
-          <div class="chips">
-            <div class="chip" *ngFor="let role of user.roles">{{role.name}}</div>
+          <div class="infos">
+            <cms-checkbox [isChecked]="user.isActive" (changeCheckedFn)="openDialogToChangeStatusUser($event, user)"></cms-checkbox>
+            <cms-upload [isAvatar]="true" [data]="user" (click)="goToDetail(user)"></cms-upload>
+            <div class="text" (click)="goToDetail(user)"> {{user.name}} </div>
+            <div class="text" (click)="goToDetail(user)"> {{user.email}} </div>
+            <cms-chips [chips]="getRolesName(user.roles)"></cms-chips>
           </div>
           <div class="actions">
             <cms-button [button]="buttonEditConfig" (clickButtonEvent)="action(user, 'edit')"></cms-button>
@@ -30,19 +22,8 @@
           </div>
         </li>
       </ul>
-      <!-- <app-table
-        [isLoadingResults]="isLoadingResults"
-        [isLoadingAction]="isLoadingAction"
-        [dataSource]="users"
-        [columns]="userOptionsTable"
-        [moreAction]="changePassword"
-        (loadContentEvent)="getAllUsers()"
-        (actionEvent)="action($event)"
-        (sortChangeEvent)="getAllUsers()"
-        (toggleChangeEvent)="openDialogToChangeStatusUser($event)"
-      >
-    </app-table> -->
     </div>
-    <!-- <app-pagination (changePage)="getAllUsers()"></app-pagination> -->
+    <!-- <app-pagination (changePage)="getAllUsers()"></app-pagination>
+    <cms-chips [chips]="['renato', 'bruno', 'daniela', 'theo']" showTrashButton="true" limitToView="2"></cms-chips> -->
   </main>
 </div>

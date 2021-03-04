@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { User, Option, TableAction, TableStatus, TableMoreAction, DialogData, DialogTarget, UserDialogData, UserDialogTarget, ButtonConfig } from '@cms/core';
+import { User, Option, TableAction, TableStatus, TableMoreAction, DialogData, DialogTarget, UserDialogData, UserDialogTarget, ButtonConfig, Role } from '@cms/core';
 import { environment } from '@cms/environment';
 import { DialogComponent } from '@cms/partials';
 import { Store } from '@ngrx/store';
@@ -148,18 +148,20 @@ export class UsersComponent implements OnInit, OnDestroy {
     }))
   }
 
-  openDialogToChangeStatusUser(statusUser: TableStatus<User>): void {
-
-    const { data, checked } = statusUser;
+  openDialogToChangeStatusUser(checked: boolean, user: User): void {
 
     this.handleUserDialogs(new DialogData<null>({
       title: 'Alterar o status do usuário',
-      text: `Tem certeza que deseja alterar o status do usuário ${data.name}`
+      text: `Tem certeza que deseja alterar o status do usuário ${user.name}`
     }), {
-      data: { id: data.id, status: { isActive: checked } },
+      data: { id: user.id, status: { isActive: checked } },
       target: UserDialogTarget.changeStatus
     });
 
+  }
+
+  getRolesName(roles: Role[]): string[] {
+    return roles.map(role => role.name);
   }
 
   private openDialogToChangePasswordUser(user: User): void {

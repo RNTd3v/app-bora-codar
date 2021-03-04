@@ -7,16 +7,19 @@ import { DynamicButtonDirective } from './dynamic-button/dynamic-button.directiv
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { ButtonModule } from '../button/button.module';
 import { IconModule } from '../icon/icon.module';
+import { CheckboxComponent } from './checkbox/checkbox.component';
 
 @NgModule({
   declarations: [
     InputComponent,
     DynamicFieldDirective,
     DynamicFormComponent,
-    DynamicButtonDirective
+    DynamicButtonDirective,
+    CheckboxComponent
   ],
   exports: [
-    DynamicFormComponent
+    DynamicFormComponent,
+    CheckboxComponent
   ],
   entryComponents: [
     InputComponent

@@ -5,7 +5,7 @@ import { finalize } from 'rxjs/operators';
 import { IUploadService } from './service/upload.service.interface';
 
 @Component({
-  selector: 'app-upload',
+  selector: 'cms-upload',
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.scss']
 })
@@ -14,6 +14,8 @@ export class UploadComponent implements OnInit {
   @Input() isAvatar = false;
   @Input() data: any;
   @Input() accept = 'image/*';
+  @Input() sizes = { width: '3.2rem', height: '3.2rem' }
+  @Input() editable = false;
 
   @Output() uploadedTheFile = new EventEmitter();
 

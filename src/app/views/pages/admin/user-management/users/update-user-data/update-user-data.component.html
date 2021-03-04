@@ -4,7 +4,7 @@
 
   <ng-template #form>
 
-    <app-upload [isAvatar]="true" [data]="componentData" (uploadedTheFile)="uploadedTheAvatarFile()"></app-upload>
+    <cms-upload [isAvatar]="true" [data]="componentData" (uploadedTheFile)="uploadedTheAvatarFile()"></cms-upload>
 
     <form class="c-form col-2 form-user" [formGroup]="formUser" (submit)="submitUserData()">
 
