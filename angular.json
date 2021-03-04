@@ -30,6 +30,12 @@
             "styles": [
               "src/styles/index.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./src/styles/settings",
+                "./src/styles/tools"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
