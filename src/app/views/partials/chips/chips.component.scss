@@ -1,0 +1,28 @@
+@import 'theme';
+
+.c-chips {
+  display: flex;
+  align-items: center;
+  .chip {
+    background: var(--bg-chip);
+    color: var(--color-chip);
+    padding: .5rem 1rem;
+    border-radius: 5rem;
+    margin: 0 .25rem;
+    display: flex;
+    align-items: center;
+
+    &.-can-delete {
+      cursor: pointer;
+      &:hover {
+        background-color: lighten($colorDefault, 20%);
+        color: darken($colorDefault, 20%);
+      }
+    }
+
+    .bt-delete {
+      display: inline-block;
+      margin-left: .5rem;
+    }
+  }
+}
