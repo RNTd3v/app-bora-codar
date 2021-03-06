@@ -68,21 +68,21 @@ export class UsersComponent implements OnInit, OnDestroy {
   buttonEditConfig = {
     type: 'button',
     iconLeftName: 'pen',
-    classes: '-icon -edit',
+    classes: '-icon -edit -border',
     matTooltip: 'Editar'
   } as ButtonConfig;
 
   buttonDeleteConfig = {
     type: 'button',
     iconLeftName: 'trash',
-    classes: '-icon -delete',
+    classes: '-icon -delete -border',
     matTooltip: 'Deletar'
   } as ButtonConfig;
 
   buttonForgotPassConfig = {
     type: 'button',
     iconLeftName: 'lock',
-    classes: '-icon',
+    classes: '-icon -border -dark',
     matTooltip: 'Alterar Senha'
   } as ButtonConfig;
 

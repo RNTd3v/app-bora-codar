@@ -58,8 +58,27 @@
       }
     }
   }
+  &.-border {
+    background: none;
+    border: thin solid var(--border-color-button);
+    color: var(--text-color-button);
+    &.-dark {
+      border-color: var(--bg-button-default);
+      color: var(--bg-button-default);
+    }
+    &:hover {
+      background: $colorDefault;
+      border: none;
+      color: white;
+    }
+  }
   &.-add, &.-success {
     background: var(--bg-button-success);
+    &.-border {
+      background: none;
+      border-color: var(--bg-button-success);
+      color: var(--bg-button-success);
+    }
     &:disabled, &:hover {
       background-color: lighten($colorSuccess, 20%);
       color: darken($colorSuccess, 20%);
@@ -67,6 +86,11 @@
   }
   &.-edit {
     background-color: var(--bg-button-info);
+    &.-border {
+      background: none;
+      border-color: var(--bg-button-info);
+      color: var(--bg-button-info);
+    }
     &:disabled, &:hover {
       background-color: lighten($colorInfo, 20%);
       color: darken($colorInfo, 20%);
@@ -74,21 +98,17 @@
   }
   &.-delete, &.-error {
     background-color: var(--bg-button-error);
+    &.-border {
+      background: none;
+      border-color: var(--bg-button-error);
+      color: var(--bg-button-error);
+    }
     &:disabled, &:hover {
       background-color: lighten($colorError, 20%);
       color: darken($colorError, 20%);
     }
   }
-  &.-border {
-    background: none;
-    border: thin solid var(--border-color-button);
-    color: var(--text-color-button);
-    &:hover {
-      background: $colorDefault;
-      border: none;
-      color: white;
-    }
-  }
+
   &.-link {
     background: none;
     border: none;
