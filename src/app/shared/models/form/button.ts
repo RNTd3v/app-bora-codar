@@ -12,10 +12,11 @@ export interface ButtonConfig {
 export enum ButtonId {
   login = 'LOGIN',
   logout = 'LOGOUT',
+  view = 'VIEW',
+  viewMore = 'VIEW_MORE',
   save = 'SAVE',
   update = 'UPDATE',
   delete = 'DELETE',
   forgotPassword = 'FORGOT_PASSWORD',
   changePassword = 'CHANGE_PASSWORD',
-  viewMore = 'VIEW_MORE'
 }

@@ -8,11 +8,15 @@ export interface State {
 export interface AppState {
   openMenu: boolean;
   selectedTheme: 'light' | 'dark';
+  pageToggleLoading: boolean;
+  actionToggleLoading: boolean;
 }
 
 const initialState = {
   openMenu: true,
-  selectedTheme: 'light'
+  selectedTheme: 'light',
+  pageToggleLoading: true,
+  actionToggleLoading: false
 } as AppState;
 
 const getAppState = createFeatureSelector<AppState>('app');

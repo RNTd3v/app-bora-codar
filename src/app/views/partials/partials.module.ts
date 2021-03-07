@@ -35,6 +35,7 @@ import { UploadComponent } from './upload/upload.component';
 import { ButtonModule } from './button/button.module';
 import { UserComponent } from './user/user.component';
 import { ChipsComponent } from './chips/chips.component';
+import { FormModule } from './form/form.module';
 
 
 @NgModule({
@@ -68,6 +69,7 @@ import { ChipsComponent } from './chips/chips.component';
     CommonModule,
     IconModule,
     FormsModule,
+    FormModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
     MatInputModule,

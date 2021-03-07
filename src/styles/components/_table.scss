@@ -8,7 +8,14 @@
     width: 100%;
     align-self: flex-start;
     justify-self: flex-start;
-    margin-top: -2rem;
+    .clickable-column {
+      cursor: pointer;
+      &.-text {
+        &:hover {
+          color: var(--fifth-color);
+        }
+      }
+    }
     tbody {
       tr {
         &:last-child {

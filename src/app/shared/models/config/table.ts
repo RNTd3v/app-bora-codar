@@ -1,11 +1,20 @@
+import { ButtonConfig, ButtonId } from '../form/button';
 import { Option } from './option';
 
+export interface TableConfig {
+  columns: Option[];
+  buttons: ButtonConfig[]
+}
+
 export interface TableColumns extends Option {
-  uuid?: string;
+  type: TableContentType;
+  noSort?: boolean | undefined;
+  width?: string | undefined;
+  class?: string[] | undefined;
 }
 export interface TableAction {
   data: any;
-  type: 'edit' | 'delete' | 'more';
+  buttonId: ButtonId;
 }
 export interface TableStatus<T> {
   data: T;

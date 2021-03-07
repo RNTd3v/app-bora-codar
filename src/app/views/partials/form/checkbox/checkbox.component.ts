@@ -13,7 +13,10 @@ export class CheckboxComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.isChecked);
+
+  }
 
   changeValue(): void {
     this.changeCheckedFn.emit(this.inputCheckbox.nativeElement.checked);

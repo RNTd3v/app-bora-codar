@@ -1,25 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { User, Option, TableAction, TableStatus, TableMoreAction, DialogData, DialogTarget, UserDialogData, UserDialogTarget, ButtonConfig, Role } from '@cms/core';
+import { User, Option, TableAction, TableStatus, TableMoreAction, DialogData, DialogTarget, UserDialogData, UserDialogTarget, ButtonConfig, Role, TableConfig, ButtonId } from '@cms/core';
 import { environment } from '@cms/environment';
-import { DialogComponent } from '@cms/partials';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { finalize, tap } from 'rxjs/operators';
 import { IUserService } from '../services';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { UpdateUserDataComponent } from './update-user-data/update-user-data.component';
 import { UpdateUserPasswordComponent } from './update-user-password/update-user-password.component';
-
 import { getError, getUsers, State } from '../state/users.reducer';
 import * as UserActions from '../state/users.actions';
+import { tableConfig } from './config/index';
 
-enum DialogType {
-  DELETE = 'DELETE',
-  CHANGE_STATUS = 'CHANGE_STATUS'
-}
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -28,18 +20,14 @@ enum DialogType {
 export class UsersComponent implements OnInit, OnDestroy {
 
   users$: Observable<User[]>;
+  users: User[];
   errorMessage$: Observable<string>;
+
+  userTableConfig = tableConfig as TableConfig;
 
   userOptions = [
     { id: 'name', name: 'Nome' },
     { id: 'email', name: 'E-mail' }
-  ] as Option[];
-
-  userOptionsTable = [
-    { id: 'avatar', name: 'Avatar'},
-    ...this.userOptions,
-    { id: 'roles', name: 'Perfis'},
-    { id: 'isActive', name: 'Ativo'}
   ] as Option[];
 
   dialogDataDefault = {
@@ -47,10 +35,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     width: '80vw'
   } as DialogData<any>;
 
-  changePassword = {
-    icon: 'lock',
-    text: 'Alterar a senha'
-  } as TableMoreAction;
 
   buttonAddConfig = {
     type: 'button',
@@ -59,58 +43,36 @@ export class UsersComponent implements OnInit, OnDestroy {
     classes: '-add'
   } as ButtonConfig;
 
-  buttonViewConfig = {
-    type: 'button',
-    iconLeftName: 'eye',
-    classes: '-add'
-  } as ButtonConfig;
-
-  buttonEditConfig = {
-    type: 'button',
-    iconLeftName: 'pen',
-    classes: '-icon -edit -border',
-    matTooltip: 'Editar'
-  } as ButtonConfig;
-
-  buttonDeleteConfig = {
-    type: 'button',
-    iconLeftName: 'trash',
-    classes: '-icon -delete -border',
-    matTooltip: 'Deletar'
-  } as ButtonConfig;
-
-  buttonForgotPassConfig = {
-    type: 'button',
-    iconLeftName: 'lock',
-    classes: '-icon -border -dark',
-    matTooltip: 'Alterar Senha'
-  } as ButtonConfig;
-
-  isLoadingResults = true;
-  isLoadingAction = false;
-
   private subscription = new Subscription();
 
   constructor(private service: IUserService, private store: Store<State>, private router: Router) {}
 
   ngOnInit(): void {
-    this.users$ = this.store.select(getUsers);
+    this.getAllUsers();
     this.errorMessage$ = this.store.select(getError);
-    this.store.dispatch(UserActions.loadUsers());
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  // getAllUsers(): void {
-  //   this.subscription.add(
-  //     this.service.getAllUsers()
-  //       .pipe(finalize(() => this.stopLoaders()))
-  //       .subscribe({ next: users => this.users = users })
-  //   );
+  getAllUsers(): void {
 
-  // }
+    this.subscription.add(
+      this.store.select(getUsers)
+        .subscribe(users => {
+
+          if (!!users && users.length > 0) {
+            this.users = users;
+            return;
+          }
+
+          this.store.dispatch(UserActions.loadUsers());
+
+        })
+    );
+
+  }
 
   getPathImage(image: string): string {
     return !!image ? `${environment.IMAGE_URL}${image}` : '/assets/icons/user.svg';
@@ -120,20 +82,23 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.store.dispatch(UserActions.setCurrentUser({ currentUserId: user.id }))
   }
 
-  action(user: User, type: string): void {
+  action(tableAction: TableAction): void {
 
-    switch (type) {
-      case 'edit':
+    const { data, buttonId } = tableAction;
+
+    switch (buttonId) {
+      case ButtonId.update:
         // this.store.dispatch(UserActions.setCurrentUser({ user }))
-        this.openDialogToUpdateUser(user);
+        this.openDialogToUpdateUser(data as User);
         break;
-      case 'delete':
-        this.openDialogToDeleteUser(user);
+      case ButtonId.delete:
+        this.openDialogToDeleteUser(data as User);
         break;
-      case 'more':
-        this.openDialogToChangePasswordUser(user);
+      case ButtonId.changePassword:
+        this.openDialogToChangePasswordUser(data as User);
         break;
       default:
+        this.router.navigate([`admin/user-management/user-detail/${data.id}`]);
         break;
     }
 
@@ -148,13 +113,15 @@ export class UsersComponent implements OnInit, OnDestroy {
     }))
   }
 
-  openDialogToChangeStatusUser(checked: boolean, user: User): void {
+  openDialogToChangeStatusUser(statusUser: TableStatus<User>): void {
+
+    const { data, checked } = statusUser;
 
     this.handleUserDialogs(new DialogData<null>({
       title: 'Alterar o status do usuário',
-      text: `Tem certeza que deseja alterar o status do usuário ${user.name}`
+      text: `Tem certeza que deseja alterar o status do usuário ${data.name}`
     }), {
-      data: { id: user.id, status: { isActive: checked } },
+      data: { id: data.id, status: { isActive: checked } },
       target: UserDialogTarget.changeStatus
     });
 
@@ -201,15 +168,10 @@ export class UsersComponent implements OnInit, OnDestroy {
 
     const users = await this.service.handleUserDialogs(dialogData, dialogTarget);
 
-    // if (!!users) {
-    //   this.users = users;
-    // }
+    if (!!users) {
+      this.users = users;
+    }
 
-  }
-
-  private stopLoaders(): void {
-    this.isLoadingAction = false;
-    this.isLoadingResults = false;
   }
 
 }

@@ -6,31 +6,26 @@
 
     <table mat-table [dataSource]="dataSource" matSort matSortActive="id" matSortDisableClear matSortDirection="desc" (matSortChange)="sortData($event)">
 
-      <ng-container [matColumnDef]="column?.id" *ngFor="let column of columns">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+      <ng-container [matColumnDef]="column?.id" *ngFor="let column of config?.columns">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear [disabled]="column?.noSort">
           {{ column?.name }}
         </th>
-        <td mat-cell *matCellDef="let data; let i = index" [ngStyle]= "{ 'width': tdWidth(column?.id) }">
-          <div [ngSwitch]="defineContentType(data[column?.id], column?.id)">
-            <span *ngSwitchCase="'IMAGE'">
+        <td mat-cell *matCellDef="let data; let i = index" [ngStyle]= "{ 'width': tdWidth(column?.width) }">
+          <div [ngSwitch]="column?.type">
+            <div *ngSwitchCase="'IMAGE'" (click)="action(data, 'VIEW', null)" class="clickable-column">
               <img [src]="getPathImage(data[column?.id])" alt="Image" class="o-image -thumbnail -round" />
-            </span>
-            <span *ngSwitchCase="'LIST'">
-              <mat-chip-list aria-label="">
-                <mat-chip *ngFor="let chip of data[column?.id]" [selected]="chip.admin">{{chip.name}}</mat-chip>
-              </mat-chip-list>
-            </span>
+            </div>
             <span *ngSwitchCase="'TOGGLE'">
-              <mat-spinner *ngIf="isLoadingToggleChange(i); else toggleButton" class="small"></mat-spinner>
-              <ng-template #toggleButton>
-                <mat-slide-toggle
-                  color="primary"
-                  [checked]="data[column?.id]"
-                  (change)="slideToggleChange($event, data, i)">
-                </mat-slide-toggle>
+              <mat-spinner *ngIf="isLoadingCheckboxChange(i); else checkbox" class="small"></mat-spinner>
+              <ng-template #checkbox>
+                <cms-checkbox [isChecked]="data[column?.id]" (changeCheckedFn)="checkboxChange($event, data, i)"></cms-checkbox>
               </ng-template>
             </span>
-            <span *ngSwitchDefault>
+            <span *ngSwitchCase="'LIST'" (click)="action(data, 'VIEW', null)" class="clickable-column">
+              <cms-chips [chips]="getChipsName(data[column?.id])"></cms-chips>
+            </span>
+
+            <span *ngSwitchDefault (click)="action(data, 'VIEW', null)" class="clickable-column -text">
               {{ data[column?.id] }}
             </span>
           </div>
@@ -42,36 +37,12 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let data; let i = index">
           <div class="c-buttons -end">
-            <!-- <cms-button
-              iconLeftName="pen"
-              buttonClasses='-icon -edit'
-              (clickButtonEvent)="action(data, 'edit')"
-              matTooltip="Editar"
-              >
-            </cms-button>
-            <cms-button
-              iconLeftName="trash"
-              buttonClasses='-icon -delete'
-              [isLoadingAction]="isLoadingDeleteAction(i)"
-              (clickButtonEvent)="action(data, 'delete', i)"
-              matTooltip="Deletar"
-              >
-            </cms-button>
-
-            <cms-button
-              *ngIf="moreAction"
-              buttonClasses='-icon'
-              [isLoadingAction]="isLoadingMoreAction(i)"
-              [iconLeftName]="moreAction.icon"
-              [matTooltip]="moreAction.text"
-              (clickButtonEvent)="action(data, 'more', i)">
-            </cms-button> -->
-
+            <cms-button [button]="button" (clickButtonEvent)="action(data, button.id, indexButton)" *ngFor="let button of config.buttons; let indexButton = index"></cms-button>
           </div>
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
     </table>
