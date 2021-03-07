@@ -10,7 +10,7 @@ enum GoTo {
 }
 
 @Component({
-  selector: 'app-pagination',
+  selector: 'cms-pagination',
   templateUrl: './pagination.component.html'
 })
 export class PaginationComponent implements OnInit, OnDestroy {

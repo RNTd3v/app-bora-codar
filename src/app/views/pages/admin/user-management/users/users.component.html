@@ -1,69 +1,33 @@
 <div class="ui-page-content">
   <header class="top">
     <cms-title pageName="Usuários"></cms-title>
-    <!-- <app-search [filters]="userOptions" (searchEvent)="getAllUsers()"></app-search> -->
     <cms-button [button]="buttonAddConfig" (clickButtonEvent)="openDialogToCreateUser()"></cms-button>
   </header>
   <main class="middle">
-    <div class="wrapper">
-      <!-- <table *ngIf="users$ | async as users">
-        <thead>
-          <tr>
-            <td></td>
-            <td></td>
-            <td>Nome</td>
-            <td>E-mail</td>
-            <td>Perfis</td>
-            <td></td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let user of users">
-            <td>
-              <cms-checkbox [isChecked]="user.isActive" (changeCheckedFn)="openDialogToChangeStatusUser($event, user)"></cms-checkbox>
-            </td>
-            <td>
-              <cms-upload [isAvatar]="true" [data]="user" (click)="goToDetail(user)"></cms-upload>
-            </td>
-            <td>
-              {{user.name}}
-            </td>
-            <td>
-              {{user.email}}
-            </td>
-          </tr>
-        </tbody>
-      </table> -->
-      <!-- <ul class="c-list" *ngIf="users$ | async as users; else loader">
-          <li class="item -header">
-            <div class="title">Nome</div>
-            <div class="title">E-mail</div>
-            <div class="title">Perfis</div>
-          </li>
-          <li class="item" *ngFor="let user of users">
-            <cms-checkbox [isChecked]="user.isActive" (changeCheckedFn)="openDialogToChangeStatusUser($event, user)"></cms-checkbox>
-            <cms-upload [isAvatar]="true" [data]="user" (click)="goToDetail(user)"></cms-upload>
-            <div class="text" (click)="goToDetail(user)"> {{user.name}} </div>
-            <div class="text" (click)="goToDetail(user)"> {{user.email}} </div>
-            <cms-chips [chips]="getRolesName(user.roles)"></cms-chips>
-            <div class="actions">
-              <cms-button [button]="buttonEditConfig" (clickButtonEvent)="action(user, 'edit')"></cms-button>
-              <cms-button [button]="buttonDeleteConfig" (clickButtonEvent)="action(user, 'delete')"></cms-button>
-              <cms-button [button]="buttonForgotPassConfig" (clickButtonEvent)="action(user, 'forgot')"></cms-button>
-            </div>
-          </li>
-      </ul> -->
-
-      <app-table
-          [dataSource]="users"
-          [config]="userTableConfig"
-          (actionEvent)="action($event)"
-          (sortChangeEvent)="getAllUsers()"
-          (checkboxChangeEvent)="openDialogToChangeStatusUser($event)"
-        >
-        </app-table>
+    <cms-search [filters]="userOptions" (searchEvent)="getAllUsers()">
+      <div class="toggle-status">
+        <label class="item">
+          <span class="text">Todos</span>
+          <input type="radio" checked="checked" value="all" name="status" (change)="handleChangeStatus($event)">
+          <span class="checkmark"></span>
+        </label>
+        <label class="item">
+          <span class="text">Ativos</span>
+          <input type="radio" name="status" value="true" (change)="handleChangeStatus($event)">
+          <span class="checkmark"></span>
+        </label>
+        <label class="item">
+          <span class="text">Inativos</span>
+          <input type="radio" name="status" value="false" (change)="handleChangeStatus($event)">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </cms-search>
+    <div class="wrapper scrollable">
+      <cms-table [dataSource]="users" [config]="userTableConfig" (actionEvent)="action($event)"
+        (sortChangeEvent)="getAllUsers()" (checkboxChangeEvent)="openDialogToChangeStatusUser($event)">
+      </cms-table>
     </div>
-    <!-- <app-pagination (changePage)="getAllUsers()"></app-pagination>
-    <cms-chips [chips]="['renato', 'bruno', 'daniela', 'theo']" showTrashButton="true" limitToView="2"></cms-chips> -->
+    <cms-pagination (changePage)="getAllUsers()"></cms-pagination>
   </main>
 </div>

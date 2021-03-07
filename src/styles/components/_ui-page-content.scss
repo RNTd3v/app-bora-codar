@@ -24,19 +24,29 @@
     align-items: center;
     flex-direction: column;
     margin-top: 3.2rem;
-    padding: 0 1rem;
     overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--bg-scrollbar-thumb) var(--bg-scrollbar);
-    &::-webkit-scrollbar {
-      border-radius: 1rem;
-      width: .5rem;
-      background-color: var(--bg-scrollbar);
+
+    .scrollable {
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--bg-scrollbar-thumb) var(--bg-scrollbar);
+      padding: 0 1rem;
+      &::-webkit-scrollbar {
+        border-radius: 1rem;
+        width: .5rem;
+        background-color: var(--bg-scrollbar);
+      }
+      &::-webkit-scrollbar-thumb {
+        border-radius: 1rem;
+        background-color: var(--bg-scrollbar-thumb);
+      }
     }
-    &::-webkit-scrollbar-thumb {
-      border-radius: 1rem;
-      background-color: var(--bg-scrollbar-thumb);
+
+    > * {
+      display: block;
+      width: 100%;
     }
+
     &.-isLoading {
       justify-content: center;
     }

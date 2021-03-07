@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Role, TableAction, Option, DialogData } from '@cms/core';
+import { Role, TableAction, Option, DialogData, ButtonId } from '@cms/core';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { IRoleService } from '../services';
@@ -48,13 +48,13 @@ export class RolesComponent implements OnInit, OnDestroy {
 
   action(tableAction: TableAction): void {
 
-    const { data, type } = tableAction;
+    const { data, buttonId } = tableAction;
 
-    switch (type) {
-      case 'edit':
+    switch (buttonId) {
+      case  ButtonId.update:
         this.openDialogToUpdateRole(data as Role);
         break;
-      case 'delete':
+      case ButtonId.delete:
         this.openDialogToDeleteRole(data as Role);
         break;
       default:

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User, Option, TableAction, TableStatus, TableMoreAction, DialogData, DialogTarget, UserDialogData, UserDialogTarget, ButtonConfig, Role, TableConfig, ButtonId } from '@cms/core';
+import { User, Option, TableAction, TableStatus, TableMoreAction, DialogData, DialogTarget, UserDialogData, UserDialogTarget, ButtonConfig, Role, TableConfig, ButtonId, IPaginationService, DictionaryFilter } from '@cms/core';
 import { environment } from '@cms/environment';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -45,7 +45,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private service: IUserService, private store: Store<State>, private router: Router) {}
+  constructor(private service: IUserService, private store: Store<State>, private router: Router, private config: IPaginationService) {}
 
   ngOnInit(): void {
     this.getAllUsers();
@@ -57,19 +57,10 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   getAllUsers(): void {
-
+    this.store.dispatch(UserActions.loadUsers());
     this.subscription.add(
       this.store.select(getUsers)
-        .subscribe(users => {
-
-          if (!!users && users.length > 0) {
-            this.users = users;
-            return;
-          }
-
-          this.store.dispatch(UserActions.loadUsers());
-
-        })
+        .subscribe(users => this.users = users)
     );
 
   }
@@ -102,6 +93,23 @@ export class UsersComponent implements OnInit, OnDestroy {
         break;
     }
 
+  }
+
+  handleChangeStatus(event): void {
+
+    const value = event.target.value;
+
+    if (value === 'all') {
+
+      delete this.config.filter.isActive;
+
+    } else {
+
+      this.config.filter = { ...this.config.filter, ['isActive']: value };
+
+    }
+
+    this.getAllUsers();
   }
 
   openDialogToCreateUser(): void {

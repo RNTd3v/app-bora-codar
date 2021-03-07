@@ -8,12 +8,20 @@
     width: 100%;
     align-self: flex-start;
     justify-self: flex-start;
-    .clickable-column {
-      cursor: pointer;
+    .column {
+      color: var(--second-color);
+      font-size: 1.4rem;
+      &.-header {
+        font-weight: bolder;
+      }
       &.-text {
+        font-weight: lighter;
         &:hover {
           color: var(--fifth-color);
         }
+      }
+      &.-clickable {
+        cursor: pointer;
       }
     }
     tbody {

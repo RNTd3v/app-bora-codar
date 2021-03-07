@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-search',
+  selector: 'cms-search',
   templateUrl: './search.component.html'
 })
 export class SearchComponent implements OnInit, OnChanges {

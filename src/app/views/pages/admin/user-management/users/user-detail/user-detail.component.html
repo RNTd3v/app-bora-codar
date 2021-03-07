@@ -22,6 +22,7 @@
             <div class="chips">
               <div class="chip" *ngFor="let role of (user$ | async).roles">{{role.name}}</div>
             </div>
+            <!-- <cms-chips [chips]="['renato', 'bruno', 'daniela', 'theo']" showTrashButton="true" limitToView="2"></cms-chips> -->
           </div>
         </div>
         <button class="change-password">

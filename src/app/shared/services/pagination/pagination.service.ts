@@ -5,7 +5,7 @@ import { filter } from 'rxjs/operators';
 
 const queryParamsDefault = {
   page: 1,
-  perPage: 10,
+  perPage: 8,
   sortBy: 'id',
   order: 'ASC'
 } as QueryParamsModel;

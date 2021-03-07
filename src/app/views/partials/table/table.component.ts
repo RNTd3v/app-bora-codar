@@ -4,7 +4,7 @@ import { IPaginationService, TableAction, QueryParamsModel, TableContentType, Ta
 import { environment } from '@cms/environment';
 
 @Component({
-  selector: 'app-table',
+  selector: 'cms-table',
   templateUrl: './table.component.html'
 })
 export class TableComponent implements OnInit, OnChanges {
@@ -30,6 +30,8 @@ export class TableComponent implements OnInit, OnChanges {
 
   private indexButtonAction: number;
   private indexCheckboxChange = 0;
+
+  isLoadingResults = false;
 
   constructor(private PaginationService: IPaginationService) { }
 

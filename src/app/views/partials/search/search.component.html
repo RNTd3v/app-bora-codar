@@ -1,16 +1,19 @@
 <div class="c-search">
-  <div class="filter-container">
-    <label for="fieldFilter" class="title">Filtrar por:</label>
-    <input type="text" class="field -filter" id="fieldFilter" placeholder="Selecione o filtro" [formControl]="filterControl" [matAutocomplete]="auto">
-    <app-icon [name]="'angle-down'" class="ico-arrow"></app-icon>
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let filter of filteredOptions | async" [value]="filter.name">
-        {{filter.name}}
-      </mat-option>
-    </mat-autocomplete>
+  <div class="wrapper">
+    <div class="field-container -filter">
+      <label for="fieldFilter" class="title">Filtrar por:</label>
+      <input type="text" class="field -filter" id="fieldFilter" placeholder="Selecione o filtro" [formControl]="filterControl" [matAutocomplete]="auto">
+      <app-icon [name]="'angle-down'" class="ico-arrow"></app-icon>
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let filter of filteredOptions | async" [value]="filter.name">
+          {{filter.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </div>
+    <div class="field-container -search">
+      <input type="text" class="field -search" placeholder="Pesquisar..." (keyup)="handleKeyUp($event)" [disabled]="disabledSearchField" />
+      <app-icon [name]="'search'" class="icon"></app-icon>
+    </div>
   </div>
-  <div class="search-container">
-    <input type="text" class="field -search" placeholder="Pesquisar..." (keyup)="handleKeyUp($event)" [disabled]="disabledSearchField" />
-    <app-icon [name]="'search'" class="icon"></app-icon>
-  </div>
+  <ng-content></ng-content>
 </div>
