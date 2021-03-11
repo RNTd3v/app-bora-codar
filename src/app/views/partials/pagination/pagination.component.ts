@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { IPaginationService } from '@cms/core';
-import { first } from 'rxjs/operators';
+
 enum GoTo {
   FIRST_PAGE = 'FIRST_PAGE',
   PREVIOUS_PAGE = 'PREVIOUS_PAGE',
@@ -11,123 +11,106 @@ enum GoTo {
 
 @Component({
   selector: 'cms-pagination',
-  templateUrl: './pagination.component.html'
+  templateUrl: './pagination.component.html',
+  styleUrls: ['./pagination.component.scss']
 })
 export class PaginationComponent implements OnInit, OnDestroy {
 
   @Output() changePage = new EventEmitter();
 
-  private _currentPage = 1;
-  private _pageNumbers = [];
-  private _visiblePageNumbers = [];
-  totalPage: number;
+  readonly defaultItemPerPage = 5;
+
+  itemsPerPage = this.defaultItemPerPage;
+
   goTo = GoTo;
 
-  private readonly totalVisiblePageNumbers = 3;
+  constructor(private paginationService: IPaginationService) { }
 
-  constructor(private PaginationService: IPaginationService) { }
-
-  ngOnInit(): void {
-    this.PaginationService.totalPage
-      .pipe(first())
-        .subscribe(totalPage => {
-          this.totalPage = totalPage;
-          this.setPageNumbers(totalPage);
-    });
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
-    this.PaginationService.applyDefaultValues();
+    this.paginationService.applyDefaultValues();
+  }
+
+  changeItemsPerPage(): void {
+
+    const { queryParams } = this.paginationService;
+
+    this.paginationService.queryParams = {
+      ...queryParams,
+      perPage: this.itemsPerPage
+    };
+
+    this.changePage.emit();
+
   }
 
   handleClick(goTo: GoTo | number): void {
 
-    const { page } = this.PaginationService.queryParams;
+    const { page } = this.paginationService.queryParams;
 
     switch (goTo) {
 
-      case 'FIRST_PAGE':
-        this.goToPage(1);
-        break;
       case 'PREVIOUS_PAGE':
         this.goToPage(page - 1);
         break;
       case 'NEXT_PAGE':
         this.goToPage(page + 1);
         break;
-      case 'LAST_PAGE':
-        this.goToPage(this.totalPage);
-        break;
+
       default:
-        this.goToPage(goTo as number);
         break;
 
     }
 
-  }
-
-  private setPageNumbers(totalPage: number): void {
-    for (let index = 0; index < totalPage; index++) {
-      this._pageNumbers.push(index + 1);
-    }
-    this.setVisiblePageNumbers();
-  }
-
-  private setVisiblePageNumbers(start = 0, end = this.totalVisiblePageNumbers): void {
-    this._visiblePageNumbers = this._pageNumbers.slice(start, end);
   }
 
   private goToPage(page: number): void {
 
-    const { queryParams } = this.PaginationService;
+    const { queryParams } = this.paginationService;
 
-    this.PaginationService.queryParams = {
+    this.paginationService.queryParams = {
       ...queryParams,
       page
     };
-
-    this._currentPage = page;
-
-    if (this.totalPage > this.totalVisiblePageNumbers) {
-      this.handleVisiblePageNumbers(page);
-    }
 
     this.changePage.emit();
 
   }
 
-  private handleVisiblePageNumbers(page: number): void {
-
-    let start = 0;
-    let end = this.totalVisiblePageNumbers;
-
-    if (page >= this.totalVisiblePageNumbers) {
-      start = page - this.totalVisiblePageNumbers;
-      end = page;
-    }
-
-    this.setVisiblePageNumbers(start, end);
-
+  get rangeItems(): string {
+    const currentTotal = this.perPage * this.currentPage;
+    const currentInitial = (currentTotal - this.perPage) + 1;
+    return `${currentInitial} - ${currentTotal > this.totalItems ? this.totalItems : currentTotal} de ${this.totalItems}`;
   }
 
   get hasPreviousPage(): boolean {
-    return this.PaginationService.queryResults.hasPreviousPage;
+    return this.paginationService.queryResults.hasPreviousPage;
   }
 
   get hasNextPage(): boolean {
-    return this.PaginationService.queryResults.hasNextPage;
+    return this.paginationService.queryResults.hasNextPage;
   }
 
-  get pageNumbers(): number[] {
-    return this._visiblePageNumbers;
+  private get currentPage(): number {
+    return this.paginationService.queryResults.page;
   }
 
-  get showPagition(): boolean {
-    return this.totalPage > 1;
+  private get perPage(): number {
+    return this.paginationService.queryResults.perPage;
   }
 
-  currentPage(page: number): boolean {
-    return this._currentPage === page;
+  private get totalItems(): number {
+    return this.paginationService.queryResults.totalItems;
+  }
+
+  private get totalPage(): number {
+    return this.paginationService.queryResults.totalPage;
+  }
+
+  get itemsPerPageList(): number[] {
+    const totalItems = Math.ceil(this.totalItems / this.defaultItemPerPage);
+    return Array.from({ length: totalItems }, (_, k) => (k * this.defaultItemPerPage) + this.defaultItemPerPage);
   }
 
 }

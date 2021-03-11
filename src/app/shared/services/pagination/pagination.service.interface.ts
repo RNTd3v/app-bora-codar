@@ -1,9 +1,6 @@
 import { DictionaryFilter, QueryParamsModel, QueryResultsModel } from '@cms/core';
-import { Observable } from 'rxjs';
 
 export abstract class IPaginationService {
-
-  abstract setTotalPage(totalPage: number): void;
 
   abstract applyDefaultValues(): void;
 
@@ -18,7 +15,5 @@ export abstract class IPaginationService {
   abstract set queryResults(queryResults: QueryResultsModel);
 
   abstract get queryResults(): QueryResultsModel;
-
-  abstract get totalPage(): Observable<number>;
 
 }

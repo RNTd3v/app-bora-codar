@@ -11,7 +11,7 @@ import { mergeMap, tap } from 'rxjs/operators';
 export class ApiService implements IApiService {
 
   constructor(
-    private PaginationService: IPaginationService,
+    private paginationService: IPaginationService,
     private http: HttpClient
   ) { }
 
@@ -47,8 +47,7 @@ export class ApiService implements IApiService {
     return this.http.get<T>(url, options).pipe(
       tap((result: any) => {
         const queryResults = result as QueryResultsModel;
-        this.PaginationService.setTotalPage(queryResults.totalPage);
-        this.PaginationService.queryResults = queryResults;
+        this.paginationService.queryResults = queryResults;
       }),
       mergeMap((result: any) => of(result.data))
     );
@@ -66,7 +65,7 @@ export class ApiService implements IApiService {
     }
 
     if (opt.itsAList) {
-      opt.params = new HttpParams({ fromObject: this.PaginationService.queryParams as any });
+      opt.params = new HttpParams({ fromObject: this.paginationService.queryParams as any });
     }
 
     const options: any = {
