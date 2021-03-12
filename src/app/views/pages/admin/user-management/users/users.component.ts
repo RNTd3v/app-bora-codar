@@ -1,18 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { User, Option, TableAction, TableStatus, TableMoreAction, DialogData, DialogTarget, UserDialogData, UserDialogTarget, ButtonConfig, Role, TableConfig, ButtonId, IPaginationService, DictionaryFilter } from '@cms/core';
-import { environment } from '@cms/environment';
+import { User,Option, TableAction, TableStatus, DialogData, DialogTarget, UserDialogData, UserDialogTarget, ButtonConfig, TableConfig, ButtonId, IPaginationService, ButtonToggles } from '@cms/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { IUserService } from '../services';
 import { CreateUserComponent } from './create-user/create-user.component';
-import { UpdateUserDataComponent } from './update-user-data/update-user-data.component';
 import { UpdateUserPasswordComponent } from './update-user-password/update-user-password.component';
 import { State } from '../state/users.reducer';
 import { paginateUsers } from '../state/users.selectors';
 
 import * as UserActions from '../state/users.actions';
-import { tableConfig } from './config/index';
+import { buttonAddConfig, buttonTogglesConfig, dialogDataDefaultConfig, filterConfig, tableConfig } from './config/index';
+import { IDialogService } from '@cms/partials';
 
 @Component({
   selector: 'app-users',
@@ -22,31 +19,18 @@ import { tableConfig } from './config/index';
 export class UsersComponent implements OnInit, OnDestroy {
 
   users$: Observable<User[]>;
-  users: User[];
 
-  userTableConfig = tableConfig as TableConfig;
+  tableConfig = tableConfig as TableConfig;
+  filterConfig = filterConfig as Option[];
+  buttonAddConfig = buttonAddConfig as ButtonConfig;
+  buttonTogglesConfig = buttonTogglesConfig as ButtonToggles[];
 
-  userOptions = [
-    { id: 'name', name: 'Nome' },
-    { id: 'email', name: 'E-mail' }
-  ] as Option[];
-
-  dialogDataDefault = {
-    confirmText: 'Salvar',
-    width: '80vw'
-  } as DialogData<any>;
-
-  buttonAddConfig = {
-    type: 'button',
-    text: 'Novo usuário',
-    iconLeftName: 'user-plus',
-    classes: '-add'
-  } as ButtonConfig;
+  dialogDataDefault = dialogDataDefaultConfig as DialogData<any>;
 
   private subscription = new Subscription();
 
   constructor(
-    private service: IUserService,
+    private dialogService: IDialogService,
     private store: Store<State>,
     private config: IPaginationService
     ) {
@@ -63,15 +47,6 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   paginateUsers(): void {
     this.store.dispatch(UserActions.paginateUsersRequested());
-    this.subscription.add(
-      this.store.select(paginateUsers)
-        .subscribe(users => this.users = users)
-    );
-
-  }
-
-  getPathImage(image: string): string {
-    return !!image ? `${environment.IMAGE_URL}${image}` : '/assets/icons/user.svg';
   }
 
   goToDetail(user: User): void {
@@ -91,7 +66,7 @@ export class UsersComponent implements OnInit, OnDestroy {
           this.openDialogToChangePasswordUser(user);
           break;
         default:
-          this.store.dispatch(UserActions.setCurrentUser({ currentUserId: user.id }))
+          this.goToDetail(user);
           break;
     }
 
@@ -137,10 +112,6 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   }
 
-  getRolesName(roles: Role[]): string[] {
-    return roles.map(role => role.name);
-  }
-
   private openDialogToChangePasswordUser(user: User): void {
 
     this.handleUserDialogs(new DialogData<User>({
@@ -149,17 +120,6 @@ export class UsersComponent implements OnInit, OnDestroy {
       confirmText: 'Alterar',
       componentData: user
     }));
-  }
-
-  private openDialogToUpdateUser(user: User): void {
-
-    this.handleUserDialogs(new DialogData<User>({
-      ...this.dialogDataDefault,
-      title: `Editar ${user.name}`,
-      component: UpdateUserDataComponent,
-      componentData: user
-    }))
-
   }
 
   private openDialogToDeleteUser(user: User): void {
@@ -174,14 +134,36 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   }
 
-  private async handleUserDialogs(dialogData: DialogData<any>, dialogTarget: DialogTarget<UserDialogData, UserDialogTarget> = null): Promise<void> {
 
-    const users = await this.service.handleUserDialogs(dialogData, dialogTarget);
+  async handleUserDialogs(dialogData: DialogData<any>, dialogTarget?: DialogTarget<UserDialogData, UserDialogTarget>): Promise<void> {
 
-    if (!!users) {
-      this.users = users;
+    const wasItConfirmed = await this.dialogService.openDialog(dialogData);
+
+    if (wasItConfirmed) {
+
+      if (!!dialogTarget) {
+        this.handleDialogTarget(dialogTarget);
+      }
+
     }
 
+  }
+
+  private handleDialogTarget(dialogTarget: DialogTarget<UserDialogData, UserDialogTarget>): void {
+
+    switch (dialogTarget.target) {
+
+      case UserDialogTarget.delete:
+        this.store.dispatch(UserActions.deleteUserRequested({ userId: dialogTarget.data.id }));
+        break;
+
+      case UserDialogTarget.changeStatus:
+        this.store.dispatch(UserActions.updateUserStatusRequested({ data: dialogTarget.data.status , userId: dialogTarget.data.id }));
+        break;
+
+      default:
+        break;
+    }
   }
 
 }

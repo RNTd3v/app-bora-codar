@@ -1,0 +1,7 @@
+<div class="c-button-toggles">
+  <label class="item" *ngFor="let buttonToggle of buttonToggles">
+    <span class="text">{{buttonToggle.name}}</span>
+    <input type="radio" [checked]="buttonToggle.isChecked" [value]="buttonToggle.value" name="status" (change)="handleChange($event)">
+    <span class="checkmark"></span>
+  </label>
+</div>

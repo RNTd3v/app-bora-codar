@@ -1,4 +1,4 @@
-import { DialogData, DialogTarget, UserStatus, User, UserChangePassword, UserDialogData, UserDialogTarget } from '@cms/core';
+import { UserStatus, User, UserChangePassword } from '@cms/core';
 import { Observable } from 'rxjs';
 
 export abstract class IUserService {
@@ -16,7 +16,5 @@ export abstract class IUserService {
   abstract updateUserStatus(status: UserStatus, userID: string): Observable<void>;
 
   abstract deleteUser(userID: string): Observable<User>;
-
-  abstract handleUserDialogs(dialogData: DialogData<any>, target?: DialogTarget<UserDialogData, UserDialogTarget>): Promise<User[]>;
 
 }

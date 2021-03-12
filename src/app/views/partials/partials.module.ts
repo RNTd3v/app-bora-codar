@@ -36,11 +36,12 @@ import { ButtonModule } from './button/button.module';
 import { UserComponent } from './user/user.component';
 import { ChipsComponent } from './chips/chips.component';
 import { FormModule } from './form/form.module';
-
+import { ButtonTogglesComponent } from './button-toggles/button-toggles.component';
 
 @NgModule({
   declarations: [
     AutoCompleteChipsComponent,
+    ButtonTogglesComponent,
     ConfirmPasswordComponent,
     DialogComponent,
     PaginationComponent,
@@ -49,11 +50,12 @@ import { FormModule } from './form/form.module';
     TitleComponent,
     UploadComponent,
     UserComponent,
-    ChipsComponent
+    ChipsComponent,
   ],
   exports: [
     AutoCompleteChipsComponent,
     ButtonComponent,
+    ButtonTogglesComponent,
     ChipsComponent,
     ConfirmPasswordComponent,
     DialogComponent,

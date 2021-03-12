@@ -7,7 +7,7 @@ import { State } from '../../state/users.reducer';
 import { userFormConfig } from './config/user-detail-form-config';
 import * as UserActions from '../../state/users.actions';
 import { ActivatedRoute } from '@angular/router';
-import { getCurrentUser } from '../../state/users.selectors';
+import { showUser } from '../../state/users.selectors';
 
 @Component({
   selector: 'app-user-detail',
@@ -18,21 +18,19 @@ export class UserDetailComponent implements OnInit, OnDestroy {
 
   formConfig: FormConfig;
   user$: Observable<User>;
+  userId: string;
 
   private subscription = new Subscription();
 
   constructor(private store: Store<State>, private route: ActivatedRoute) {
-
-    const userId = this.route.snapshot.paramMap.get('id');
-
-    if (userId) {
-      this.store.dispatch(UserActions.loadUser({ userId }));
-    }
+    this.userId = this.route.snapshot.paramMap.get('id');
+    this.user$ = this.store.select(showUser);
   }
 
   ngOnInit(): void {
-    this.user$ = this.store.select(getCurrentUser);
-    this.subscription.add(this.user$.subscribe(user => this.formConfig = userFormConfig(user)))
+    this.subscription.add(
+      this.user$.subscribe(user => this.formConfig = userFormConfig(user))
+      )
   }
 
   ngOnDestroy(): void {
@@ -44,7 +42,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   }
 
   saveUser(user: User): void {
-    this.store.dispatch(UserActions.updateUser({ user }));
+    this.store.dispatch(UserActions.updateUserRequested({ user, userId: this.userId }));
   }
 
 }

@@ -49,32 +49,31 @@ export class TokenInterceptor implements HttpInterceptor {
   }
 
   private handleHttpRequest(next: HttpHandler, req: HttpRequest<any>): Observable<HttpEvent<any>> {
-    return next.handle(req)
-        .pipe(
-            catchError((error: HttpErrorResponse) => {
-                if (error.status === 401) {
-                  return this.authService.requestNewToken().pipe(
-                    flatMap(({ token }) => {
-                      if (!!token) {
-                        this.authService.updateToken(token)
-                        req = req.clone({
-                          headers: req.headers.set('x-access-token', token)
-                        })
-                        return next.handle(req);
-                      }
-                      this.authService.logout();
-                    }),
-                    catchError((_) => {
-                      this.authService.logout();
-                      return throwError(error);
-                    })
-                  )
+    return next.handle(req).pipe(
+      catchError((error: HttpErrorResponse) => {
+          if (error.status === 401) {
+            return this.authService.requestNewToken().pipe(
+              flatMap(({ token }) => {
+                if (!!token) {
+                  this.authService.updateToken(token)
+                  req = req.clone({
+                    headers: req.headers.set('x-access-token', token)
+                  })
+                  return next.handle(req);
                 }
-                const message = !!error.error.message ? error.error.message : 'Houve um erro!';
-                this.snackBar.open(message, null, { duration: 2000});
+                this.authService.logout();
+              }),
+              catchError((_) => {
+                this.authService.logout();
                 return throwError(error);
-            })
-        );
+              })
+            )
+          }
+          // const message = !!error.error.message ? error.error.message : 'Houve um erro!';
+          // this.snackBar.open(message, null, { duration: 2000});
+          return throwError(error);
+      })
+    );
   }
 
 

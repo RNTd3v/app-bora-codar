@@ -4,27 +4,11 @@
     <cms-button [button]="buttonAddConfig" (clickButtonEvent)="openDialogToCreateUser()"></cms-button>
   </header>
   <main class="middle">
-    <cms-search [filters]="userOptions" (searchEvent)="paginateUsers()">
-      <div class="toggle-status">
-        <label class="item">
-          <span class="text">Todos</span>
-          <input type="radio" checked="checked" value="all" name="status" (change)="handleChangeStatus($event)">
-          <span class="checkmark"></span>
-        </label>
-        <label class="item">
-          <span class="text">Ativos</span>
-          <input type="radio" name="status" value="true" (change)="handleChangeStatus($event)">
-          <span class="checkmark"></span>
-        </label>
-        <label class="item">
-          <span class="text">Inativos</span>
-          <input type="radio" name="status" value="false" (change)="handleChangeStatus($event)">
-          <span class="checkmark"></span>
-        </label>
-      </div>
+    <cms-search [filters]="filterConfig" (searchEvent)="paginateUsers()">
+      <cms-button-toggles [buttonToggles]="buttonTogglesConfig" (change)="handleChangeStatus($event)"></cms-button-toggles>
     </cms-search>
     <div class="wrapper scrollable">
-      <cms-table [dataSource]="users" [config]="userTableConfig" (actionEvent)="action($event)"
+      <cms-table [dataSource]="users$ | async" [config]="tableConfig" (actionEvent)="action($event)"
         (sortChangeEvent)="paginateUsers()" (checkboxChangeEvent)="openDialogToChangeUserStatus($event)">
       </cms-table>
     </div>

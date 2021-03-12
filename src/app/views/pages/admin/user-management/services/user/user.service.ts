@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { DialogData, DialogTarget, IApiService, OptionsApi, UserStatus, User, UserChangePassword, UserDialogData, UserDialogTarget } from '@cms/core';
-import { IDialogService } from '@cms/partials';
+import { IApiService, OptionsApi, UserStatus, User, UserChangePassword } from '@cms/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { IUserService } from './user.service.interface';
 
@@ -12,9 +10,7 @@ export class UserService implements IUserService {
   selectedUserChanges$ = this.selectedUserSource.asObservable();
 
   constructor(
-    private apiService: IApiService,
-    private dialogService: IDialogService,
-    private snackBar: MatSnackBar
+    private apiService: IApiService
     ) {}
 
     paginateUsers(): Observable<User[]> {
@@ -44,39 +40,6 @@ export class UserService implements IUserService {
 
     deleteUser(userID: string): Observable<User> {
       return this.apiService.delete<User>(`v1/users/${userID}`);
-    }
-
-    async handleUserDialogs(dialogData: DialogData<any>, dialogTarget?: DialogTarget<UserDialogData, UserDialogTarget>): Promise<User[]> {
-
-      const wasItConfirmed = await this.dialogService.openDialog(dialogData);
-
-      if (wasItConfirmed) {
-
-        if (!!dialogTarget) {
-          await this.handleDialogTarget(dialogTarget);
-        }
-
-        return await this.paginateUsers().toPromise();
-      }
-
-      Promise.resolve(null);
-
-    }
-
-    private async handleDialogTarget(dialogTarget: DialogTarget<UserDialogData, UserDialogTarget>): Promise<any> {
-
-      switch (dialogTarget.target) {
-
-        case UserDialogTarget.delete:
-          return await this.deleteUser(dialogTarget.data.id).toPromise()
-            .then(_ => this.snackBar.open('Usuário excluido com sucesso!', null, { duration: 2000}));
-
-        case UserDialogTarget.changeStatus:
-          return await this.updateUserStatus(dialogTarget.data.status, dialogTarget.data.id).toPromise();
-
-        default:
-          break;
-      }
     }
 
 

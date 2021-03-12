@@ -56,11 +56,6 @@ export class TableComponent implements OnInit, OnChanges {
 
   action(data: any, buttonId: ButtonId, index: number): void {
 
-    console.log(data);
-    console.log(buttonId);
-
-
-
     this.indexButtonAction = index;
     this.actionEvent.emit({ data, buttonId } as TableAction);
 

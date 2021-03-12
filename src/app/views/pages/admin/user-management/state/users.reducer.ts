@@ -1,87 +1,71 @@
-import { createFeatureSelector, createReducer, createSelector, on } from "@ngrx/store";
-import { User, FilterState } from '@cms/core';
-import * as UserActions from './users.actions';
+import { createReducer, on } from "@ngrx/store";
+import { User} from '@cms/core';
 import * as AppState from '../../../../theme/state/app.reducer';
+import {
+  paginateUsersRequested, paginateUsersSucceeded, paginateUsersFailed,
+  showUserRequested, showUserSucceeded, showUserFailed, createUserRequested,
+  createUserSucceeded, createUserFailed, updateUserRequested, updateUserSucceeded,
+  updateUserFailed, updateUserPasswordRequested, updateUserPasswordSucceeded,
+  updateUserPasswordFailed, updateUserStatusRequested, updateUserStatusSucceeded,
+  updateUserStatusFailed, deleteUserRequested, deleteUserSucceeded, deleteUserFailed } from "./users.actions";
 
 export interface State extends AppState.State {
   users: UserState;
 }
-
 export interface UserState {
-  currentUserId: number | string | null;
-  userFilter: FilterState;
   users: User[];
-  error: string;
+  user: User;
+  error: any;
 }
 
 const initialState = {
-  currentUserId: null,
-  userFilter: null,
   users: [],
+  user: {},
   error: ''
 } as UserState;
 
 export const userReducer = createReducer<UserState>(
+
   initialState,
-  on(UserActions.setCurrentUser, (state, action): UserState => {
-    return {
-      ...state,
-      currentUserId: action.currentUserId
-    };
-  }),
-  on(UserActions.clearCurrentUser, (state): UserState => {
-    return {
-      ...state,
-      currentUserId: null
-    };
-  }),
-  on(UserActions.initializeCurrentUser, (state): UserState => {
-    return {
-      ...state,
-      currentUserId: 0
-    };
-  }),
-  on(UserActions.paginateUsersSucceeded, (state, action): UserState => {
-    return {
-      ...state,
-      users: action.users
-    }
-  }),
-  on(UserActions.loadUsersFailure, (state, action): UserState => {
-    return {
-      ...state,
-      users: [],
-      error: action.error
-    }
-  }),
-  on(UserActions.showUserSucceeded, (state, action): UserState => {
-    return {
-      ...state,
-      currentUserId: action.user.id
-    }
-  }),
-  on(UserActions.loadUserFailure, (state, action): UserState => {
-    return {
-      ...state,
-      users: [],
-      error: action.error
-    }
-  }),
-  on(UserActions.updateUserSuccess, (state, action): UserState => {
-    const updatedUsers = state.users.map(
-      item => action.user.id === item.id ? action.user : item
-    )
-    return {
-      ...state,
-      users: updatedUsers,
-      currentUserId: action.user.id,
-      error: ''
-    }
-  }),
-  on(UserActions.updateUserFailure, (state, action): UserState => {
-    return {
-      ...state,
-      error: action.error
-    }
-  })
+
+  // Paginate
+  on(paginateUsersRequested, (state) => state),
+  on(paginateUsersSucceeded, (state, { users }) => ({...state, users })),
+  on(paginateUsersFailed, (state, { error }) => ({...state, error })),
+
+  // Show
+  on(showUserRequested, (state) => state),
+  on(showUserSucceeded, (state, { user }) => ({...state, user })),
+  on(showUserFailed, (state, { error }) => ({...state, error })),
+
+  // Create
+  on(createUserRequested, (state, { user }) => ({...state, user })),
+  on(createUserSucceeded, (state) => state),
+  on(createUserFailed, (state, { error }) => ({...state, error })),
+
+  // Update
+  on(updateUserRequested, (state, { user }) => ({...state, user })),
+  on(updateUserSucceeded, (state) => state),
+  on(updateUserFailed, (state, { error }) => ({...state, error })),
+
+  // Update Password
+  on(updateUserPasswordRequested, (state) => state),
+  on(updateUserPasswordSucceeded, (state) => state),
+  on(updateUserPasswordFailed, (state, { error }) => ({...state, error })),
+
+  // Update Status
+  on(updateUserStatusRequested, (state) => state),
+  on(updateUserStatusSucceeded, (state) => state),
+  on(updateUserStatusFailed, (state, { error }) => ({...state, error })),
+
+  // Update Avatar
+  // on(updateUserAvatarRequested, (state) => state),
+  // on(updateUserAvatarSucceeded, (state) => state),
+  // on(updateUserAvatarFailed, (state, { error }) => ({...state, error })),
+
+  // Delete
+  on(deleteUserRequested, (state) => state),
+  on(deleteUserSucceeded, (state) => state),
+  on(deleteUserFailed, (state, { error }) => ({...state, error })),
+
 );
