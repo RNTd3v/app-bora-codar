@@ -1,13 +1,15 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
-import { IPaginationService, TableAction, QueryParamsModel, TableContentType, TableStatus, Option, TableMoreAction, ButtonConfig, TableConfig, ButtonId } from '@cms/core';
+import { IPaginationService, TableAction, QueryParamsModel, TableStatus, TableConfig, ButtonId, LoaderService } from '@cms/core';
 import { environment } from '@cms/environment';
+import { Observable } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'cms-table',
   templateUrl: './table.component.html'
 })
-export class TableComponent implements OnInit, OnChanges {
+export class TableComponent implements OnInit {
 
   @Input()
   dataSource: any[] = [];
@@ -27,13 +29,13 @@ export class TableComponent implements OnInit, OnChanges {
   @ViewChild(MatSort) sort: MatSort;
 
   displayedColumns: string[] = [];
-
-  private indexButtonAction: number;
-  private indexCheckboxChange = 0;
+  isLoading$: Observable<boolean>;
 
   isLoadingResults = false;
 
-  constructor(private PaginationService: IPaginationService) { }
+  constructor(private PaginationService: IPaginationService, private loaderService: LoaderService) {
+    this.isLoading$ = this.loaderService.isLoading.pipe(debounceTime(0));
+  }
 
   ngOnInit(): void {
 
@@ -41,24 +43,8 @@ export class TableComponent implements OnInit, OnChanges {
     this.displayedColumns.push('action');
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-
-    if (!!changes && !!changes.isLoadingAction) {
-
-      const { currentValue } = changes.isLoadingAction;
-
-      if (!currentValue) {
-        this.indexButtonAction = undefined;
-      }
-    }
-
-  }
-
   action(data: any, buttonId: ButtonId, index: number): void {
-
-    this.indexButtonAction = index;
     this.actionEvent.emit({ data, buttonId } as TableAction);
-
   }
 
   sortData(sort: Sort) {
@@ -75,25 +61,12 @@ export class TableComponent implements OnInit, OnChanges {
 
   }
 
-  isLoadingDeleteAction(index: number): boolean {
-    return false //this.isLoadingAction && index === this.indexDeleteAction;
-  }
-
-  isLoadingMoreAction(index: number): boolean {
-    return false //this.isLoadingAction && index === this.indexMoreAction;
-  }
-
   getPathImage(image: string): string {
     return !!image ? `${environment.IMAGE_URL}${image}` : '/assets/icons/user.svg';
   }
 
   checkboxChange({ checked }, data, index: number): void {
-    this.indexCheckboxChange = index;
     this.checkboxChangeEvent.emit({ checked, data } as TableStatus<any>);
-  }
-
-  isLoadingCheckboxChange(index: number): boolean {
-    return false //this.isLoadingAction && index === this.indexCheckboxChange;
   }
 
   tdWidth(width: string | undefined): string {

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { User,Option, TableAction, TableStatus, DialogData, DialogTarget, UserDialogData, UserDialogTarget, ButtonConfig, TableConfig, ButtonId, IPaginationService, ButtonToggles } from '@cms/core';
+import { User,Option, TableAction, TableStatus, DialogData, DialogTarget, UserDialogData, UserDialogTarget, ButtonConfig, TableConfig, ButtonId, IPaginationService, ButtonToggles, LoaderService } from '@cms/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { CreateUserComponent } from './create-user/create-user.component';
@@ -10,6 +10,7 @@ import { paginateUsers } from '../state/users.selectors';
 import * as UserActions from '../state/users.actions';
 import { buttonAddConfig, buttonTogglesConfig, dialogDataDefaultConfig, filterConfig, tableConfig } from './config/index';
 import { IDialogService } from '@cms/partials';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-users',
@@ -37,12 +38,25 @@ export class UsersComponent implements OnInit, OnDestroy {
       this.users$ = this.store.select(paginateUsers);
     }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+
     this.paginateUsers();
+
+     // this.subscription.add(
+    //   this.store.select(paginateUsers)
+    //     .subscribe(users => {
+    //       if (!!users && users.length > 0) {
+    //         this.users = users;
+    //         return
+    //       }
+    //       this.paginateUsers();
+    //     })
+    // );
+
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.store.dispatch(UserActions.paginateUsersCleared());
   }
 
   paginateUsers(): void {
@@ -73,6 +87,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   handleChangeStatus(event): void {
+
+    this.config.applyDefaultValues();
 
     const value = event.target.value;
 

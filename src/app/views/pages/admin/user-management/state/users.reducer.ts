@@ -7,7 +7,7 @@ import {
   createUserSucceeded, createUserFailed, updateUserRequested, updateUserSucceeded,
   updateUserFailed, updateUserPasswordRequested, updateUserPasswordSucceeded,
   updateUserPasswordFailed, updateUserStatusRequested, updateUserStatusSucceeded,
-  updateUserStatusFailed, deleteUserRequested, deleteUserSucceeded, deleteUserFailed } from "./users.actions";
+  updateUserStatusFailed, deleteUserRequested, deleteUserSucceeded, deleteUserFailed, paginateUsersCleared } from "./users.actions";
 
 export interface State extends AppState.State {
   users: UserState;
@@ -32,6 +32,7 @@ export const userReducer = createReducer<UserState>(
   on(paginateUsersRequested, (state) => state),
   on(paginateUsersSucceeded, (state, { users }) => ({...state, users })),
   on(paginateUsersFailed, (state, { error }) => ({...state, error })),
+  on(paginateUsersCleared, (state) => ({...state, users: [] })),
 
   // Show
   on(showUserRequested, (state) => state),

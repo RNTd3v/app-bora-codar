@@ -1,10 +1,10 @@
 <div class="c-table" #tableContainer>
 
-  <mat-spinner class="spinner-page" *ngIf="isLoadingResults; else table"></mat-spinner>
+  <mat-spinner class="spinner-page" *ngIf="isLoading$ | async; else table"></mat-spinner>
 
   <ng-template #table>
 
-    <table mat-table [dataSource]="dataSource" matSort matSortActive="id" matSortDisableClear matSortDirection="desc" (matSortChange)="sortData($event)">
+    <table mat-table [dataSource]="dataSource" matSort matSortActive="id" matSortDisableClear matSortDirection="desc" (matSortChange)="sortData($event)" *ngIf="dataSource.length > 0; else empty">
 
       <ng-container [matColumnDef]="column?.id" *ngFor="let column of config?.columns">
         <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear [disabled]="column?.noSort">
@@ -18,10 +18,7 @@
               <img [src]="getPathImage(data[column?.id])" alt="Image" class="o-image -thumbnail -round" />
             </div>
             <span *ngSwitchCase="'TOGGLE'" class="column">
-              <mat-spinner *ngIf="isLoadingCheckboxChange(i); else checkbox" class="small"></mat-spinner>
-              <ng-template #checkbox>
-                <cms-checkbox [isChecked]="data[column?.id]" (changeCheckedFn)="checkboxChange($event, data, i)"></cms-checkbox>
-              </ng-template>
+              <cms-checkbox [isChecked]="data[column?.id]" (changeCheckedFn)="checkboxChange($event, data, i)"></cms-checkbox>
             </span>
             <span *ngSwitchCase="'LIST'" (click)="action(data, 'VIEW', null)" class="column -clickable">
               <cms-chips [chips]="getChipsName(data[column?.id])"></cms-chips>
@@ -48,6 +45,13 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
     </table>
+
+    <ng-template #empty>
+      <div class="no-data-container">
+        <img src="/assets/illustrations/no-data.svg" alt="no-data" class="illustra" />
+        <p class="text">Nenhum resultado encontrado</p>
+      </div>
+    </ng-template>
 
   </ng-template>
 

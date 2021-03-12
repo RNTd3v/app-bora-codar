@@ -8,12 +8,12 @@ export const buttonTogglesConfig = [
   },
   {
     name: 'Ativos',
-    value: true,
+    value: 'true',
     isChecked: false
   },
   {
     name: 'Inativos',
-    value: false,
+    value: 'false',
     isChecked: false
   }
 ] as ButtonToggles[];

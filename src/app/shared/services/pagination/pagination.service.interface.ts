@@ -2,7 +2,7 @@ import { DictionaryFilter, QueryParamsModel, QueryResultsModel } from '@cms/core
 
 export abstract class IPaginationService {
 
-  abstract applyDefaultValues(): void;
+  abstract applyDefaultValues(includeFilters?: boolean): void;
 
   abstract set queryParams(queryParams: QueryParamsModel);
 

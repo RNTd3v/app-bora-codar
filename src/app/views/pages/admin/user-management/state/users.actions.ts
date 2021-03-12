@@ -6,6 +6,7 @@ import * as constants from './users.constants';
 export const paginateUsersRequested = createAction(constants.PAGINATE_USERS_REQUESTED);
 export const paginateUsersSucceeded = createAction(constants.PAGINATE_USERS_SUCCEEDED, props<{ users: User[] }>());
 export const paginateUsersFailed = createAction(constants.PAGINATE_USERS_FAILED, props<{ error: string }>());
+export const paginateUsersCleared = createAction(constants.PAGINATE_USERS_CLEARED);
 
 export const showUserRequested = createAction(constants.SHOW_USER_REQUESTED, props<{ userId: string }>());
 export const showUserSucceeded = createAction(constants.SHOW_USER_SUCCEEDED, props<{ user: User }>());

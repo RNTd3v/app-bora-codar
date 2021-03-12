@@ -1,5 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { IPaginationService } from '@cms/core';
+import { IPaginationService, LoaderService } from '@cms/core';
+import { Observable } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 enum GoTo {
   FIRST_PAGE = 'FIRST_PAGE',
@@ -18,21 +20,27 @@ export class PaginationComponent implements OnInit, OnDestroy {
 
   @Output() changePage = new EventEmitter();
 
+  isLoading$: Observable<boolean>;
+
   readonly defaultItemPerPage = 5;
 
   itemsPerPage = this.defaultItemPerPage;
 
   goTo = GoTo;
 
-  constructor(private paginationService: IPaginationService) { }
+  constructor(private paginationService: IPaginationService, private loaderService: LoaderService) {
+    this.isLoading$ = this.loaderService.isLoading.pipe(debounceTime(0));
+  }
 
   ngOnInit(): void {}
 
   ngOnDestroy(): void {
-    this.paginationService.applyDefaultValues();
+    this.paginationService.applyDefaultValues(true);
   }
 
   changeItemsPerPage(): void {
+
+    this.paginationService.applyDefaultValues();
 
     const { queryParams } = this.paginationService;
 
@@ -100,7 +108,7 @@ export class PaginationComponent implements OnInit, OnDestroy {
     return this.paginationService.queryResults.perPage;
   }
 
-  private get totalItems(): number {
+  get totalItems(): number {
     return this.paginationService.queryResults.totalItems;
   }
 

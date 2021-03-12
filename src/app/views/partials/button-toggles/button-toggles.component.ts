@@ -19,8 +19,7 @@ export class ButtonTogglesComponent implements OnInit {
   ngOnInit(): void {}
 
   handleChange(event): void {
-    const { value } = event.target;
-    this.change.emit(value);
+    this.change.emit(event);
   }
 
 }

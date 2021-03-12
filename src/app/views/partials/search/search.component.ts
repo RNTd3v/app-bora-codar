@@ -55,11 +55,13 @@ export class SearchComponent implements OnInit, OnChanges {
     clearTimeout(this.time);
 
     this.time = setTimeout(() => {
-      this.config.filter = !!value ? { [filterKey]: value} : {} as DictionaryFilter;
+      this.config.applyDefaultValues();
+      this.config.filter = !!value ? { [filterKey]: value } : {} as DictionaryFilter;
       this.searchEvent.emit();
     }, 1000);
 
   }
+
 
   private filterKey(filter: string): FilterOptions[] {
     const filterValue = filter.toLowerCase();

@@ -30,10 +30,15 @@ export class PaginationService implements IPaginationService {
 
   constructor() { }
 
-  applyDefaultValues(): void {
+  applyDefaultValues(includeFilters = false): void {
+
     this._queryParams = queryParamsDefault;
     this._queryResults = queryResultsDefault;
-    this._filters = {};
+
+    if (includeFilters) {
+      this._filters = {};
+    }
+
   }
 
   set queryParams(queryParams: QueryParamsModel) {

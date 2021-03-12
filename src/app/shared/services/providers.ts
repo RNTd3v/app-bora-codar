@@ -1,4 +1,4 @@
-import { IApiService, IAsideService, IAuthService, IPaginationService, IStorageService, IUIStateService } from '.';
+import { IApiService, IAsideService, IAuthService, IPaginationService, IStorageService, IUIStateService, LoaderService } from '.';
 import { ApiService } from './api/api.service';
 import { AsideService } from './aside/aside.service';
 import { AuthService } from './auth/auth.service';
@@ -12,5 +12,6 @@ export let servicesProviders = [
   { provide: IAuthService, useClass: AuthService },
   { provide: IPaginationService, useClass: PaginationService },
   { provide: IStorageService, useClass: StorageService },
-  { provide: IUIStateService, useClass: UiStateService }
+  { provide: IUIStateService, useClass: UiStateService },
+  LoaderService
 ];

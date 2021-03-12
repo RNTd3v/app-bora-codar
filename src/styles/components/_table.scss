@@ -34,4 +34,22 @@
       }
     }
   }
+  .no-data-container {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .illustra {
+      width: 12rem;
+    }
+
+    .text {
+      text-align: center;
+      font-size: 2rem;
+      color: var(--font-color-alert);
+      font-weight: 400;
+    }
+
+  }
 }

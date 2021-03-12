@@ -50,7 +50,7 @@ import { ButtonTogglesComponent } from './button-toggles/button-toggles.componen
     TitleComponent,
     UploadComponent,
     UserComponent,
-    ChipsComponent,
+    ChipsComponent
   ],
   exports: [
     AutoCompleteChipsComponent,

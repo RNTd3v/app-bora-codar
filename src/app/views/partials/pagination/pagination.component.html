@@ -1,9 +1,9 @@
-<div class="c-pagination">
+<div class="c-pagination" *ngIf="totalItems > itemsPerPage && !(isLoading$ | async)">
   <div class="field-container -total">
-    <label for="fieldTotal" class="title">Total de itens por página</label>
-    <select id="fieldTotal" [(ngModel)]="itemsPerPage"  class="field -dropdown" (change)="changeItemsPerPage()">
-      <option [value]="item" *ngFor="let item of itemsPerPageList">{{item}}</option>
-    </select>
+      <label for="fieldTotal" class="title">Total de itens por página</label>
+      <select id="fieldTotal" [(ngModel)]="itemsPerPage"  class="field -dropdown" (change)="changeItemsPerPage()">
+        <option [value]="item" *ngFor="let item of itemsPerPageList">{{item}}</option>
+      </select>
   </div>
   <div class="current-total">
     {{ rangeItems }}
