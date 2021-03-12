@@ -22,14 +22,14 @@ export const buttonsConfig = [
     iconLeftName: 'trash',
     classes: '-icon -delete -border',
     matTooltip: 'Deletar'
-  },
-  {
-    id: ButtonId.changePassword,
-    type: 'button',
-    iconLeftName: 'lock',
-    classes: '-icon -border -dark',
-    matTooltip: 'Alterar Senha'
   }
+  // {
+  //   id: ButtonId.changePassword,
+  //   type: 'button',
+  //   iconLeftName: 'lock',
+  //   classes: '-icon -border -dark',
+  //   matTooltip: 'Alterar Senha'
+  // }
 ] as ButtonConfig[];
 
 export const tableConfig = {

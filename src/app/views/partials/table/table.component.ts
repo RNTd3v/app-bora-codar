@@ -65,7 +65,7 @@ export class TableComponent implements OnInit {
     return !!image ? `${environment.IMAGE_URL}${image}` : '/assets/icons/user.svg';
   }
 
-  checkboxChange({ checked }, data, index: number): void {
+  checkboxChange({ checked }, data): void {
     this.checkboxChangeEvent.emit({ checked, data } as TableStatus<any>);
   }
 

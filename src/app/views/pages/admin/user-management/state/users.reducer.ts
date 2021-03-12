@@ -20,7 +20,7 @@ export interface UserState {
 
 const initialState = {
   users: [],
-  user: {},
+  user: undefined,
   error: ''
 } as UserState;
 

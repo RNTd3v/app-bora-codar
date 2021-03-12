@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormConfig, User } from '@cms/core';
 import { environment } from '@cms/environment';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { State } from '../../state/users.reducer';
 import { userFormConfig } from './config/user-detail-form-config';
 import * as UserActions from '../../state/users.actions';
@@ -17,20 +17,31 @@ import { showUser } from '../../state/users.selectors';
 export class UserDetailComponent implements OnInit, OnDestroy {
 
   formConfig: FormConfig;
-  user$: Observable<User>;
+  user: User;
   userId: string;
 
   private subscription = new Subscription();
 
   constructor(private store: Store<State>, private route: ActivatedRoute) {
     this.userId = this.route.snapshot.paramMap.get('id');
-    this.user$ = this.store.select(showUser);
   }
 
   ngOnInit(): void {
+
     this.subscription.add(
-      this.user$.subscribe(user => this.formConfig = userFormConfig(user))
-      )
+      this.store.select(showUser).subscribe(user => {
+
+        if (!!user) {
+          this.user = user;
+          this.formConfig = userFormConfig(user)
+          return
+        }
+
+        this.store.dispatch(UserActions.showUserRequested({ userId: this.userId }));
+
+      })
+    );
+
   }
 
   ngOnDestroy(): void {

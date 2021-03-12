@@ -42,6 +42,9 @@ import { UpdateRoleDataComponent } from './roles/update-role-data/update-role-da
 import { userReducer } from './state/users.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './state/users.effects';
+import { UserFormComponent } from './users/user-detail/user-form/user-form.component';
+import { UserInfoComponent } from './users/user-detail/user-info/user-info.component';
+import { UserChangepassFormComponent } from './users/user-detail/user-changepass-form/user-changepass-form.component';
 
 const routesChild: Routes = [
   {
@@ -79,7 +82,10 @@ const routesChild: Routes = [
     CreateUserComponent,
     UpdateUserPasswordComponent,
     CreateRoleComponent,
-    UpdateRoleDataComponent
+    UpdateRoleDataComponent,
+    UserFormComponent,
+    UserInfoComponent,
+    UserChangepassFormComponent
   ],
   imports: [
     CommonModule,

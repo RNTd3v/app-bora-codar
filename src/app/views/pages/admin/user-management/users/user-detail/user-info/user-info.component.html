@@ -1,0 +1,28 @@
+<div class="user-info">
+  <div class="status-container">
+    <cms-checkbox [isChecked]="user?.isActive" (changeCheckedFn)="changeUserStatus($event)" class="status"></cms-checkbox>
+    {{ user?.isActive ? 'Ativo' : 'Inativo' }}
+  </div>
+  <cms-upload [isAvatar]="true" [data]="user?.avatar" [sizes]="{ width: '12.4rem', height: '12.4rem' }" [editable]="photoIsEditable" class="avatar"></cms-upload>
+  <h2 class="name">{{ user?.name }}</h2>
+  <div class="about">
+    <strong>Sobre:</strong>
+    <p>Voluptate labore ea nisi consectetur officia labore et non tempor sit sunt amet eiusmod. Sint proident commodo consectetur eu proident incididunt Lorem enim pariatur dolor ipsum. Nostrud ut et magna commodo aliqua cillum occaecat sit consequat nulla dolor irure dolor.</p>
+  </div>
+  <div class="roles">
+    <strong>Perfis:</strong>
+    <cms-chips [chips]="getRolesName(user?.roles)"></cms-chips>
+    <!-- <cms-chips [chips]="['renato', 'bruno', 'daniela', 'theo']" showTrashButton="true" limitToView="2"></cms-chips> -->
+  </div>
+</div>
+<div class="contacts">
+  <h2 class="title">Contatos</h2>
+  <div class="item">
+    <cms-button [button]="buttonMail"></cms-button>
+    {{user?.email}}
+  </div>
+  <div class="item">
+    <cms-button [button]="buttonPhone"></cms-button>
+    (11) 9 0000-0000
+  </div>
+</div>

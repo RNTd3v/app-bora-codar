@@ -3,40 +3,21 @@
     <cms-title pageName="Usuário"></cms-title>
   </header>
   <main class="middle">
-    <div class="wrapper">
+    <div class="user-detail scrollable">
       <div class="col -left">
-        <div class="user-info">
-          <div class="checkbox" [class.-border]="!(user$ | async).isActive">
-            <app-icon name="check-circle" size="2.5rem" *ngIf="(user$ | async).isActive"></app-icon>
-          </div>
-          <picture class="avatar">
-            <img [src]="getPathImage((user$ | async).avatar)" alt="" />
-          </picture>
-          <h2 class="name">{{(user$ | async).name}}</h2>
-          <div class="about">
-            <strong>Sobre:</strong>
-            <p>Voluptate labore ea nisi consectetur officia labore et non tempor sit sunt amet eiusmod. Sint proident commodo consectetur eu proident incididunt Lorem enim pariatur dolor ipsum. Nostrud ut et magna commodo aliqua cillum occaecat sit consequat nulla dolor irure dolor.</p>
-          </div>
-          <div class="roles">
-            <strong>Perfis:</strong>
-            <div class="chips">
-              <div class="chip" *ngFor="let role of (user$ | async).roles">{{role.name}}</div>
-            </div>
-            <!-- <cms-chips [chips]="['renato', 'bruno', 'daniela', 'theo']" showTrashButton="true" limitToView="2"></cms-chips> -->
-          </div>
-        </div>
-        <button class="change-password">
-
+        <cms-user-info [user]="user"></cms-user-info>
+        <button class="bt-change-user-pass">
+          Alterar a senha
+          <app-icon name="lock" size="1.4rem" class="icon"></app-icon>
         </button>
-        <div class="contacts">
-
-        </div>
-        <button class="delete-user">
+        <button class="bt-delete-user">
           Excluir usuário
         </button>
       </div>
       <div class="col -form">
-        <cms-dynamic-form [formConfig]="formConfig" (submit)="saveUser($event)"></cms-dynamic-form>
+        <ng-container *ngIf="!!user">
+          <cms-dynamic-form [formConfig]="formConfig" (submit)="saveUser($event)"></cms-dynamic-form>
+        </ng-container>
       </div>
     </div>
   </main>

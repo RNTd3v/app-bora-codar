@@ -12,6 +12,10 @@
     position: relative;
     background-color: var(--fourth-color);
     cursor: pointer;
+    .editable {
+      cursor: pointer;
+      border: 3px solid white;
+    }
     .input-file {
       opacity: 0;
       position: absolute;
@@ -22,15 +26,15 @@
       z-index: 1;
     }
     .ico-camera, .loader {
-      color: var(--second-secondary-color);
+      color: var(--third-secondary-color);
       position: absolute;
-      bottom: 0;
+      top: 0;
       right: 0;
-      font-size: 1.5rem;
+      font-size: 2rem;
       background: white;
       border-radius: 50%;
-      width: 3rem;
-      height: 3rem;
+      width: 4rem;
+      height: 4rem;
       display: flex;
       align-items: center;
       justify-content: center;

@@ -47,7 +47,7 @@
     </table>
 
     <ng-template #empty>
-      <div class="no-data-container">
+      <div class="no-data-container" *ngIf="!(isLoading$ | async)">
         <img src="/assets/illustrations/no-data.svg" alt="no-data" class="illustra" />
         <p class="text">Nenhum resultado encontrado</p>
       </div>

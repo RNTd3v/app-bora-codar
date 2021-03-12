@@ -38,21 +38,8 @@ export class UsersComponent implements OnInit, OnDestroy {
       this.users$ = this.store.select(paginateUsers);
     }
 
-  async ngOnInit(): Promise<void> {
-
+  ngOnInit(): void {
     this.paginateUsers();
-
-     // this.subscription.add(
-    //   this.store.select(paginateUsers)
-    //     .subscribe(users => {
-    //       if (!!users && users.length > 0) {
-    //         this.users = users;
-    //         return
-    //       }
-    //       this.paginateUsers();
-    //     })
-    // );
-
   }
 
   ngOnDestroy(): void {

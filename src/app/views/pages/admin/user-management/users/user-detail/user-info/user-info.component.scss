@@ -1,0 +1,74 @@
+.user-info {
+  background: var(--bg-field);
+  border-radius: 1rem;
+  padding: 1.2rem;
+  margin-bottom: 1.6rem;
+
+  .status-container {
+    display: flex;
+    align-items: center;
+    color: var(--fifth-color);
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    .status {
+      display: block;
+      margin-right: 1.2rem;
+    }
+  }
+
+  .name {
+    text-align: center;
+    font-size: 2.4rem;
+  }
+
+  .about, .roles {
+    padding: 2.2rem;
+    padding-top: 0;
+    strong {
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      color: var(--third-color);
+      margin-bottom: 2.4rem;
+      display: block;
+    }
+    p {
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: var(--first-color);
+      margin-top: 0;
+      margin-bottom: 2.4rem;
+    }
+  }
+
+}
+
+.contacts {
+
+  border-radius: 1rem;
+  background: var(--first-secondary-color);
+  padding: 1.6rem 2.4rem;
+  color: white;
+
+  .title {
+    text-transform: uppercase;
+    font-size: 1.6rem;
+    margin-bottom: 1.6rem;
+    margin-top: 0;
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin-bottom: 1.6rem;
+    cms-button {
+      margin-right: 1rem;
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+  }
+}

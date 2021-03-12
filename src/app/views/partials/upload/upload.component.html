@@ -1,13 +1,13 @@
 <div class="c-upload">
-  <div class="preview" [class.avatar]="isAvatar" [style.backgroundImage]="backgroundImage" [ngStyle]="sizes">
-    <ng-template *ngIf="editable">
+  <div class="preview" [class.avatar]="isAvatar" [class.editable]="editable" [style.backgroundImage]="backgroundImage" [ngStyle]="sizes">
+    <ng-container *ngIf="editable">
       <input type="file" (change)="uploadFile($event)" [attr.accept]="accept" class="input-file" />
       <div class="loader" *ngIf="isLoadingAction; else icon">
         <mat-spinner class="small"></mat-spinner>
       </div>
       <ng-template #icon>
-        <app-icon name="camera" class="ico-camera"></app-icon>
+        <app-icon name="camera" class="ico-camera" size="1.6rem"></app-icon>
       </ng-template>
-    </ng-template>
+    </ng-container>
   </div>
 </div>
