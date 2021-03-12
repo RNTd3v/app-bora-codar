@@ -4,7 +4,7 @@
     <cms-button [button]="buttonAddConfig" (clickButtonEvent)="openDialogToCreateUser()"></cms-button>
   </header>
   <main class="middle">
-    <cms-search [filters]="userOptions" (searchEvent)="getAllUsers()">
+    <cms-search [filters]="userOptions" (searchEvent)="paginateUsers()">
       <div class="toggle-status">
         <label class="item">
           <span class="text">Todos</span>
@@ -25,9 +25,9 @@
     </cms-search>
     <div class="wrapper scrollable">
       <cms-table [dataSource]="users" [config]="userTableConfig" (actionEvent)="action($event)"
-        (sortChangeEvent)="getAllUsers()" (checkboxChangeEvent)="openDialogToChangeStatusUser($event)">
+        (sortChangeEvent)="paginateUsers()" (checkboxChangeEvent)="openDialogToChangeUserStatus($event)">
       </cms-table>
     </div>
-    <cms-pagination (changePage)="getAllUsers()"></cms-pagination>
+    <cms-pagination (changePage)="paginateUsers()"></cms-pagination>
   </main>
 </div>

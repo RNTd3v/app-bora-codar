@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DialogData, DialogTarget, IApiService, OptionsApi, StatusUser, User, UserChangePassword, UserDialogData, UserDialogTarget } from '@cms/core';
+import { DialogData, DialogTarget, IApiService, OptionsApi, UserStatus, User, UserChangePassword, UserDialogData, UserDialogTarget } from '@cms/core';
 import { IDialogService } from '@cms/partials';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { IUserService } from './user.service.interface';
@@ -17,12 +17,12 @@ export class UserService implements IUserService {
     private snackBar: MatSnackBar
     ) {}
 
-    getAllUsers(): Observable<User[]> {
+    paginateUsers(): Observable<User[]> {
       const options = { itsAList: true } as OptionsApi;
       return this.apiService.getAll<User[]>('v1/users', options);
     }
 
-    getUser(userID: string): Observable<User> {
+    showUser(userID: string): Observable<User> {
       return this.apiService.get<User>(`v1/users/${userID}`);
     }
 
@@ -38,7 +38,7 @@ export class UserService implements IUserService {
       return this.apiService.put<void>(`v1/users/${userID}/password`, userPass);
     }
 
-    updateStatusUser(status: StatusUser, userID: string): Observable<void> {
+    updateUserStatus(status: UserStatus, userID: string): Observable<void> {
       return this.apiService.patch<void>(`v1/users/${userID}/active`, status);
     }
 
@@ -56,7 +56,7 @@ export class UserService implements IUserService {
           await this.handleDialogTarget(dialogTarget);
         }
 
-        return await this.getAllUsers().toPromise();
+        return await this.paginateUsers().toPromise();
       }
 
       Promise.resolve(null);
@@ -72,7 +72,7 @@ export class UserService implements IUserService {
             .then(_ => this.snackBar.open('Usuário excluido com sucesso!', null, { duration: 2000}));
 
         case UserDialogTarget.changeStatus:
-          return await this.updateStatusUser(dialogTarget.data.status, dialogTarget.data.id).toPromise();
+          return await this.updateUserStatus(dialogTarget.data.status, dialogTarget.data.id).toPromise();
 
         default:
           break;

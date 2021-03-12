@@ -21,7 +21,7 @@ export class NavComponent implements OnInit {
     private router: Router) {}
 
   ngOnInit(): void {
-    this.menuItens = this.authService.getUserMenu();
+    this.menuItens = this.authService.showUserMenu();
     this.openMenu$ = this.store.select(getOpenMenuState);
   }
 

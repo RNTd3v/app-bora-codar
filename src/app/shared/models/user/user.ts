@@ -22,7 +22,7 @@ export class User {
   }
 }
 
-export interface StatusUser {
+export interface UserStatus {
   isActive: boolean;
 }
 
@@ -34,7 +34,7 @@ export interface UserChangePassword {
 
 export interface UserDialogData {
   id?: string;
-  status?: StatusUser;
+  status?: UserStatus;
   password?: UserChangePassword;
 }
 

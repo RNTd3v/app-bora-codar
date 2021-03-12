@@ -8,7 +8,9 @@ import { IUserService } from '../services';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { UpdateUserDataComponent } from './update-user-data/update-user-data.component';
 import { UpdateUserPasswordComponent } from './update-user-password/update-user-password.component';
-import { getError, getUsers, State } from '../state/users.reducer';
+import { State } from '../state/users.reducer';
+import { paginateUsers } from '../state/users.selectors';
+
 import * as UserActions from '../state/users.actions';
 import { tableConfig } from './config/index';
 
@@ -21,7 +23,6 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   users$: Observable<User[]>;
   users: User[];
-  errorMessage$: Observable<string>;
 
   userTableConfig = tableConfig as TableConfig;
 
@@ -35,7 +36,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     width: '80vw'
   } as DialogData<any>;
 
-
   buttonAddConfig = {
     type: 'button',
     text: 'Novo usuário',
@@ -45,21 +45,26 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private service: IUserService, private store: Store<State>, private router: Router, private config: IPaginationService) {}
+  constructor(
+    private service: IUserService,
+    private store: Store<State>,
+    private config: IPaginationService
+    ) {
+      this.users$ = this.store.select(paginateUsers);
+    }
 
   ngOnInit(): void {
-    this.getAllUsers();
-    this.errorMessage$ = this.store.select(getError);
+    this.paginateUsers();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  getAllUsers(): void {
-    this.store.dispatch(UserActions.loadUsers());
+  paginateUsers(): void {
+    this.store.dispatch(UserActions.paginateUsersRequested());
     this.subscription.add(
-      this.store.select(getUsers)
+      this.store.select(paginateUsers)
         .subscribe(users => this.users = users)
     );
 
@@ -70,27 +75,24 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   goToDetail(user: User): void {
-    this.store.dispatch(UserActions.setCurrentUser({ currentUserId: user.id }))
+    this.store.dispatch(UserActions.showUserRequested({ userId: user.id }))
   }
 
   action(tableAction: TableAction): void {
 
     const { data, buttonId } = tableAction;
+    const user = data as User;
 
     switch (buttonId) {
-      case ButtonId.update:
-        // this.store.dispatch(UserActions.setCurrentUser({ user }))
-        this.openDialogToUpdateUser(data as User);
-        break;
-      case ButtonId.delete:
-        this.openDialogToDeleteUser(data as User);
-        break;
-      case ButtonId.changePassword:
-        this.openDialogToChangePasswordUser(data as User);
-        break;
-      default:
-        this.router.navigate([`admin/user-management/user-detail/${data.id}`]);
-        break;
+        case ButtonId.delete:
+          this.openDialogToDeleteUser(user);
+          break;
+        case ButtonId.changePassword:
+          this.openDialogToChangePasswordUser(user);
+          break;
+        default:
+          this.store.dispatch(UserActions.setCurrentUser({ currentUserId: user.id }))
+          break;
     }
 
   }
@@ -109,7 +111,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
     }
 
-    this.getAllUsers();
+    this.paginateUsers();
   }
 
   openDialogToCreateUser(): void {
@@ -121,9 +123,9 @@ export class UsersComponent implements OnInit, OnDestroy {
     }))
   }
 
-  openDialogToChangeStatusUser(statusUser: TableStatus<User>): void {
+  openDialogToChangeUserStatus(UserStatus: TableStatus<User>): void {
 
-    const { data, checked } = statusUser;
+    const { data, checked } = UserStatus;
 
     this.handleUserDialogs(new DialogData<null>({
       title: 'Alterar o status do usuário',

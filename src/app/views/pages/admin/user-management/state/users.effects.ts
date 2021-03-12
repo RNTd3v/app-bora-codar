@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Router } from '@angular/router'
-import { User } from '@cms/core'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
-import { of } from 'rxjs'
+import { EMPTY, of } from 'rxjs'
 import { catchError, concatMap, map, mergeMap, tap } from 'rxjs/operators'
 import { IUserService } from '../services/user/user.service.interface'
 import * as UserActions from './users.actions'
@@ -12,41 +11,40 @@ export class UserEffects {
 
   constructor(private actions$: Actions, private service: IUserService, private router: Router) {}
 
-  loadUsers$ = createEffect(() => {
+  paginateUsers$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(UserActions.loadUsers),
+      ofType(UserActions.paginateUsersRequested),
       mergeMap(() =>
         this.service
-          .getAllUsers()
+          .paginateUsers()
           .pipe(
-            map((users) => UserActions.loadUsersSuccess({ users }),
-            catchError(error => of(UserActions.loadUsersFailure({ error })
+            map((users) => UserActions.paginateUsersSucceeded({ users }),
+            catchError(error => EMPTY )
           )
-        ))),
+        ),
       ),
     )
   });
 
-  loadUser$ = createEffect(() => {
+  showUser$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(UserActions.loadUser),
+      ofType(UserActions.showUserRequested),
       mergeMap((action) =>
         this.service
-          .getUser(action.userId)
+          .showUser(action.userId)
           .pipe(
-            map((user) => UserActions.loadUserSuccess({ user }),
-            catchError(error => of(UserActions.loadUserFailure({ error })
-          )
-        ))),
+            map((user) => UserActions.showUserSucceeded({ user }),
+            catchError(error => EMPTY )
+        )),
       ),
     )
   });
 
-  redirectAfterLoadUserSuccess$ = createEffect(
+  redirectAfterShowUserSuccess$ = createEffect(
     () => this.actions$.pipe(
-      ofType(UserActions.setCurrentUser),
-      tap(({ currentUserId }) => {
-        this.router.navigate([`admin/user-management/user-detail/${currentUserId}`]);
+      ofType(UserActions.showUserSucceeded),
+      tap(({ user }) => {
+        this.router.navigate([`admin/user-management/user-detail/${user.id}`]);
       })
     ),
     { dispatch: false }
@@ -54,15 +52,14 @@ export class UserEffects {
 
   updateUser$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(UserActions.updateUser),
+      ofType(UserActions.updateUserRequested),
       concatMap((action) =>
         this.service
           .updateUser(action.user, action.user.id)
           .pipe(
-            map((user) => UserActions.updateUserSuccess({ user }),
-            catchError(error => of(UserActions.updateUserFailure({ error })
-          )
-        ))),
+            map(() => UserActions.updateUserSucceeded(),
+            catchError(error => EMPTY )
+        )),
       ),
     )
   })

@@ -58,7 +58,7 @@ export class AuthService implements IAuthService {
     return Promise.resolve(this.tokenIsValid(token));
   }
 
-  getUserMenu(): Menu[] {
+  showUserMenu(): Menu[] {
     return this.storage.get(this.keyUserMenu);
   }
 

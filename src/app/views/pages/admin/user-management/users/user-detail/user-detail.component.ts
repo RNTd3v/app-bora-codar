@@ -3,10 +3,11 @@ import { FormConfig, User } from '@cms/core';
 import { environment } from '@cms/environment';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { getCurrentUser, State } from '../../state/users.reducer';
+import { State } from '../../state/users.reducer';
 import { userFormConfig } from './config/user-detail-form-config';
 import * as UserActions from '../../state/users.actions';
 import { ActivatedRoute } from '@angular/router';
+import { getCurrentUser } from '../../state/users.selectors';
 
 @Component({
   selector: 'app-user-detail',
