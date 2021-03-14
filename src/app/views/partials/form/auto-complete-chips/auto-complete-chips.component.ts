@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -14,13 +14,10 @@ import { FieldConfig } from '@cms/core';
 })
 export class AutoCompleteChipsComponent implements OnInit {
 
-  // @Input() title: string;
-  // @Input() list: any[] = [];
-  // @Input() chips: string[] = [];
-  // @Input() textInput = 'Adicionar ...';
-
-  field: FieldConfig;
-  group: FormGroup;
+  @Input() title: string;
+  @Input() list: any[] = [];
+  @Input() chips: string[] = [];
+  @Input() textInput = 'Adicionar ...';
 
   @Output()
   handleAddedAChip = new EventEmitter();
@@ -37,14 +34,13 @@ export class AutoCompleteChipsComponent implements OnInit {
   @ViewChild('chipInput') chipInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  private textInputChip = '';
+  private textInputChip = this.textInput;
 
   constructor() { }
 
   ngOnInit(): void {
     this.setFilterOptions();
     this.handleWhenAllChipsAreAdded();
-    this.textInputChip = this.field.placeholder;
   }
 
   addChip(event: MatChipInputEvent): void {
@@ -53,7 +49,7 @@ export class AutoCompleteChipsComponent implements OnInit {
     const value = event.value;
 
     if ((value || '').trim()) {
-      this.field.chipsName.push(value.trim());
+      this.chips.push(value.trim());
     }
 
     if (input) {
@@ -66,7 +62,7 @@ export class AutoCompleteChipsComponent implements OnInit {
 
   removeChip(chip: string): void {
 
-    const index = this.field.chipsName.indexOf(chip);
+    const index = this.chips.indexOf(chip);
 
     if (index >= 0) {
       this.remove(index);
@@ -93,22 +89,22 @@ export class AutoCompleteChipsComponent implements OnInit {
     this.filteredOptions = this.chipControl.valueChanges
       .pipe(
         startWith(''),
-        map(name => name ? this.filter(name) : this.field.chips.slice())
+        map(name => name ? this.filter(name) : this.list.slice())
       );
   }
 
   private filter(name: string): any[] {
     const filterValue = name.toLowerCase();
-    return this.field.chips.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
+    return this.list.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
   }
 
   private add(chip: string): void {
-    this.field.chipsName.push(chip);
+    this.chips.push(chip);
     this.handleAddedAChip.emit(chip);
   }
 
   private remove(index: number): void {
-    this.field.chipsName.splice(index, 1);
+    this.chips.splice(index, 1);
     this.handleRemovingAChip.emit(index);
   }
 
@@ -123,13 +119,13 @@ export class AutoCompleteChipsComponent implements OnInit {
   }
 
   private enabledInputAutoComplete(): void {
-    this.textInputChip = this.field.placeholder;
+    this.textInputChip = this.textInput;
     this.chipControl.enable();
   }
 
   private handleWhenAllChipsAreAdded(): void {
 
-    if (this.field.chips.length === this.field.chipsName.length) {
+    if (this.list.length === this.chips.length) {
       this.disabledInputAutoComplete();
       return;
     }
@@ -138,7 +134,7 @@ export class AutoCompleteChipsComponent implements OnInit {
   }
 
   private chipAlreadyAdded(chipName: string): boolean {
-    return this.field.chipsName.some(chip => chip === chipName);
+    return this.chips.some(chip => chip === chipName);
   }
 
   get placeholder(): string {

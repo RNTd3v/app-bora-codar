@@ -57,6 +57,8 @@ export class UserFormComponent implements OnInit {
 
   }
 
+  saveUser($event): void {}
+
   private handleRoles(): void {
 
     const roleIds = this.user.roles.map(role => role.id);

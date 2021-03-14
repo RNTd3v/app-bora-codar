@@ -116,7 +116,7 @@ export class UpdateUserDataComponent implements OnInit, OnDestroy {
   }
 
   private async getRoles(): Promise<Role[]> {
-    return await this.roleService.getAllRoles().toPromise();
+    return await this.roleService.paginateRoles().toPromise();
   }
 
   private handleRoles(): void {
