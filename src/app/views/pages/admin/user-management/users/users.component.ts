@@ -4,13 +4,12 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { UpdateUserPasswordComponent } from './update-user-password/update-user-password.component';
-import { State } from '../state/users.reducer';
-import { paginateUsers } from '../state/users.selectors';
+import { State } from '../state/users/users.reducer';
+import { paginateUsers } from '../state/users/users.selectors';
 
-import * as UserActions from '../state/users.actions';
+import * as UserActions from '../state/users/users.actions';
 import { buttonAddConfig, buttonTogglesConfig, dialogDataDefaultConfig, filterConfig, tableConfig } from './config/index';
 import { IDialogService } from '@cms/partials';
-import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-users',

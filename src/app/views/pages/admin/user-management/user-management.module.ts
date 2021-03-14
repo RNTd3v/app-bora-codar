@@ -21,17 +21,26 @@ import { MatSortModule } from '@angular/material/sort';
 
 // Modules
 import { FormModule, IconModule, PartialsModule } from '@cms/partials';
-
+import { EffectsModule } from '@ngrx/effects';
 
 // Services
 import { IRoleService, IUserService } from './services';
 import { RoleService } from './services/role/role.service';
 import { UserService } from './services/user/user.service';
 
+// NGRX
+import { userReducer } from './state/users/users.reducer';
+import { UserEffects } from './state/users/users.effects';
+import { roleReducer } from './state/roles/roles.reducer';
+import { RoleEffects } from './state/roles/roles.effects';
+
 // Components
 import { UserManagementComponent } from './user-management.component';
 import { UsersComponent } from './users/users.component';
 import { UserDetailComponent } from './users/user-detail/user-detail.component';
+import { UserInfoComponent } from './users/user-detail/user-info/user-info.component';
+import { UserFormComponent } from './users/user-detail/user-form/user-form.component';
+import { UserChangepassFormComponent } from './users/user-detail/user-changepass-form/user-changepass-form.component';
 import { RolesComponent } from './roles/roles.component';
 import { UpdateUserDataComponent } from './users/update-user-data/update-user-data.component';
 import { CreateUserComponent } from './users/create-user/create-user.component';
@@ -39,12 +48,6 @@ import { UpdateUserPasswordComponent } from './users/update-user-password/update
 import { CreateRoleComponent } from './roles/create-role/create-role.component';
 import { UpdateRoleDataComponent } from './roles/update-role-data/update-role-data.component';
 
-import { userReducer } from './state/users.reducer';
-import { EffectsModule } from '@ngrx/effects';
-import { UserEffects } from './state/users.effects';
-import { UserFormComponent } from './users/user-detail/user-form/user-form.component';
-import { UserInfoComponent } from './users/user-detail/user-info/user-info.component';
-import { UserChangepassFormComponent } from './users/user-detail/user-changepass-form/user-changepass-form.component';
 
 const routesChild: Routes = [
   {
@@ -91,7 +94,8 @@ const routesChild: Routes = [
     CommonModule,
     RouterModule.forChild(routesChild),
     StoreModule.forFeature('users', userReducer),
-    EffectsModule.forFeature([UserEffects]),
+    StoreModule.forFeature('roles', roleReducer),
+    EffectsModule.forFeature([UserEffects, RoleEffects]),
     FormsModule,
     ReactiveFormsModule,
     IconModule,

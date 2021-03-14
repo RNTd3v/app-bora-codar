@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
 import { catchError, concatMap, map, mergeMap, tap } from 'rxjs/operators';
-import { IUserService } from '../services/user/user.service.interface';
+import { IUserService } from '../../services/user/user.service.interface';
 import * as UserActions from './users.actions';
 
 @Injectable()

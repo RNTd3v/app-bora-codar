@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormConfig, Role, User } from '@cms/core';
-import { environment } from '@cms/environment';
-import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
-import { State } from '../../state/users.reducer';
-import { userFormConfig } from './config/user-detail-form-config';
-import * as UserActions from '../../state/users.actions';
 import { ActivatedRoute } from '@angular/router';
-import { showUser } from '../../state/users.selectors';
+import { Store } from '@ngrx/store';
+import { Role, User } from '@cms/core';
+import { environment } from '@cms/environment';
+import { Subscription } from 'rxjs';
+import { State } from '../../state/users/users.reducer';
+import * as UserActions from '../../state/users/users.actions';
+import { showUser } from '../../state/users/users.selectors';
 
 @Component({
   selector: 'app-user-detail',

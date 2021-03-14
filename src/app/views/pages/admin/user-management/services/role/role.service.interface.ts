@@ -1,11 +1,11 @@
-import { DialogData, Role } from '@cms/core';
+import { DialogData, LinkMenus, Role } from '@cms/core';
 import { Observable } from 'rxjs';
 
 export abstract class IRoleService {
 
-  abstract getAllRoles(): Observable<Role[]>;
+  abstract paginateRoles(): Observable<Role[]>;
 
-  abstract getRole(roleID: string): Observable<Role>;
+  abstract showRole(roleID: string): Observable<Role>;
 
   abstract createRole(role: Role): Observable<Role>;
 
@@ -13,6 +13,6 @@ export abstract class IRoleService {
 
   abstract deleteRole(roleID: string): Observable<Role>;
 
-  abstract handleRoleDialogs(dialogData: DialogData<any>, roleId?: string): Promise<Role[]>;
+  abstract linkRoleWithMenu(linkMenus: LinkMenus, roleId: string): Observable<any>;
 
 }

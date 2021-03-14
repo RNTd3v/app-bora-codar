@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DialogData, IApiService, OptionsApi, Role } from '@cms/core';
+import { DialogData, IApiService, LinkMenus, OptionsApi, Role } from '@cms/core';
 import { IDialogService } from '@cms/partials';
 import { Observable } from 'rxjs';
 import { IRoleService } from './role.service.interface';
@@ -14,12 +14,12 @@ export class RoleService implements IRoleService {
     private snackBar: MatSnackBar
     ) { }
 
-  getAllRoles(): Observable<Role[]> {
+  paginateRoles(): Observable<Role[]> {
     const options = { itsAList: true } as OptionsApi;
     return this.apiService.getAll<Role[]>('v1/roles', options);
   }
 
-  getRole(roleID: string): Observable<Role> {
+  showRole(roleID: string): Observable<Role> {
     return this.apiService.get<Role>(`v1/roles/${roleID}`);
   }
 
@@ -35,21 +35,8 @@ export class RoleService implements IRoleService {
     return this.apiService.delete<Role>(`v1/roles/${roleID}`);
   }
 
-  async handleRoleDialogs(dialogData: DialogData<any>, roleId: string = null): Promise<Role[]> {
-
-    const wasItConfirmed = await this.dialogService.openDialog(dialogData);
-
-    if (wasItConfirmed) {
-
-      if (!!roleId) {
-        await this.deleteRole(roleId).toPromise()
-          .then(_ => this.snackBar.open('Perfil excluido com sucesso!', null, { duration: 2000}));
-      }
-
-      return await this.getAllRoles().toPromise();
-    }
-
-    Promise.resolve(null);
-
+  linkRoleWithMenu(linkMenus: LinkMenus, roleId: string): Observable<any> {
+    return this.apiService.post<any>(`v1/roles/${roleId}/menus`, linkMenus);
   }
+
 }

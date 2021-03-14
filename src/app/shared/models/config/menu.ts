@@ -15,3 +15,7 @@ export interface Menu {
   closeTab: boolean;
   childrens: Menu[]
 }
+
+export interface LinkMenus {
+  menus: Menu[]
+}

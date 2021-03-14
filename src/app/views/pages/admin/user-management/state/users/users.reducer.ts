@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { User} from '@cms/core';
-import * as AppState from '../../../../theme/state/app.reducer';
+import * as AppState from '../../../../../theme/state/app.reducer';
 import {
   paginateUsersRequested, paginateUsersSucceeded, paginateUsersFailed,
   showUserRequested, showUserSucceeded, showUserFailed, createUserRequested,
