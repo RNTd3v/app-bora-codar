@@ -46,7 +46,7 @@ export const userReducer = createReducer<UserState>(
 
   // Update
   on(updateUserRequested, (state, { user }) => ({...state, user })),
-  on(updateUserSucceeded, (state) => state),
+  on(updateUserSucceeded, (state, { user }) => ({...state, user })),
   on(updateUserFailed, (state, { error }) => ({...state, error })),
 
   // Update Password

@@ -1,4 +1,18 @@
-<label class="c-checkbox" [class.-border]="!isChecked" (change)="changeValue()">
+<!-- <label class="c-checkbox" [class.-border]="!isChecked" (change)="changeValue()">
   <input type="checkbox" class="checkbox" [checked]="isChecked" #inputCheckbox />
   <app-icon name="check-circle" size="2.5rem" *ngIf="isChecked"></app-icon>
-</label>
+</label> -->
+
+<div class="c-field -checkbox" [formGroup]="group">
+
+  <label class="label" (change)="changeValue(field.name)">
+    <input [type]="field.inputType" [formControlName]="field.name" [checked]="field.value" class="field" #inputCheckbox />
+    {{field.label}}
+  </label>
+
+  <ng-container *ngFor="let validation of field.validations" ngProjectAs="field-error">
+    <span class="message" *ngIf="showMessageError(field.name, validation.name)">{{validation.message}}</span>
+  </ng-container>
+
+</div>
+

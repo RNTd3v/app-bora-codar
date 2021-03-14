@@ -1,4 +1,10 @@
 .c-auto-complete-chips {
+  .field {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 1rem;
+    flex: initial;
+  }
   mat-form-field {
     width: 100%;
   }

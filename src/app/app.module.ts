@@ -20,6 +20,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 @NgModule({
   declarations: [
     AppComponent
@@ -34,6 +35,7 @@ import { EffectsModule } from '@ngrx/effects';
     HttpClientModule,
     ThemeModule,
     MatSnackBarModule,
+    MatProgressBarModule,
     FontAwesomeModule,
     StoreModule.forRoot({}),
     StoreDevtoolsModule.instrument({

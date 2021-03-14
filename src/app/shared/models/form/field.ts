@@ -17,6 +17,5 @@ export interface FieldConfig {
   hasError?: boolean;
   validations?: Validator[];
   buttonConfig?: ButtonConfig;
-  chips?: any[];
-  chipsName?: string[];
+  validationArray?: boolean;
 }

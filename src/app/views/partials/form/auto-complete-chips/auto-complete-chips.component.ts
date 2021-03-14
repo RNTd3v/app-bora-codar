@@ -1,11 +1,9 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { map, startWith } from 'rxjs/operators';
-import { FieldConfig } from '@cms/core';
 
 @Component({
   selector: 'app-auto-complete-chips',
@@ -14,7 +12,7 @@ import { FieldConfig } from '@cms/core';
 })
 export class AutoCompleteChipsComponent implements OnInit {
 
-  @Input() title: string;
+  @Input() label: string;
   @Input() list: any[] = [];
   @Input() chips: string[] = [];
   @Input() textInput = 'Adicionar ...';
@@ -27,9 +25,6 @@ export class AutoCompleteChipsComponent implements OnInit {
 
   chipControl = new FormControl();
   filteredOptions: Observable<string[]>;
-  selectable = true;
-  removable = true;
-  separatorKeysCodes: number[] = [ENTER, COMMA];
 
   @ViewChild('chipInput') chipInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -60,9 +55,9 @@ export class AutoCompleteChipsComponent implements OnInit {
 
   }
 
-  removeChip(chip: string): void {
+  removeChip(index: number): void {
 
-    const index = this.chips.indexOf(chip);
+    // const index = this.chips.indexOf(chip);
 
     if (index >= 0) {
       this.remove(index);

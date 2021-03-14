@@ -1,13 +1,15 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ButtonConfig, FormConfig, IUIStateService, UIState } from '@cms/core';
+import { ButtonConfig, FormConfig, LoaderService } from '@cms/core';
+import { Observable, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'cms-dynamic-form',
   templateUrl: './dynamic-form.component.html',
   styleUrls: ['./dynamic-form.component.scss']
 })
-export class DynamicFormComponent implements OnInit {
+export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() formConfig = {} as FormConfig;
 
@@ -16,15 +18,33 @@ export class DynamicFormComponent implements OnInit {
   @Output() clickButton: EventEmitter<any> = new EventEmitter<any>();
 
   form: FormGroup;
+  isLoading$: Observable<boolean>;
+
+  private subscription = new Subscription();
 
   constructor(
     private formBuilder: FormBuilder,
-    private uiStateService: IUIStateService
-    ) { }
+    private loaderService: LoaderService
+    ) {
+      this.isLoading$ = this.loaderService.isLoading.pipe(debounceTime(0));
+    }
 
   ngOnInit(): void {
     this.form = this.createControl();
-    this.form.statusChanges.subscribe(status => this.disableButton(status === 'INVALID'));
+    this.handleDisableButton();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+
+    if(!!changes && changes.hasOwnProperty('formConfig')) {
+      this.form = this.createControl();
+      this.disableButton(this.form.invalid);
+    }
+
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   onSubmit(event: Event) {
@@ -32,11 +52,8 @@ export class DynamicFormComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
-    this.uiStateService.setUIState(UIState.loadingAction);
-
     if (this.form.valid) {
       this.submit.emit(this.form.value);
-      this.disableButton(true);
       return;
     }
 
@@ -59,7 +76,9 @@ export class DynamicFormComponent implements OnInit {
         return;
       };
 
-      const control = this.formBuilder.control(field.value, this.bindValidations(field.validations || []));
+      const control = field.validationArray ?
+        this.formBuilder.array(field.value, this.bindValidations(field.validations || [])) :
+        this.formBuilder.control(field.value, this.bindValidations(field.validations || []))
 
       group.addControl(field.name, control);
 
@@ -92,6 +111,12 @@ export class DynamicFormComponent implements OnInit {
       control.markAsTouched({ onlySelf: true });
     });
 
+  }
+
+  private handleDisableButton(): void {
+    this.disableButton(this.form.invalid);
+    this.subscription.add(this.form.statusChanges.subscribe(status => this.disableButton(status === 'INVALID')));
+    this.subscription.add(this.isLoading$.subscribe(status => this.disableButton(status)));
   }
 
   private disableButton(statusForm: boolean): void {

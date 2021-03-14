@@ -1,6 +1,6 @@
 <div class="user-form">
   <cms-dynamic-form [formConfig]="formConfig" (submit)="saveUser($event)">
-    <app-auto-complete-chips title="Perfis" textInput="Add perfil ..." [list]="roles" [chips]="rolesNames"
+    <app-auto-complete-chips label="Perfis" textInput="Add perfil ..." [list]="roles" [chips]="rolesNames"
       (handleAddedAChip)="addRoleId($event)" (handleRemovingAChip)="removeRoleId($event)">
     </app-auto-complete-chips>
   </cms-dynamic-form>

@@ -18,10 +18,10 @@
               <img [src]="getPathImage(data[column?.id])" alt="Image" class="o-image -thumbnail -round" />
             </div>
             <span *ngSwitchCase="'TOGGLE'" class="column">
-              <cms-checkbox [isChecked]="data[column?.id]" (changeCheckedFn)="checkboxChange($event, data, i)"></cms-checkbox>
+              <cms-toggle [isChecked]="data[column?.id]" (changeCheckedFn)="checkboxChange($event, data, i)"></cms-toggle>
             </span>
             <span *ngSwitchCase="'LIST'" (click)="action(data, 'VIEW', null)" class="column -clickable">
-              <cms-chips [chips]="getChipsName(data[column?.id])"></cms-chips>
+              <cms-chips [chips]="getChipsName(data[column?.id])" [limitToView]="1"></cms-chips>
             </span>
 
             <span *ngSwitchDefault (click)="action(data, 'VIEW', null)" class="column -text -clickable">

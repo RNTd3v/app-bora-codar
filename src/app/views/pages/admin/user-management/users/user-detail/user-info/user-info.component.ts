@@ -40,7 +40,7 @@ export class UserInfoComponent implements OnInit {
   }
 
   getRolesName(roles: Role[]): string[] {
-    return roles.map(role => role.name);
+    return !!roles && roles.length > 0 && roles.map(role => role.name);
   }
 
   get buttonMail(): ButtonConfig {

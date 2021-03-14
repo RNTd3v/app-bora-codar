@@ -1,18 +1,22 @@
-<div class="c-field -input" [formGroup]="group" [ngSwitch]="field.name">
+<ng-container *ngIf="field.inputType !== 'hidden'">
 
-  <label class="label">{{field.label}}</label>
+  <div class="c-field -input" [formGroup]="group" [ngSwitch]="field.name" >
 
-    <!-- Input Password -->
-    <input [type]="hidePassword ? 'password' : 'text'" [formControlName]="field.name" *ngSwitchCase="'password'" class="field" />
-    <button type="button" (click)="hidePassword = !hidePassword" class="button-eye" *ngSwitchCase="'password'">
-      <app-icon [name]="hidePassword ? 'eye-slash' : 'eye'" class="o-icon-eye"></app-icon>
-    </button>
-    <!-- fim: Input Password -->
+    <label class="label">{{field.label}}</label>
 
-    <input [type]="field.inputType" [formControlName]="field.name" class="field" *ngSwitchDefault />
+      <!-- Input Password -->
+      <input [type]="hidePassword ? 'password' : 'text'" [formControlName]="field.name" *ngSwitchCase="'password'" class="field" />
+      <button type="button" (click)="hidePassword = !hidePassword" class="button-eye" *ngSwitchCase="'password'">
+        <app-icon [name]="hidePassword ? 'eye-slash' : 'eye'" class="o-icon-eye"></app-icon>
+      </button>
+      <!-- fim: Input Password -->
 
-  <ng-container *ngFor="let validation of field.validations" ngProjectAs="field-error">
-    <span class="message" *ngIf="showMessageError(field.name, validation.name)">{{validation.message}}</span>
-  </ng-container>
+      <input [type]="field.inputType" [formControlName]="field.name" class="field" *ngSwitchDefault />
 
-</div>
+    <ng-container *ngFor="let validation of field.validations" ngProjectAs="field-error">
+      <span class="message" *ngIf="showMessageError(field.name, validation.name)">{{validation.message}}</span>
+    </ng-container>
+
+  </div>
+
+</ng-container>

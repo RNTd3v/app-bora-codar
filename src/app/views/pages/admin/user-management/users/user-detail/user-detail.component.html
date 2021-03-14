@@ -16,7 +16,7 @@
       </div>
       <div class="col -form">
         <ng-container *ngIf="!!user">
-          <cms-user-form [user]="user"></cms-user-form>
+          <cms-user-form [user]="user" [roles]="roles$ | async" (submit)="saveUser($event)"></cms-user-form>
         </ng-container>
       </div>
     </div>

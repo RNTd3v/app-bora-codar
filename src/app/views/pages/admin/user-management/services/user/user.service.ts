@@ -27,6 +27,10 @@ export class UserService implements IUserService {
     }
 
     updateUser(user: User, userID: string): Observable<User> {
+      console.log(user);
+      console.log(userID);
+
+
       return this.apiService.put<User>(`v1/users/${userID}`, user);
     }
 

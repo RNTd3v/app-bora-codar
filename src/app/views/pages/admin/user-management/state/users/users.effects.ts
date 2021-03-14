@@ -119,9 +119,9 @@ export class UserEffects {
       ofType(UserActions.updateUserRequested),
       concatMap((action) =>
         this.service
-          .updateUser(action.user, action.user.id)
+          .updateUser(action.user, action.userId)
           .pipe(
-            map(() => UserActions.updateUserSucceeded()),
+            map((user) => UserActions.updateUserSucceeded({ user })),
             catchError(error => of(UserActions.updateUserFailed({ error })) )
         ),
       ),

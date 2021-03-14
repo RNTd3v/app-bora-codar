@@ -1,10 +1,12 @@
 import { ComponentFactoryResolver, Directive, EventEmitter, Input, OnInit, Output, ViewContainerRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FieldConfig } from '@cms/core';
+import { CheckboxComponent } from '../checkbox/checkbox.component';
 import { InputComponent } from '../input/input.component';
 
 const componentMapper = {
-  input: InputComponent
+  input: InputComponent,
+  checkbox: CheckboxComponent
 }
 
 @Directive({

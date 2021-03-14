@@ -1,12 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Role, User } from '@cms/core';
+import { IPaginationService, Role, User } from '@cms/core';
 import { environment } from '@cms/environment';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { State } from '../../state/users/users.reducer';
 import * as UserActions from '../../state/users/users.actions';
+import * as RoleActions from '../../state/roles/roles.actions';
 import { showUser } from '../../state/users/users.selectors';
+import { paginateRoles } from '../../state/roles/roles.selectors';
 
 @Component({
   selector: 'app-user-detail',
@@ -18,18 +20,20 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   user: User;
   userId: string;
 
-  roles: Role[] = [];
+  roles$!: Observable<Role[]>;
 
   private subscription = new Subscription();
 
-  constructor(private store: Store<State>, private route: ActivatedRoute) {
+  constructor(private store: Store<State>, private route: ActivatedRoute, private config: IPaginationService) {
     this.userId = this.route.snapshot.paramMap.get('id');
+
+    this.config.queryParams = { ...this.config.queryParams, perPage: 50 };
+    this.roles$ = this.store.select(paginateRoles);
   }
 
   ngOnInit(): void {
     this.getUser();
-    // get roles
-
+    this.getRoles();
   }
 
   private getUser(): void {
@@ -48,7 +52,12 @@ export class UserDetailComponent implements OnInit, OnDestroy {
 
   }
 
+  private getRoles(): void {
+    this.store.dispatch(RoleActions.paginateRolesRequested());
+  }
+
   ngOnDestroy(): void {
+    this.config.applyDefaultValues();
     this.subscription.unsubscribe();
   }
 
@@ -57,6 +66,10 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   }
 
   saveUser(user: User): void {
+    console.log(user);
+    console.log(this.userId);
+
+
     this.store.dispatch(UserActions.updateUserRequested({ user, userId: this.userId }));
   }
 

@@ -17,7 +17,7 @@ export const createUserSucceeded = createAction(constants.CREATE_USER_SUCCEEDED)
 export const createUserFailed = createAction(constants.CREATE_USER_FAILED, props<{ error: string }>());
 
 export const updateUserRequested = createAction(constants.UPDATE_USER_REQUESTED, props<{ user: User, userId: string }>());
-export const updateUserSucceeded = createAction(constants.UPDATE_USER_SUCCEEDED);
+export const updateUserSucceeded = createAction(constants.UPDATE_USER_SUCCEEDED, props<{ user: User }>());
 export const updateUserFailed = createAction(constants.UPDATE_USER_FAILED, props<{ error: string }>());
 
 export const updateUserPasswordRequested = createAction(constants.UPDATE_USER_PASSWORD_REQUESTED, props<{ data: UserChangePassword, userId: string }>());

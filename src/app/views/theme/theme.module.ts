@@ -13,6 +13,7 @@ import { PartialsModule } from '../partials/partials.module';
 import { NavComponent } from './nav/nav.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { appReducer } from './state/app.reducer';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [

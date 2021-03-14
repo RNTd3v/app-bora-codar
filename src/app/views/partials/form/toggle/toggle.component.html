@@ -1,0 +1,4 @@
+<label class="c-toggle" [class.-border]="!isChecked" (change)="changeValue()">
+  <input type="checkbox" class="checkbox" [checked]="isChecked" #inputCheckbox />
+  <app-icon name="check-circle" size="2.5rem" *ngIf="isChecked"></app-icon>
+</label>

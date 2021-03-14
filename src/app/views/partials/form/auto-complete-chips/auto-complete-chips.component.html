@@ -1,34 +1,18 @@
 <div class="c-auto-complete-chips">
 
-  <mat-form-field appearance="fill">
+  <div class="c-field -input">
 
-    <mat-label>{{title}}</mat-label>
+    <label class="label">{{label}}</label>
 
-    <mat-chip-list #chipList aria-label="">
-        <mat-chip
-          *ngFor="let chip of chips"
-          [selectable]="selectable"
-          [removable]="removable"
-          (removed)="removeChip(chip)">
-          {{chip}}
-          <app-icon name="times" matChipRemove *ngIf="removable"></app-icon>
-        </mat-chip>
-        <input
-          [placeholder]="placeholder"
-          #chipInput
-          [formControl]="chipControl"
-          [matAutocomplete]="auto"
-          [matChipInputFor]="chipList"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          (matChipInputTokenEnd)="addChip($event)">
-    </mat-chip-list>
-
+    <input [placeholder]="placeholder" #chipInput [formControl]="chipControl" [matAutocomplete]="auto" class="field">
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedChip($event)">
       <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
         {{option.name}}
       </mat-option>
     </mat-autocomplete>
 
-  </mat-form-field>
+    <cms-chips [chips]="chips" showTrashButton="true" (deleteChipFn)="removeChip($event)"></cms-chips>
+
+  </div>
 
 </div>

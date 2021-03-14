@@ -1,4 +1,6 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { FieldConfig } from '@cms/core';
 
 @Component({
   selector: 'cms-checkbox',
@@ -7,16 +9,23 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 })
 export class CheckboxComponent implements OnInit {
 
-  @Input() isChecked = false;
-  @Output() changeCheckedFn = new EventEmitter();
+  field: FieldConfig;
+  group: FormGroup;
+
+  @Output() validatedField = new EventEmitter();
   @ViewChild('inputCheckbox') inputCheckbox!: ElementRef;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {}
 
-  changeValue(): void {
-    this.changeCheckedFn.emit(this.inputCheckbox.nativeElement.checked);
+  changeValue(fieldName: string): void {
+    this.group.get(fieldName).setValue(this.inputCheckbox.nativeElement.checked);
+  }
+
+  showMessageError(fieldName: string, validationName: string): boolean {
+    const field = this.group.get(fieldName)
+    return field.hasError(validationName);
   }
 
 }

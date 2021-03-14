@@ -23,16 +23,29 @@ export class ChipsComponent implements OnInit {
     }
   }
 
-  get listChips(): string [] {
-    return this.limitToView ? this.chips.slice(this.limitToView) : this.chips;
+  listChips(): string [] {
+    if (this.hasChips()) {
+      return this.limitToView ? this.chips.slice(0, this.limitToView) : this.chips;
+    }
+    return [];
   }
 
-  get showChipMore(): boolean {
-    return this.limitToView ? this.chips.length > this.limitToView : false;
+  showChipMore(): boolean {
+    if (this.hasChips()) {
+      return this.limitToView ? this.chips.length > this.limitToView : false;
+    }
+    return false
   }
 
-  get numberMore(): string {
-    return `+${this.chips.length - this.limitToView}`;
+  numberMore(): string {
+    if (this.hasChips()) {
+      return `+${this.chips.length - this.limitToView}`;
+    }
+    return '';
+  }
+
+  private hasChips(): boolean {
+    return this.chips && this.chips.length > 0;
   }
 
 }

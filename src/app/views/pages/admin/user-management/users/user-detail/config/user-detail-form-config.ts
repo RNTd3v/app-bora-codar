@@ -1,5 +1,5 @@
 import { Validators } from "@angular/forms";
-import { ButtonConfig, ButtonId, FieldConfig, FormConfig, User } from "@cms/core";
+import { ArrayValidators, ButtonConfig, ButtonId, FieldConfig, FormConfig, User } from "@cms/core";
 
 const userFields = (user: User | undefined) => {
   return [
@@ -42,15 +42,24 @@ const userFields = (user: User | undefined) => {
       ]
     },
     {
+      type: 'checkbox',
+      label: 'Ativo',
+      inputType: 'checkbox',
+      name: 'isActive',
+      value: !!user ? user.isActive : null,
+      validations: []
+    },
+    {
       type: 'input',
       label: 'Perfis',
       inputType: 'hidden',
       name: 'roleIds',
       value: !!user ? user.roleIds : null,
+      validationArray: true,
       validations: [
         {
-          name: "required",
-          validator: Validators.required,
+          name: "minlength",
+          validator: ArrayValidators.minLength(1),
           message: "Pelo menos um perfil tem que ser selecionado"
         }
       ]

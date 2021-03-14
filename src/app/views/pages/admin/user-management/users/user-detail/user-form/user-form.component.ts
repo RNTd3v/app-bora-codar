@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormConfig, Role, User } from '@cms/core';
 import { userFormConfig } from '../config/user-detail-form-config';
 
@@ -15,6 +15,9 @@ export class UserFormComponent implements OnInit {
   @Input()
   roles: Role[] = [];
 
+  @Output()
+  submit = new EventEmitter<User>();
+
   rolesNames: string[] = [];
   formConfig: FormConfig;
 
@@ -27,37 +30,38 @@ export class UserFormComponent implements OnInit {
 
   addRoleId(roleName: string): void {
 
-    // const roleId = this.roles
-    //   .filter(role => role.name === roleName)
-    //   .map(role => role.id);
+    const roleId = this.roles
+      .filter(role => role.name === roleName)
+      .map(role => role.id);
 
-    // const roleIds = this.formConfig.fields
-    //   .filter(config => config.name === 'roleIds')
-    //   .map(roleIds => roleIds.value);
+    const { roleIds } = this.user;
 
-    // const fields = {
-    //   ...this.formConfig.fields,
-    // }
+    this.user = {
+      ...this.user,
+      roleIds: [...roleIds, ...roleId]
+    }
 
-    // this.formConfig = {
-    //   ...this.formConfig,
-    //   fields
-    // }
-
-    // this.formUser.get('roleIds').setValue([...(roleIds ? roleIds : ''), ...roleId]);
+    this.formConfig = userFormConfig(this.user);
 
   }
 
   removeRoleId(index: number): void {
 
-    // const roleIds = this.formUser.get('roleIds').value as string[];
-    // roleIds.splice(index, 1);
+    const { roleIds } = this.user;
+    roleIds.splice(index, 1);
 
-    // this.formUser.get('roleIds').setValue([...roleIds]);
+    this.user = {
+      ...this.user,
+      roleIds: [...roleIds]
+    }
+
+    this.formConfig = userFormConfig(this.user);
 
   }
 
-  saveUser($event): void {}
+  saveUser(user: User): void {
+    this.submit.emit(user);
+  }
 
   private handleRoles(): void {
 
@@ -69,6 +73,9 @@ export class UserFormComponent implements OnInit {
       ...this.user,
       roleIds
     };
+
+    console.log(this.user);
+
 
   }
 

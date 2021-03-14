@@ -1,6 +1,6 @@
 <div class="c-chips">
-  <div class="chip" [class.-can-delete]="showTrashButton" *ngFor="let chip of listChips; let i = index" (click)="deleteChip(i)">
+  <div class="chip" [class.-can-delete]="showTrashButton" *ngFor="let chip of listChips(); let i = index" (click)="deleteChip(i)">
     {{ chip }} <span *ngIf="showTrashButton" class="bt-delete">x</span>
   </div>
-  <div class="chip -more" *ngIf="showChipMore"> {{ numberMore }} </div>
+  <div class="chip -more" *ngIf="showChipMore()"> {{ numberMore() }} </div>
 </div>

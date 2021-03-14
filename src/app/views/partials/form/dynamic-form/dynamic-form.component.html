@@ -5,7 +5,8 @@
   </div>
   <ng-content></ng-content>
   <div class="buttons">
-    <ng-container *ngFor="let button of formConfig.buttons" dynamicButton [button]="button" (clickButtonEvent)="onClick($event)">
+    <ng-container *ngFor="let button of formConfig.buttons" dynamicButton [button]="button"
+      (clickButtonEvent)="onClick($event)">
     </ng-container>
   </div>
 </form>
