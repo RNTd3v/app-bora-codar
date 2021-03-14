@@ -9,3 +9,11 @@ export class Role {
     this.admin = role.admin;
   }
 }
+
+export interface RoleDialogData {
+  id?: string;
+}
+
+export enum RoleDialogTarget {
+  delete
+}

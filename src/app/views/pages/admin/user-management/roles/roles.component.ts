@@ -1,10 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Role, TableAction, Option, DialogData, ButtonId } from '@cms/core';
-import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
-import { IRoleService } from '../services';
+import { Role, TableAction, Option, DialogData, ButtonId, DialogTarget, RoleDialogData, RoleDialogTarget, TableConfig, ButtonConfig } from '@cms/core';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { State } from '../state/roles/roles.reducer';
 import { CreateRoleComponent } from './create-role/create-role.component';
 import { UpdateRoleDataComponent } from './update-role-data/update-role-data.component';
+import * as RoleActions from '../state/roles/roles.actions';
+import { IDialogService } from '@cms/partials';
+import { buttonAddConfig, dialogDataDefaultConfig, filterConfig, tableConfig } from './config/index';
+import { paginateRoles } from '../state/roles/roles.selectors';
 
 @Component({
   selector: 'app-roles',
@@ -13,51 +17,49 @@ import { UpdateRoleDataComponent } from './update-role-data/update-role-data.com
 })
 export class RolesComponent implements OnInit, OnDestroy {
 
-  roles: Role[];
+  roles$: Observable<Role[]>;
 
-  roleOptions = [
-    { id: 'name', name: 'Nome' }
-  ] as Option[];
+  tableConfig = tableConfig as TableConfig;
+  filterConfig = filterConfig as Option[];
+  buttonAddConfig = buttonAddConfig as ButtonConfig;
 
-  dialogDataDefault = {
-    confirmText: 'Salvar',
-    width: '80vw'
-  } as DialogData<any>;
-
-  isLoadingResults = true;
-  isLoadingAction = false;
+  dialogDataDefault = dialogDataDefaultConfig as DialogData<any>;
 
   private subscription = new Subscription();
 
-  constructor(private service: IRoleService) {}
+  constructor(
+    private dialogService: IDialogService,
+    private store: Store<State>) {
+      this.roles$ = this.store.select(paginateRoles);
+    }
 
-  ngOnInit(): void {}
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+  ngOnInit(): void {
+    this.paginateRoles();
   }
 
-  getAllRoles(): void {
-    this.subscription.add(
-      this.service.getAllRoles()
-        .pipe(finalize(() => this.stopLoaders()))
-        .subscribe({next: roles => this.roles = roles})
-    );
+  ngOnDestroy(): void {
+    this.store.dispatch(RoleActions.paginateRolesCleared());
+  }
 
+  paginateRoles(): void {
+    this.store.dispatch(RoleActions.paginateRolesRequested());
+  }
+
+  goToDetail(role: Role): void {
+    this.store.dispatch(RoleActions.showRoleRequested({ roleId: role.id }))
   }
 
   action(tableAction: TableAction): void {
 
     const { data, buttonId } = tableAction;
+    const role = data as Role;
 
     switch (buttonId) {
-      case  ButtonId.update:
-        this.openDialogToUpdateRole(data as Role);
-        break;
       case ButtonId.delete:
-        this.openDialogToDeleteRole(data as Role);
+        this.openDialogToDeleteRole(role);
         break;
       default:
+        this.goToDetail(role);
         break;
     }
 
@@ -89,23 +91,39 @@ export class RolesComponent implements OnInit, OnDestroy {
     this.handleRoleDialogs(new DialogData<null>({
       title: 'Deletar perfil',
       text: `Tem certeza que deseja excluir o perfil ${role.name}`
-    }), role.id);
+    }), {
+      data: { id: role.id },
+      target: RoleDialogTarget.delete
+    });
 
   }
 
-  private async handleRoleDialogs(dialogData: DialogData<any>, roleId: string = null): Promise<void> {
+  async handleRoleDialogs(dialogData: DialogData<any>, dialogTarget?: DialogTarget<RoleDialogData, RoleDialogTarget>): Promise<void> {
 
-    const roles = await this.service.handleRoleDialogs(dialogData, roleId);
+    const wasItConfirmed = await this.dialogService.openDialog(dialogData);
 
-    if (!!roles) {
-      this.roles = roles;
+    if (wasItConfirmed) {
+
+      if (!!dialogTarget) {
+        this.handleDialogTarget(dialogTarget);
+      }
+
     }
 
   }
 
-  private stopLoaders(): void {
-    this.isLoadingAction = false;
-    this.isLoadingResults = false;
+  private handleDialogTarget(dialogTarget: DialogTarget<RoleDialogData, RoleDialogTarget>): void {
+
+    switch (dialogTarget.target) {
+
+      case RoleDialogTarget.delete:
+        this.store.dispatch(RoleActions.deleteRoleRequested({ roleId: dialogTarget.data.id }));
+        break;
+
+      default:
+        break;
+    }
   }
+
 
 }

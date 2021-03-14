@@ -1,21 +1,14 @@
 <div class="ui-page-content">
   <header class="top">
-    <cms-title pageName="Perfis" iconName="user-shield"></cms-title>
-    <!-- <cms-search [filters]="roleOptions" (searchEvent)="getAllRoles()"></cms-search>
-    <cms-button buttonText="Perfil" iconLeftName="plus" buttonClasses='-add' (clickButtonEvent)="openDialogToCreateRole()" matTooltip="Adicionar perfil"></cms-button> -->
+    <cms-title pageName="Perfis"></cms-title>
+    <cms-button [button]="buttonAddConfig" (clickButtonEvent)="openDialogToCreateRole()"></cms-button>
   </header>
   <main class="middle">
-    <!-- <div class="wrapper">
-      <cms-table
-        [isLoadingResults]="isLoadingResults"
-        [isLoadingAction]="isLoadingAction"
-        [dataSource]="roles"
-        [columns]="roleOptions"
-        (loadContentEvent)="getAllRoles()"
-        (actionEvent)="action($event)"
-        (sortChangeEvent)="getAllRoles()"
-      ></cms-table>
+    <cms-search [filters]="filterConfig" (searchEvent)="paginateRoles()"></cms-search>
+    <div class="wrapper scrollable">
+      <cms-table [dataSource]="roles$ | async" [config]="tableConfig" (actionEvent)="action($event)"
+        (sortChangeEvent)="paginateRoles()"></cms-table>
     </div>
-    <cms-pagination (changePage)="getAllRoles()"></cms-pagination> -->
+    <cms-pagination (changePage)="paginateRoles()"></cms-pagination>
   </main>
 </div>
