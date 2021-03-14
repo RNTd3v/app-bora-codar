@@ -2,11 +2,11 @@
 
   <mat-form-field appearance="fill">
 
-    <mat-label>{{title}}</mat-label>
+    <mat-label>{{field?.label}}</mat-label>
 
     <mat-chip-list #chipList aria-label="">
         <mat-chip
-          *ngFor="let chip of chips"
+          *ngFor="let chip of field?.chipsName"
           [selectable]="selectable"
           [removable]="removable"
           (removed)="removeChip(chip)">

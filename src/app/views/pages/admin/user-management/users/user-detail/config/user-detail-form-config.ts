@@ -1,15 +1,14 @@
 import { Validators } from "@angular/forms";
 import { ButtonConfig, ButtonId, FieldConfig, FormConfig, User } from "@cms/core";
-import { Observable } from "rxjs";
 
-const userFields = (user: User) => {
+const userFields = (user: User | undefined) => {
   return [
     {
       type: 'input',
       label: 'Nome completo',
       inputType: 'text',
       name: 'name',
-      value: user ? user.name : null,
+      value: !!user ? user.name : null,
       validations: [
         {
           name: "required",
@@ -28,7 +27,7 @@ const userFields = (user: User) => {
       label: 'E-mail',
       inputType: 'email',
       name: 'email',
-      value: user ? user.email : null,
+      value: !!user ? user.email : null,
       validations: [
         {
           name: "required",
@@ -39,6 +38,20 @@ const userFields = (user: User) => {
           name: "pattern",
           validator: Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
           message: "E-mail inválido"
+        }
+      ]
+    },
+    {
+      type: 'input',
+      label: 'Perfis',
+      inputType: 'hidden',
+      name: 'roleIds',
+      value: !!user ? user.roleIds : null,
+      validations: [
+        {
+          name: "required",
+          validator: Validators.required,
+          message: "Pelo menos um perfil tem que ser selecionado"
         }
       ]
     }

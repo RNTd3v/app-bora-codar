@@ -1,1 +1,7 @@
-<p>user-form works!</p>
+<div class="user-form">
+  <cms-dynamic-form [formConfig]="formConfig" (submit)="saveUser($event)">
+    <app-auto-complete-chips title="Perfis" textInput="Add perfil ..." [list]="roles" [chips]="rolesNames"
+      (handleAddedAChip)="addRoleId($event)" (handleRemovingAChip)="removeRoleId($event)">
+    </app-auto-complete-chips>
+  </cms-dynamic-form>
+</div>

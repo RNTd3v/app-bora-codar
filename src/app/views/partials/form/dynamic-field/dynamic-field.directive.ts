@@ -15,7 +15,8 @@ export class DynamicFieldDirective implements OnInit {
   @Input() field: FieldConfig;
   @Input() group: FormGroup;
 
-  @Output() validatedField = new EventEmitter();
+  @Output()
+  validatedField = new EventEmitter();
 
   componentRef: any;
 

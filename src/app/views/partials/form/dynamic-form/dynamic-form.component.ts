@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ButtonConfig, FieldConfig, FormConfig, IUIStateService, UIState } from '@cms/core';
+import { ButtonConfig, FormConfig, IUIStateService, UIState } from '@cms/core';
 
 @Component({
   selector: 'cms-dynamic-form',

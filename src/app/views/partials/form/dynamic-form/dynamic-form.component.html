@@ -3,6 +3,7 @@
     <ng-container *ngFor="let field of formConfig.fields" dynamicField [field]="field" [group]="form">
     </ng-container>
   </div>
+  <ng-content></ng-content>
   <div class="buttons">
     <ng-container *ngFor="let button of formConfig.buttons" dynamicButton [button]="button" (clickButtonEvent)="onClick($event)">
     </ng-container>

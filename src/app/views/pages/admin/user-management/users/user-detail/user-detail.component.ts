@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormConfig, User } from '@cms/core';
+import { FormConfig, Role, User } from '@cms/core';
 import { environment } from '@cms/environment';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -16,9 +16,10 @@ import { showUser } from '../../state/users.selectors';
 })
 export class UserDetailComponent implements OnInit, OnDestroy {
 
-  formConfig: FormConfig;
   user: User;
   userId: string;
+
+  roles: Role[] = [];
 
   private subscription = new Subscription();
 
@@ -27,13 +28,17 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.getUser();
+    // get roles
 
+  }
+
+  private getUser(): void {
     this.subscription.add(
       this.store.select(showUser).subscribe(user => {
 
         if (!!user) {
           this.user = user;
-          this.formConfig = userFormConfig(user)
           return
         }
 
