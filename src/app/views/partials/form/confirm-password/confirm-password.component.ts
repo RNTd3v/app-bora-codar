@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmedValidator } from '@cms/core';
 
 @Component({
-  selector: 'app-confirm-password',
+  selector: 'cms-confirm-password',
   templateUrl: './confirm-password.component.html',
   styleUrls: ['./confirm-password.component.scss']
 })

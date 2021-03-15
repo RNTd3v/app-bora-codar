@@ -10,6 +10,7 @@ import { paginateUsers } from '../state/users/users.selectors';
 import * as UserActions from '../state/users/users.actions';
 import { buttonAddConfig, buttonTogglesConfig, dialogDataDefaultConfig, filterConfig, tableConfig } from './config/index';
 import { IDialogService } from '@cms/partials';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -32,7 +33,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   constructor(
     private dialogService: IDialogService,
     private store: Store<State>,
-    private config: IPaginationService
+    private config: IPaginationService,
+    private router: Router
     ) {
       this.users$ = this.store.select(paginateUsers);
     }
@@ -93,11 +95,13 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   openDialogToCreateUser(): void {
 
-    this.handleUserDialogs(new DialogData<null>({
-      ...this.dialogDataDefault,
-      title: 'Novo usuário',
-      component: CreateUserComponent
-    }))
+    this.router.navigate(['admin/user-management/create-user'])
+
+    // this.handleUserDialogs(new DialogData<null>({
+    //   ...this.dialogDataDefault,
+    //   title: 'Novo usuário',
+    //   component: CreateUserComponent
+    // }))
   }
 
   openDialogToChangeUserStatus(UserStatus: TableStatus<User>): void {

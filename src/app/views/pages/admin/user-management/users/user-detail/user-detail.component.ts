@@ -32,8 +32,19 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getUser();
+    this.setUser();
     this.getRoles();
+  }
+
+  private setUser(): void {
+
+    if (this.userId) {
+      this.getUser();
+      return
+    }
+
+    this.newUser();
+
   }
 
   private getUser(): void {
@@ -49,7 +60,15 @@ export class UserDetailComponent implements OnInit, OnDestroy {
 
       })
     );
+  }
 
+  private newUser(): void {
+    this.user = {
+      name: '',
+      email: '',
+      isActive: false,
+      roles: []
+    } as User
   }
 
   private getRoles(): void {
@@ -66,10 +85,6 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   }
 
   saveUser(user: User): void {
-    console.log(user);
-    console.log(this.userId);
-
-
     this.store.dispatch(UserActions.updateUserRequested({ user, userId: this.userId }));
   }
 

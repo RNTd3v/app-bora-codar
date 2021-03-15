@@ -64,6 +64,10 @@ const routesChild: Routes = [
         component: UsersComponent
       },
       {
+        path: 'create-user',
+        component: UserDetailComponent
+      },
+      {
         path: 'user-detail/:id',
         component: UserDetailComponent
       },

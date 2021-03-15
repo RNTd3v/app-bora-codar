@@ -51,6 +51,20 @@ const userFields = (user: User | undefined) => {
     },
     {
       type: 'input',
+      label: 'Password',
+      inputType: 'hidden',
+      name: 'password',
+      value: '',
+      validations: [
+        {
+          name: "required",
+          validator: Validators.required,
+          message: "Senha obrigatória"
+        }
+      ]
+    },
+    {
+      type: 'input',
       label: 'Perfis',
       inputType: 'hidden',
       name: 'roleIds',
@@ -77,9 +91,12 @@ const userButtons: ButtonConfig[] = [
   }
 ] as ButtonConfig[];
 
-export const userFormConfig = (user: User) => {
+export const userFormConfig = (user: User, newUser: boolean) => {
   return {
-    fields: userFields(user),
+    fields: newUser ? getFormNewUser(user) : getFormUpdateUser(user),
     buttons: userButtons
   } as FormConfig
 };
+
+const getFormNewUser = (user: User) => userFields(user).filter(field => field.name !== 'isActive');
+const getFormUpdateUser = (user: User) => userFields(user).filter(field => field.name !== 'password');

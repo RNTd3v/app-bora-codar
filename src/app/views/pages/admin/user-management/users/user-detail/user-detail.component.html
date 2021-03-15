@@ -4,7 +4,7 @@
   </header>
   <main class="middle">
     <div class="user-detail scrollable">
-      <div class="col -left">
+      <div class="col -left" *ngIf="!!userId">
         <cms-user-info [user]="user"></cms-user-info>
         <button class="bt-change-user-pass">
           Alterar a senha
@@ -16,7 +16,7 @@
       </div>
       <div class="col -form">
         <ng-container *ngIf="!!user">
-          <cms-user-form [user]="user" [roles]="roles$ | async" (submit)="saveUser($event)"></cms-user-form>
+          <cms-user-form [user]="user" [roles]="roles$ | async" [newUser]="!userId" (submit)="saveUser($event)"></cms-user-form>
         </ng-container>
       </div>
     </div>

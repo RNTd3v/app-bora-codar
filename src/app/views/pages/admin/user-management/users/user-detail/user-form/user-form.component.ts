@@ -15,6 +15,9 @@ export class UserFormComponent implements OnInit {
   @Input()
   roles: Role[] = [];
 
+  @Input()
+  newUser = false;
+
   @Output()
   submit = new EventEmitter<User>();
 
@@ -25,7 +28,18 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.handleRoles();
-    this.formConfig = userFormConfig(!!this.user ? this.user : undefined)
+    this.formConfig = userFormConfig(!!this.user ? this.user : undefined, this.newUser)
+  }
+
+  getPassword(password: string): void {
+
+    this.user = {
+      ...this.user,
+      password
+    }
+
+    this.formConfig = userFormConfig(this.user, this.newUser);
+
   }
 
   addRoleId(roleName: string): void {
@@ -41,7 +55,7 @@ export class UserFormComponent implements OnInit {
       roleIds: [...roleIds, ...roleId]
     }
 
-    this.formConfig = userFormConfig(this.user);
+    this.formConfig = userFormConfig(this.user, this.newUser);
 
   }
 
@@ -55,7 +69,7 @@ export class UserFormComponent implements OnInit {
       roleIds: [...roleIds]
     }
 
-    this.formConfig = userFormConfig(this.user);
+    this.formConfig = userFormConfig(this.user, this.newUser);
 
   }
 
@@ -73,9 +87,6 @@ export class UserFormComponent implements OnInit {
       ...this.user,
       roleIds
     };
-
-    console.log(this.user);
-
 
   }
 
