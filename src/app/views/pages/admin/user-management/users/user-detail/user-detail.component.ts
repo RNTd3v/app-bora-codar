@@ -9,6 +9,7 @@ import * as UserActions from '../../state/users/users.actions';
 import * as RoleActions from '../../state/roles/roles.actions';
 import { showUser } from '../../state/users/users.selectors';
 import { paginateRoles } from '../../state/roles/roles.selectors';
+import { IDialogService } from '@cms/partials';
 
 @Component({
   selector: 'app-user-detail',
@@ -28,7 +29,11 @@ export class UserDetailComponent implements OnInit, OnDestroy {
 
   @ViewChild('userDetail') userDetail!: ElementRef;
 
-  constructor(private store: Store<State>, private route: ActivatedRoute, private config: IPaginationService) {
+  constructor(
+    private dialogService: IDialogService,
+    private store: Store<State>,
+    private route: ActivatedRoute,
+    private config: IPaginationService) {
     this.userId = this.route.snapshot.paramMap.get('id');
 
     this.config.queryParams = { ...this.config.queryParams, perPage: 50 };
@@ -103,6 +108,20 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   showChangePassForm(): void {
     this.userDetail.nativeElement.scroll({ top: 0, behavior: 'smooth' });
     this.showUserDetailForm = false;
+  }
+
+  async openDialogToDeleteUser(): Promise<void> {
+
+    const wasItConfirmed = await this.dialogService.openDialog({
+      title: 'Deletar usuário',
+      text: `Tem certeza que deseja excluir este usuário?`
+    });
+
+    if (wasItConfirmed) {
+      this.store.dispatch(UserActions.deleteUserRequested({ userId: this.userId }));
+    }
+
+
   }
 
 }
