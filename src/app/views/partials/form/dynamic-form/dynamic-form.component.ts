@@ -36,6 +36,9 @@ export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
 
+    console.log(changes);
+
+
     if(!!changes && changes.hasOwnProperty('formConfig')) {
       this.form = this.createControl();
       this.disableButton(this.form.invalid);

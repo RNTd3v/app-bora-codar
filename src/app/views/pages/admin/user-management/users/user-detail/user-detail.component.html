@@ -3,10 +3,11 @@
     <cms-title pageName="Usuário"></cms-title>
   </header>
   <main class="middle">
-    <div class="user-detail scrollable">
+    <div class="user-detail scrollable" #userDetail>
       <div class="col -left" *ngIf="!!userId">
+        <app-icon name="pen" class="edit-icon" *ngIf="!showUserDetailForm" (click)="showDetailForm()"></app-icon>
         <cms-user-info [user]="user"></cms-user-info>
-        <button class="bt-change-user-pass">
+        <button class="bt-change-user-pass" (click)="showChangePassForm()">
           Alterar a senha
           <app-icon name="lock" size="1.4rem" class="icon"></app-icon>
         </button>
@@ -15,9 +16,12 @@
         </button>
       </div>
       <div class="col -form">
-        <ng-container *ngIf="!!user">
-          <cms-user-form [user]="user" [roles]="roles$ | async" [newUser]="!userId" (submit)="saveUser($event)"></cms-user-form>
+        <ng-container *ngIf="showUserDetailForm; else formChangePass">
+          <cms-user-form *ngIf="!!user" [user]="user" [roles]="roles$ | async" [newUser]="!userId" (submit)="submitUser($event)"></cms-user-form>
         </ng-container>
+        <ng-template #formChangePass>
+          <cms-user-changepass-form (submit)="saveUser($event)"></cms-user-changepass-form>
+        </ng-template>
       </div>
     </div>
   </main>

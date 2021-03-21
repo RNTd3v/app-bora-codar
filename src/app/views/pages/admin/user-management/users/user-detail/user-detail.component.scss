@@ -13,10 +13,28 @@
                              'changePass'
                              'deleteUser';
         gap: 1.6rem;
+        position: relative;
 
         cms-user-info {
           grid-area: info;
         }
+
+        .edit-icon {
+          position: absolute;
+          right: 1rem;
+          top: 1rem;
+          z-index: 1;
+          color: var(--fifth-color);
+          border: thin solid var(--fifth-color);
+          width: 3rem;
+          height: 3rem;
+          border-radius: 5rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+        }
+
 
         .bt-change-user-pass {
           grid-area: changePass;

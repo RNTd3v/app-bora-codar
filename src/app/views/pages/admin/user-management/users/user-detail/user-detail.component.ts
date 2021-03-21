@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { IPaginationService, Role, User } from '@cms/core';
+import { IPaginationService, Role, User, UserChangePassword } from '@cms/core';
 import { environment } from '@cms/environment';
 import { Observable, Subscription } from 'rxjs';
 import { State } from '../../state/users/users.reducer';
@@ -22,7 +22,11 @@ export class UserDetailComponent implements OnInit, OnDestroy {
 
   roles$!: Observable<Role[]>;
 
+  showUserDetailForm = true;
+
   private subscription = new Subscription();
+
+  @ViewChild('userDetail') userDetail!: ElementRef;
 
   constructor(private store: Store<State>, private route: ActivatedRoute, private config: IPaginationService) {
     this.userId = this.route.snapshot.paramMap.get('id');
@@ -84,8 +88,21 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     return !!image ? `${environment.IMAGE_URL}${image}` : '/assets/icons/user.svg';
   }
 
-  saveUser(user: User): void {
+  submitUser(user: User): void {
     this.store.dispatch(UserActions.updateUserRequested({ user, userId: this.userId }));
+  }
+
+  submitPass(userChangePass: UserChangePassword) : void {
+    console.log(userChangePass);
+  }
+
+  showDetailForm(): void {
+    this.showUserDetailForm = true;
+  }
+
+  showChangePassForm(): void {
+    this.userDetail.nativeElement.scroll({ top: 0, behavior: 'smooth' });
+    this.showUserDetailForm = false;
   }
 
 }

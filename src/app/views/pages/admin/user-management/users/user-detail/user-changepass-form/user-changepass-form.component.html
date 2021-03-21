@@ -1,1 +1,5 @@
-<p>user-changepass-form works!</p>
+<div class="user-change-pass">
+  <cms-dynamic-form [formConfig]="formConfig" (submit)="submitPass($event)">
+    <cms-confirm-password (validatedPassword)="getPassword($event)"></cms-confirm-password>
+  </cms-dynamic-form>
+</div>

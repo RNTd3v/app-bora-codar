@@ -12,12 +12,9 @@ export class UserInfoComponent implements OnInit {
   user: User;
 
   @Output()
-  changePass = new EventEmitter();
-
-  @Output()
   changeStatus = new EventEmitter();
 
-  photoIsEditable = true;
+  photoIsEditable = false;
 
   buttonConfigDefault = {
     classes: '-icon -border',
@@ -26,17 +23,10 @@ export class UserInfoComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-    console.log(this.user);
-
-  }
+  ngOnInit(): void {}
 
   changeUserStatus(checked: boolean): void {
     this.changeStatus.emit(checked);
-  }
-
-  changeUserPass(): void {
-    this.changePass.emit();
   }
 
   getRolesName(roles: Role[]): string[] {
