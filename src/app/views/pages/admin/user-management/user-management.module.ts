@@ -47,6 +47,8 @@ import { CreateUserComponent } from './users/create-user/create-user.component';
 import { UpdateUserPasswordComponent } from './users/update-user-password/update-user-password.component';
 import { CreateRoleComponent } from './roles/create-role/create-role.component';
 import { UpdateRoleDataComponent } from './roles/update-role-data/update-role-data.component';
+import { RoleDetailComponent } from './roles/role-detail/role-detail.component';
+import { RoleFormComponent } from './roles/role-detail/role-form/role-form.component';
 
 
 const routesChild: Routes = [
@@ -74,6 +76,14 @@ const routesChild: Routes = [
       {
         path: 'roles',
         component: RolesComponent
+      },
+      {
+        path: 'roles/create',
+        component: RoleDetailComponent
+      },
+      {
+        path: 'roles/:id',
+        component: RoleDetailComponent
       }
     ]
   }
@@ -92,7 +102,9 @@ const routesChild: Routes = [
     UpdateRoleDataComponent,
     UserFormComponent,
     UserInfoComponent,
-    UserChangepassFormComponent
+    UserChangepassFormComponent,
+    RoleDetailComponent,
+    RoleFormComponent
   ],
   imports: [
     CommonModule,

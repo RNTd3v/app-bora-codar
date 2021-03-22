@@ -9,6 +9,7 @@ import * as RoleActions from '../state/roles/roles.actions';
 import { IDialogService } from '@cms/partials';
 import { buttonAddConfig, dialogDataDefaultConfig, filterConfig, tableConfig } from './config/index';
 import { paginateRoles } from '../state/roles/roles.selectors';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-roles',
@@ -29,7 +30,8 @@ export class RolesComponent implements OnInit, OnDestroy {
 
   constructor(
     private dialogService: IDialogService,
-    private store: Store<State>) {
+    private store: Store<State>,
+    private router: Router) {
       this.roles$ = this.store.select(paginateRoles);
     }
 
@@ -66,12 +68,12 @@ export class RolesComponent implements OnInit, OnDestroy {
   }
 
   async openDialogToCreateRole(): Promise<void> {
-
-    this.handleRoleDialogs(new DialogData<null>({
-      ...this.dialogDataDefault,
-      title: 'Novo perfil',
-      component: CreateRoleComponent
-    }))
+    this.router.navigate(['admin/user-management/roles/create']);
+    // this.handleRoleDialogs(new DialogData<null>({
+    //   ...this.dialogDataDefault,
+    //   title: 'Novo perfil',
+    //   component: CreateRoleComponent
+    // }))
 
   }
 
