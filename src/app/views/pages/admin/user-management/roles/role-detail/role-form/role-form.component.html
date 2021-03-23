@@ -1,4 +1,5 @@
 <div class="role-form">
   <cms-dynamic-form [formConfig]="formConfig" (submit)="submitRole($event)">
+    <cms-checkbox-permissions (changePermissions)="changePermissions($event)"></cms-checkbox-permissions>
   </cms-dynamic-form>
 </div>

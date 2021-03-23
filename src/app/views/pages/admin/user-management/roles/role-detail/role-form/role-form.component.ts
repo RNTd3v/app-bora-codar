@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormConfig, Role } from '@cms/core';
+import { FormConfig, Menu, Role } from '@cms/core';
 import { roleFormConfig } from '../config/role-detail-form-config';
 
 @Component({
@@ -13,20 +13,23 @@ export class RoleFormComponent implements OnInit {
   role: Role | undefined;
 
   @Output()
-  submit = new EventEmitter<Role>();
+  submit = new EventEmitter<{ role: Role, permissions: Menu[] | null }>();
 
   formConfig: FormConfig;
+  permissions: Menu[] | null = null;
 
   constructor() {}
 
   ngOnInit(): void {
-    console.log(this.role);
-
     this.formConfig = roleFormConfig(this.role);
   }
 
   submitRole(role: Role): void {
-    this.submit.emit(role);
+    this.submit.emit({ role, permissions: this.permissions });
+  }
+
+  changePermissions(menu: Menu[]): void {
+    this.permissions = menu;
   }
 
 }

@@ -1,0 +1,29 @@
+<div class="c-field -checkbox -checkbox-permissions">
+
+  <h3 class="title">Permissões</h3>
+
+  <div class="menu" *ngFor="let menu of menuList; let menuIndex = index">
+
+    <label class="label">
+      <input type="checkbox" [checked]="menu.hasPermission" class="field" (change)="changeMenuValue(menuIndex, $event)" />
+      {{menu.name}} ( {{menu.path}} )
+    </label>
+
+    <div class="submenu" *ngFor="let submenu of menu.childrens; let submenuIndex = index">
+
+      <label class="label">
+        <input type="checkbox" [checked]="submenu.hasPermission" class="field" (change)="changeSubmenuValue(menuIndex, submenuIndex, $event)" />
+        {{submenu.name}} ( {{submenu.path}} )
+      </label>
+
+      <div class="action" *ngFor="let action of submenu.childrens; let actionIndex = index">
+
+        <label class="label">
+          <input type="checkbox" [checked]="action.hasPermission" class="field" (change)="changeActionValue(menuIndex, submenuIndex, actionIndex, $event)" />
+          {{action.name}}
+        </label>
+
+      </div>
+    </div>
+  </div>
+</div>

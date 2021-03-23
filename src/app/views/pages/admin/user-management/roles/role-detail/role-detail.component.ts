@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Role } from '@cms/core';
+import { Menu, Role } from '@cms/core';
 import { IDialogService } from '@cms/partials';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -31,15 +31,17 @@ export class RoleDetailComponent implements OnInit {
     this.setRole();
     console.log(!!this.roleId);
   }
+  // validationMessages: { [key: string]: { [key: string]: string } }
+  submitRole(event: { role: Role, permissions: Menu[] }): void {
 
-  submitRole(role: Role): void {
-    console.log(role);
-    console.log(this.roleId);
-
+    if (event.permissions) {
+      console.log(event.permissions);
+      // TODO link permissions
+    }
 
     !!this.roleId ?
-    this.store.dispatch(RoleActions.updateRoleRequested({ role, roleId: this.roleId })) :
-    this.store.dispatch(RoleActions.createRoleRequested({ role }))
+    this.store.dispatch(RoleActions.updateRoleRequested({ role: event.role, roleId: this.roleId })) :
+    this.store.dispatch(RoleActions.createRoleRequested({ role: event.role }))
   }
 
   private setRole(): void {

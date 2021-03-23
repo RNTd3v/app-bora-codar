@@ -10,6 +10,7 @@ import { IconModule } from '../icon/icon.module';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { ToggleComponent } from './toggle/toggle.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CheckboxPermissionsComponent } from './checkbox-permissions/checkbox-permissions.component';
 
 @NgModule({
   declarations: [
@@ -18,12 +19,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     DynamicFormComponent,
     DynamicButtonDirective,
     CheckboxComponent,
-    ToggleComponent
+    ToggleComponent,
+    CheckboxPermissionsComponent
   ],
   exports: [
     DynamicFormComponent,
     CheckboxComponent,
-    ToggleComponent
+    ToggleComponent,
+    CheckboxPermissionsComponent
   ],
   entryComponents: [
     InputComponent
