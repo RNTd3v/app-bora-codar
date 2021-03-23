@@ -1,4 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Role } from '@cms/core';
+import { IDialogService } from '@cms/partials';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { State } from '../../state/roles/roles.reducer';
+import { showRole } from '../../state/roles/roles.selectors';
+import * as RoleActions from '../../state/roles/roles.actions';
 
 @Component({
   selector: 'cms-role-detail',
@@ -7,9 +15,66 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RoleDetailComponent implements OnInit {
 
-  constructor() { }
+  role: Role;
+  roleId: string | undefined;
+
+  private subscription = new Subscription();
+
+  constructor(
+    private dialogService: IDialogService,
+    private store: Store<State>,
+    private route: ActivatedRoute) {
+      this.roleId = this.route.snapshot.paramMap.get('id');
+  }
 
   ngOnInit(): void {
+    this.setRole();
+    console.log(!!this.roleId);
+  }
+
+  submitRole(role: Role): void {
+    console.log(role);
+    console.log(this.roleId);
+
+
+    !!this.roleId ?
+    this.store.dispatch(RoleActions.updateRoleRequested({ role, roleId: this.roleId })) :
+    this.store.dispatch(RoleActions.createRoleRequested({ role }))
+  }
+
+  private setRole(): void {
+
+    if (this.roleId) {
+      this.getRole();
+      return
+    }
+
+    this.newRole();
+
+  }
+
+  private getRole(): void {
+    this.subscription.add(
+      this.store.select(showRole).subscribe(role => {
+        console.log(role);
+
+
+        if (!!role) {
+          this.role = role;
+          return
+        }
+
+        this.store.dispatch(RoleActions.showRoleRequested({ roleId: this.roleId }));
+
+      })
+    );
+  }
+
+  private newRole(): void {
+    this.role = {
+      name: '',
+      admin: false
+    } as Role
   }
 
 }

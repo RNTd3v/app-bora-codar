@@ -21,7 +21,7 @@ export const updateRoleSucceeded = createAction(constants.UPDATE_ROLE_SUCCEEDED)
 export const updateRoleFailed = createAction(constants.UPDATE_ROLE_FAILED, props<{ error: string }>());
 
 export const deleteRoleRequested = createAction(constants.DELETE_ROLE_REQUESTED, props<{ roleId: string }>());
-export const deleteRoleSucceeded = createAction(constants.DELETE_ROLE_SUCCEEDED);
+export const deleteRoleSucceeded = createAction(constants.DELETE_ROLE_SUCCEEDED, props<{ roleId: string }>());
 export const deleteRoleFailed = createAction(constants.DELETE_ROLE_FAILED, props<{ error: string }>());
 
 export const linkRoleWithMenusRequested = createAction(constants.LINK_ROLE_WITH_MENUS_REQUESTED, props<{ linkMenus: LinkMenus, roleId: string }>());

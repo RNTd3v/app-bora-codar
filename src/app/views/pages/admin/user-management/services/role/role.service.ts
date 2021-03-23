@@ -27,8 +27,8 @@ export class RoleService implements IRoleService {
     return this.apiService.post<Role>(`v1/roles`, role);
   }
 
-  updateRole(role: Role, roleID: string): Observable<Role> {
-    return this.apiService.put<Role>(`v1/roles/${roleID}`, role);
+  updateRole(role: Role, roleId: string): Observable<Role> {
+    return this.apiService.put<Role>(`v1/roles/${roleId}`, role);
   }
 
   deleteRole(roleID: string): Observable<Role> {

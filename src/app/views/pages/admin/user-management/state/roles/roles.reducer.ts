@@ -49,7 +49,10 @@ export const roleReducer = createReducer<RoleState>(
 
   // Delete
   on(deleteRoleRequested, (state) => state),
-  on(deleteRoleSucceeded, (state) => state),
+  on(deleteRoleSucceeded, (state, { roleId }) => ({
+    ...state,
+    roles: state.roles?.filter(role => role.id !== roleId) || state.roles
+  })),
   on(deleteRoleFailed, (state, { error }) => ({...state, error })),
 
   // Link with menus

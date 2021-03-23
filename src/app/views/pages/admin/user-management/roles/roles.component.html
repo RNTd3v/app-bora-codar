@@ -1,7 +1,7 @@
 <div class="ui-page-content">
   <header class="top">
     <cms-title pageName="Perfis"></cms-title>
-    <cms-button [button]="buttonAddConfig" (clickButtonEvent)="openDialogToCreateRole()"></cms-button>
+    <cms-button [button]="buttonAddConfig" (clickButtonEvent)="goToCreateRole()"></cms-button>
   </header>
   <main class="middle">
     <cms-search [filters]="filterConfig" (searchEvent)="paginateRoles()"></cms-search>

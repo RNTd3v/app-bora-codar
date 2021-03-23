@@ -93,15 +93,8 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.paginateUsers();
   }
 
-  openDialogToCreateUser(): void {
-
-    this.router.navigate(['admin/user-management/create-user'])
-
-    // this.handleUserDialogs(new DialogData<null>({
-    //   ...this.dialogDataDefault,
-    //   title: 'Novo usuário',
-    //   component: CreateUserComponent
-    // }))
+  goToCreateUser(): void {
+    this.router.navigate(['admin/user-management/create-user']);
   }
 
   openDialogToChangeUserStatus(UserStatus: TableStatus<User>): void {

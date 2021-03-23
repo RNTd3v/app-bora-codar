@@ -17,11 +17,12 @@ export class RoleFormComponent implements OnInit {
 
   formConfig: FormConfig;
 
-  constructor() {
-    this.formConfig = roleFormConfig(this.role);
-  }
+  constructor() {}
 
   ngOnInit(): void {
+    console.log(this.role);
+
+    this.formConfig = roleFormConfig(this.role);
   }
 
   submitRole(role: Role): void {

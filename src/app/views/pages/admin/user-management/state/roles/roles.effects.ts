@@ -60,14 +60,6 @@ export class RoleEffects {
     )
   });
 
-  redirectAfterShowRoleSuccess$ = createEffect(
-    () => this.actions$.pipe(
-      ofType(RoleActions.showRoleSucceeded),
-      tap(({ role }) => this.router.navigate([`admin/role-management/role-detail/${role.id}`]))
-    ),
-    { dispatch: false }
-  )
-
   showMessageAfterShowRoleFail$ = createEffect(
     () => this.actions$.pipe(
       ofType(RoleActions.showRoleFailed),
@@ -119,7 +111,7 @@ export class RoleEffects {
       ofType(RoleActions.updateRoleRequested),
       concatMap((action) =>
         this.service
-          .updateRole(action.role, action.role.id)
+          .updateRole(action.role, action.roleId)
           .pipe(
             map(() => RoleActions.updateRoleSucceeded()),
             catchError(error => of(RoleActions.updateRoleFailed({ error })) )
@@ -130,7 +122,7 @@ export class RoleEffects {
 
   showMessageAfterUpdateRoleSuccess$ = createEffect(
     () => this.actions$.pipe(
-      ofType(RoleActions.createRoleSucceeded),
+      ofType(RoleActions.updateRoleSucceeded),
       tap(() => this.showMessage('Perfil atualizado com sucesso'))
     ),
     { dispatch: false }
@@ -138,7 +130,7 @@ export class RoleEffects {
 
   showMessageAfterUpdateRoleFail$ = createEffect(
     () => this.actions$.pipe(
-      ofType(RoleActions.createRoleFailed),
+      ofType(RoleActions.updateRoleFailed),
       tap(() => this.showMessage('Houve um erro na atualização do perfil'))
     ),
     { dispatch: false }
@@ -155,7 +147,7 @@ export class RoleEffects {
           this.service
             .deleteRole(action.roleId)
             .pipe(
-              map(() => RoleActions.deleteRoleSucceeded()),
+              map(() => RoleActions.deleteRoleSucceeded({ roleId: action.roleId })),
               catchError(error => of(RoleActions.deleteRoleFailed({ error })))
           ),
         ),
@@ -168,14 +160,6 @@ export class RoleEffects {
         tap(() => this.showMessage('Perfil deletado com sucesso'))
       ),
       { dispatch: false }
-    )
-
-    paginateRolesAfterDeleteRoleSuccess$ = createEffect(
-      () => this.actions$.pipe(
-        ofType(RoleActions.deleteRoleSucceeded),
-        tap(() => RoleActions.paginateRolesRequested())
-      ),
-      { dispatch: true }
     )
 
     showMessageAfterDeleteRoleFail$ = createEffect(

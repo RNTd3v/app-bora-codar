@@ -47,8 +47,12 @@ export class RolesComponent implements OnInit, OnDestroy {
     this.store.dispatch(RoleActions.paginateRolesRequested());
   }
 
+  goToCreateRole(): void {
+    this.router.navigate(['admin/user-management/roles/create']);
+  }
+
   goToDetail(role: Role): void {
-    this.store.dispatch(RoleActions.showRoleRequested({ roleId: role.id }))
+    this.router.navigate([`admin/user-management/roles/${role.id}/detail`]);
   }
 
   action(tableAction: TableAction): void {
@@ -64,27 +68,6 @@ export class RolesComponent implements OnInit, OnDestroy {
         this.goToDetail(role);
         break;
     }
-
-  }
-
-  async openDialogToCreateRole(): Promise<void> {
-    this.router.navigate(['admin/user-management/roles/create']);
-    // this.handleRoleDialogs(new DialogData<null>({
-    //   ...this.dialogDataDefault,
-    //   title: 'Novo perfil',
-    //   component: CreateRoleComponent
-    // }))
-
-  }
-
-  private async openDialogToUpdateRole(role: Role): Promise<void> {
-
-    this.handleRoleDialogs(new DialogData<null>({
-      ...this.dialogDataDefault,
-      title: `Editar ${role.name}`,
-      component: UpdateRoleDataComponent,
-      componentData: role
-    }))
 
   }
 

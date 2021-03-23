@@ -1,7 +1,7 @@
 <div class="ui-page-content">
   <header class="top">
     <cms-title pageName="Usuários"></cms-title>
-    <cms-button [button]="buttonAddConfig" (clickButtonEvent)="openDialogToCreateUser()"></cms-button>
+    <cms-button [button]="buttonAddConfig" (clickButtonEvent)="goToCreateUser()"></cms-button>
   </header>
   <main class="middle">
     <cms-search [filters]="filterConfig" (searchEvent)="paginateUsers()">
