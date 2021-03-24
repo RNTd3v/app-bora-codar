@@ -79,7 +79,7 @@ export class RoleEffects {
         this.service
           .createRole(action.role)
           .pipe(
-            map(() => RoleActions.createRoleSucceeded()),
+            map(({ id }) => RoleActions.createRoleSucceeded({ roleId: id })),
             catchError(error => of(RoleActions.createRoleFailed({ error })) )
         ),
       ),
@@ -89,7 +89,7 @@ export class RoleEffects {
   showMessageAfterCreateRoleSuccess$ = createEffect(
     () => this.actions$.pipe(
       ofType(RoleActions.createRoleSucceeded),
-      tap(() => this.showMessage('Perfil criado com sucesso'))
+      tap(() => this.showMessage('Perfil criado com sucesso, agora selecione as permissões', 5000))
     ),
     { dispatch: false }
   )

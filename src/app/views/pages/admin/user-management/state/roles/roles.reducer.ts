@@ -13,6 +13,7 @@ export interface State extends AppState.State {
 export interface RoleState {
   roles: Role[];
   role: Role;
+  roleId: string | null;
   roleMenus: Menu[] | null;
   error: any;
 }
@@ -20,6 +21,7 @@ export interface RoleState {
 const initialState = {
   roles: [],
   role: undefined,
+  roleId: null,
   roleMenus: null,
   error: ''
 } as RoleState;
@@ -41,7 +43,7 @@ export const roleReducer = createReducer<RoleState>(
 
   // Create
   on(createRoleRequested, (state, { role }) => ({...state, role })),
-  on(createRoleSucceeded, (state) => state),
+  on(createRoleSucceeded, (state, { roleId }) => ({...state, roleId })),
   on(createRoleFailed, (state, { error }) => ({...state, error })),
 
   // Update

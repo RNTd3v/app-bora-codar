@@ -13,7 +13,7 @@ export const showRoleSucceeded = createAction(constants.SHOW_ROLE_SUCCEEDED, pro
 export const showRoleFailed = createAction(constants.SHOW_ROLE_FAILED, props<{ error: string }>());
 
 export const createRoleRequested = createAction(constants.CREATE_ROLE_REQUESTED, props<{ role: Role }>());
-export const createRoleSucceeded = createAction(constants.CREATE_ROLE_SUCCEEDED);
+export const createRoleSucceeded = createAction(constants.CREATE_ROLE_SUCCEEDED, props<{ roleId: string }>());
 export const createRoleFailed = createAction(constants.CREATE_ROLE_FAILED, props<{ error: string }>());
 
 export const updateRoleRequested = createAction(constants.UPDATE_ROLE_REQUESTED, props<{ role: Role, roleId: string, linkMenus: LinkMenus }>());
