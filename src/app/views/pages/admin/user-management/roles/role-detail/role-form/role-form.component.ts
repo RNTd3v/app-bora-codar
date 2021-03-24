@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormConfig, Menu, Role } from '@cms/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { FormConfig, Menu, Role, RoleMenusPermissions } from '@cms/core';
 import { roleFormConfig } from '../config/role-detail-form-config';
 
 @Component({
@@ -7,16 +7,21 @@ import { roleFormConfig } from '../config/role-detail-form-config';
   templateUrl: './role-form.component.html',
   styleUrls: ['./role-form.component.scss']
 })
-export class RoleFormComponent implements OnInit {
+export class RoleFormComponent implements OnInit, OnChanges {
 
   @Input()
   role: Role | undefined;
 
+  @Input()
+  roleMenus: Menu[] | null;
+
   @Output()
-  submit = new EventEmitter<{ role: Role, permissions: Menu[] | null }>();
+  submit = new EventEmitter<{ role: Role, roleMenus: Menu[] | null }>();
+
+  @Output()
+  changeRoles = new EventEmitter<RoleMenusPermissions>();
 
   formConfig: FormConfig;
-  permissions: Menu[] | null = null;
 
   constructor() {}
 
@@ -24,12 +29,20 @@ export class RoleFormComponent implements OnInit {
     this.formConfig = roleFormConfig(this.role);
   }
 
-  submitRole(role: Role): void {
-    this.submit.emit({ role, permissions: this.permissions });
+  ngOnChanges(changes: SimpleChanges): void {
+
+    if(!!changes && changes.hasOwnProperty('role')) {
+      this.formConfig = roleFormConfig(this.role);
+    }
+
   }
 
-  changePermissions(menu: Menu[]): void {
-    this.permissions = menu;
+  submitRole(role: Role): void {
+    this.submit.emit({ role, roleMenus: this.roleMenus });
+  }
+
+  changeRoleMenus(roleMenusPermissions: RoleMenusPermissions): void {
+    this.changeRoles.emit(roleMenusPermissions);
   }
 
 }

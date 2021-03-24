@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DialogData, IApiService, LinkMenus, OptionsApi, Role } from '@cms/core';
+import { DialogData, IApiService, LinkMenus, Menu, OptionsApi, Role } from '@cms/core';
 import { IDialogService } from '@cms/partials';
 import { Observable } from 'rxjs';
 import { IRoleService } from './role.service.interface';
@@ -33,6 +33,10 @@ export class RoleService implements IRoleService {
 
   deleteRole(roleID: string): Observable<Role> {
     return this.apiService.delete<Role>(`v1/roles/${roleID}`);
+  }
+
+  menuShowByRole(roleId: string): Observable<Menu[]> {
+    return this.apiService.get<Menu[]>(`v1/menus/showByRole/${roleId}`);
   }
 
   linkRoleWithMenu(linkMenus: LinkMenus, roleId: string): Observable<any> {

@@ -14,6 +14,13 @@ export interface RoleDialogData {
   id?: string;
 }
 
+export type RoleMenusPermissions = {
+  menuIndex: number,
+  value: boolean,
+  submenuIndex?: number | null,
+  actionIndex?: number | null
+}
+
 export enum RoleDialogTarget {
   delete
 }

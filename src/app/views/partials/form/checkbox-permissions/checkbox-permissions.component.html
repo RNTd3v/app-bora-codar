@@ -2,7 +2,7 @@
 
   <h3 class="title">Permissões</h3>
 
-  <div class="menu" *ngFor="let menu of menuList; let menuIndex = index">
+  <div class="menu" *ngFor="let menu of roleMenus; let menuIndex = index">
 
     <label class="label">
       <input type="checkbox" [checked]="menu.hasPermission" class="field" (change)="changeMenuValue(menuIndex, $event)" />

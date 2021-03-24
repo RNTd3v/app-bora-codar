@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Menu, Role } from '@cms/core';
+import { LinkMenus, Menu, Role, RoleMenusPermissions } from '@cms/core';
 import { IDialogService } from '@cms/partials';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { State } from '../../state/roles/roles.reducer';
-import { showRole } from '../../state/roles/roles.selectors';
+import { showRole, showRoleMenus } from '../../state/roles/roles.selectors';
 import * as RoleActions from '../../state/roles/roles.actions';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cms-role-detail',
@@ -15,10 +16,9 @@ import * as RoleActions from '../../state/roles/roles.actions';
 })
 export class RoleDetailComponent implements OnInit {
 
-  role: Role;
+  role: Observable<Role | Partial<Role>>;
+  roleMenus: Observable<Menu[] | null> = of(null);
   roleId: string | undefined;
-
-  private subscription = new Subscription();
 
   constructor(
     private dialogService: IDialogService,
@@ -29,18 +29,26 @@ export class RoleDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.setRole();
-    console.log(!!this.roleId);
   }
-  // validationMessages: { [key: string]: { [key: string]: string } }
-  submitRole(event: { role: Role, permissions: Menu[] }): void {
 
-    if (event.permissions) {
-      console.log(event.permissions);
-      // TODO link permissions
+  changeRoleMenus(roleMenusPermissions: RoleMenusPermissions) {
+    this.store.dispatch(RoleActions.updateRoleMenus({ roleMenusPermissions }));
+  }
+
+  submitRole(event: { role: Role, roleMenus: Menu[] }): void {
+
+    if (!!this.roleId) {
+
+      const linkMenus = {
+        menus: event.roleMenus
+      } as LinkMenus;
+
+      this.store.dispatch(RoleActions.updateRoleRequested({ role: event.role, roleId: this.roleId, linkMenus }));
+
+      return
+
     }
 
-    !!this.roleId ?
-    this.store.dispatch(RoleActions.updateRoleRequested({ role: event.role, roleId: this.roleId })) :
     this.store.dispatch(RoleActions.createRoleRequested({ role: event.role }))
   }
 
@@ -48,6 +56,7 @@ export class RoleDetailComponent implements OnInit {
 
     if (this.roleId) {
       this.getRole();
+      this.getPermissions();
       return
     }
 
@@ -56,27 +65,20 @@ export class RoleDetailComponent implements OnInit {
   }
 
   private getRole(): void {
-    this.subscription.add(
-      this.store.select(showRole).subscribe(role => {
-        console.log(role);
+    this.role = this.store.select(showRole);
+    this.store.dispatch(RoleActions.showRoleRequested({ roleId: this.roleId }));
+  }
 
-
-        if (!!role) {
-          this.role = role;
-          return
-        }
-
-        this.store.dispatch(RoleActions.showRoleRequested({ roleId: this.roleId }));
-
-      })
-    );
+  private getPermissions(): void {
+    this.roleMenus = this.store.select(showRoleMenus);
+    this.store.dispatch(RoleActions.menuShowByRoleRequested({ roleId: this.roleId }));
   }
 
   private newRole(): void {
-    this.role = {
+    this.role = of({
       name: '',
       admin: false
-    } as Role
+    } as Partial<Role>)
   }
 
 }

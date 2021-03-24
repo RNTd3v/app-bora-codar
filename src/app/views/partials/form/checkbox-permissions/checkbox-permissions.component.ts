@@ -1,5 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { IStorageService, Menu } from '@cms/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Menu } from '@cms/core';
 
 @Component({
   selector: 'cms-checkbox-permissions',
@@ -8,30 +8,37 @@ import { IStorageService, Menu } from '@cms/core';
 })
 export class CheckboxPermissionsComponent implements OnInit {
 
-  menuList: Menu[] | null;
+  @Input() roleMenus: Menu[] | null;
 
   @Output()
-  changePermissions = new EventEmitter<Menu[]>();
+  changeRoleMenus = new EventEmitter<any>();
 
-  constructor(private storage: IStorageService) { }
+  constructor() { }
 
-  ngOnInit(): void {
-    this.menuList = this.storage.get('userMenu');
-  }
+  ngOnInit(): void {}
 
   changeMenuValue(menuIndex: number, event: any): void {
-    this.menuList[menuIndex].hasPermission = event.target.checked;
-    this.changePermissions.emit(this.menuList);
+    this.changeRoleMenus.emit({
+      menuIndex,
+      value: event.target.checked
+    });
   }
 
   changeSubmenuValue(menuIndex: number, submenuIndex: number, event: any): void {
-    this.menuList[menuIndex].childrens[submenuIndex].hasPermission = event.target.checked;
-    this.changePermissions.emit(this.menuList);
+    this.changeRoleMenus.emit({
+      menuIndex,
+      value: event.target.checked,
+      submenuIndex
+    });
   }
 
   changeActionValue(menuIndex: number, submenuIndex: number, actionIndex: number, event: any): void {
-    this.menuList[menuIndex].childrens[submenuIndex].childrens[actionIndex].hasPermission = event.target.checked;
-    this.changePermissions.emit(this.menuList);
+    this.changeRoleMenus.emit({
+      menuIndex,
+      value: event.target.checked,
+      submenuIndex,
+      actionIndex
+    });
   }
 
 }

@@ -1,4 +1,4 @@
-import { DialogData, LinkMenus, Role } from '@cms/core';
+import { DialogData, LinkMenus, Menu, Role } from '@cms/core';
 import { Observable } from 'rxjs';
 
 export abstract class IRoleService {
@@ -12,6 +12,8 @@ export abstract class IRoleService {
   abstract updateRole(role: Role, roleID: string): Observable<Role>;
 
   abstract deleteRole(roleID: string): Observable<Role>;
+
+  abstract menuShowByRole(roleId: string): Observable<Menu[]>;
 
   abstract linkRoleWithMenu(linkMenus: LinkMenus, roleId: string): Observable<any>;
 

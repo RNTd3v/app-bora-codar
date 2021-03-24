@@ -113,20 +113,19 @@ export class RoleEffects {
         this.service
           .updateRole(action.role, action.roleId)
           .pipe(
-            map(() => RoleActions.updateRoleSucceeded()),
+            map(() => RoleActions.updateRoleSucceeded({ roleId: action.roleId, linkMenus: action.linkMenus })),
             catchError(error => of(RoleActions.updateRoleFailed({ error })) )
         ),
       ),
     )
   })
 
-  showMessageAfterUpdateRoleSuccess$ = createEffect(
-    () => this.actions$.pipe(
+  linkMenusAfterUpdateRoleSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(RoleActions.updateRoleSucceeded),
-      tap(() => this.showMessage('Perfil atualizado com sucesso'))
-    ),
-    { dispatch: false }
-  )
+      map((action) => RoleActions.linkRoleWithMenusRequested({ linkMenus: action.linkMenus, roleId: action.roleId }))
+    )
+  })
 
   showMessageAfterUpdateRoleFail$ = createEffect(
     () => this.actions$.pipe(
@@ -170,7 +169,33 @@ export class RoleEffects {
       { dispatch: false }
     )
 
-    /**
+  /**
+   * Menus show by role
+   */
+
+   menuShowByRole$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(RoleActions.menuShowByRoleRequested),
+      concatMap((action) =>
+        this.service
+          .menuShowByRole(action.roleId)
+          .pipe(
+            map((menus) => RoleActions.menuShowByRoleSucceeded({ roleMenus: menus })),
+            catchError(error => of(RoleActions.menuShowByRoleFailed({ error })))
+        ),
+      ),
+    )
+  })
+
+  showMessageAfterMenuShowByRoleFail$ = createEffect(
+    () => this.actions$.pipe(
+      ofType(RoleActions.menuShowByRoleFailed),
+      tap(() => this.showMessage('Oopss!! Não foi possível obter a lista de permissões deste perfil', 3000))
+    ),
+    { dispatch: false }
+  )
+
+  /**
    * Effects link role with menus
    */
 
@@ -204,7 +229,7 @@ export class RoleEffects {
     { dispatch: false }
   )
 
-    private showMessage(message: string, duration = 2000): void {
-      this.snackBar.open(message, null, { duration });
-    }
+  private showMessage(message: string, duration = 2000): void {
+    this.snackBar.open(message, null, { duration });
+  }
 }

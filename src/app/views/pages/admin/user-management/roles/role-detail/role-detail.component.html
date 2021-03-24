@@ -4,7 +4,7 @@
   </header>
   <main class="middle">
     <div class="role-detail scrollable" #userDetail>
-      <cms-role-form *ngIf="!!role" [role]="role" (submit)="submitRole($event)"></cms-role-form>
+      <cms-role-form [role]="role | async" [roleMenus]="roleMenus | async" (changeRoles)="changeRoleMenus($event)" (submit)="submitRole($event)"></cms-role-form>
     </div>
   </main>
 </div>
