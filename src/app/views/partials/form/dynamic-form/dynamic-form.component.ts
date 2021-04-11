@@ -13,6 +13,8 @@ export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() formConfig = {} as FormConfig;
 
+  @Input() numberColumns = 1;
+
   @Output() submit: EventEmitter<any> = new EventEmitter<any>();
 
   @Output() clickButton: EventEmitter<any> = new EventEmitter<any>();
@@ -36,9 +38,6 @@ export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
 
-    console.log(changes);
-
-
     if(!!changes && changes.hasOwnProperty('formConfig')) {
       this.form = this.createControl();
       this.disableButton(this.form.invalid);
@@ -48,6 +47,10 @@ export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  getClasses(): string {
+    return `col-${this.numberColumns}`;
   }
 
   onSubmit(event: Event) {

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FieldConfig } from '@cms/core';
+import { MaskDirective } from 'src/app/shared/utils/directives/mask.directive';
 
 @Component({
   selector: 'app-input',
@@ -23,6 +24,10 @@ export class InputComponent implements OnInit {
   showMessageError(fieldName: string, validationName: string): boolean {
     const field = this.group.get(fieldName)
     return field.hasError(validationName);
+  }
+
+  log(value): void {
+    console.log(value);
   }
 
 }

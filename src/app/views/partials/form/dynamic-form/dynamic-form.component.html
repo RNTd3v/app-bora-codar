@@ -1,5 +1,5 @@
 <form class="c-dynamic-form" [formGroup]="form" (submit)="onSubmit($event)">
-  <div class="fields">
+  <div class="fields ui-grid" [ngClass]="getClasses()">
     <ng-container *ngFor="let field of formConfig.fields" dynamicField [field]="field" [group]="form">
     </ng-container>
   </div>

@@ -12,6 +12,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { FormModule, IconModule } from '@cms/partials';
+import { SharedModule } from '../../../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { FormModule, IconModule } from '@cms/partials';
     MatProgressBarModule,
     MatSnackBarModule,
     FormModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    SharedModule
   ]
 })
 export class AuthModule { }

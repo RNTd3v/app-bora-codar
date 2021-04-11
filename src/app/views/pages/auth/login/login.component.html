@@ -1,6 +1,9 @@
 <div class="ui-page-auth-content">
   <main class="middle">
-    <cms-dynamic-form [formConfig]="formConfig" (submit)="login($event)" (clickButton)="onClick($event)"></cms-dynamic-form>
+    <cms-dynamic-form [formConfig]="formConfig" (submit)="login($event)" (clickButton)="onClick($event)">
+    </cms-dynamic-form>
+    <div class="link-register">
+      Seu primeiro acesso, <a routerLink="/auth/register">clique aqui.</a>
+    </div>
   </main>
 </div>
-

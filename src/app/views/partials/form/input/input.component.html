@@ -11,7 +11,7 @@
       </button>
       <!-- fim: Input Password -->
 
-      <input [type]="field.inputType" [formControlName]="field.name" class="field" *ngSwitchDefault />
+      <input [type]="field.inputType" [mask]="field.mask" (extractedValue)="log($event)" [formControlName]="field.name" class="field" *ngSwitchDefault />
 
     <ng-container *ngFor="let validation of field.validations" ngProjectAs="field-error">
       <span class="message" *ngIf="showMessageError(field.name, validation.name)">{{validation.message}}</span>

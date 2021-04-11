@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { ConfirmedValidator, IAuthService, User } from '@cms/core';
+import { ConfirmedValidator, FormConfig, IAuthService, User } from '@cms/core';
 import { Observable } from 'rxjs';
+import { registerCompanyFormConfig } from './config/register-form-config';
 
 @Component({
   selector: 'app-register',
@@ -11,108 +12,42 @@ import { Observable } from 'rxjs';
 })
 export class RegisterComponent implements OnInit {
 
-  hide = true;
-  formRegister: FormGroup;
   isLoading = false;
+
+  formConfig = registerCompanyFormConfig as FormConfig;
+  cnpj = '';
 
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private service: IAuthService
   ) { }
 
-  ngOnInit(): void {
-    this.createFormRegister(new User(null));
-  }
-
-  private createFormRegister(user: User): void {
-    this.formRegister = this.formBuilder.group({
-      name: [user.name, [Validators.required]],
-      email: [user.email, [Validators.required, Validators.email]],
-      passwordForm: this.formBuilder.group(
-        {
-          password: [
-            '',
-            [Validators.required, Validators.minLength(6)],
-          ],
-          confirm: [
-            '',
-            [Validators.required, Validators.minLength(6)],
-          ],
-        },
-        {
-          validator: ConfirmedValidator('password', 'confirm'),
-        },
-      ),
-      roles: [user.roles]
-    });
-  }
-
-  getErrorMessage(inputName: string) {
-    if (this.formRegister.get(inputName).hasError('required')) {
-      return 'Campo obrigatório';
-    }
-
-    switch (inputName) {
-      case 'email':
-        return this.formRegister.get(inputName).hasError('email')
-          ? 'E-mail invalido'
-          : '';
-      case 'password':
-        return this.formRegister.get(inputName).hasError('minlength')
-          ? 'Mínimo de 6 caracteres'
-          : '';
-    }
-  }
-
-  showMessageError(inputName: string): boolean {
-    return this.formRegister.get(inputName).invalid;
-  }
+  ngOnInit(): void {}
 
   goBack(): void {
     this.router.navigate(['../']);
   }
 
-  async submitRegister(): Promise<void> {
+  async onRegisterClick(register: any): Promise<void> {
 
-    if (this.formRegister.valid) {
+    console.log(register);
 
-      this.isLoading = true;
+    this.cnpj = register.document;
 
-      const registerUser = await this.registerUser().toPromise().catch(_ => this.handleError());
 
-      if (!!registerUser) {
+    // const { email, password }  = auth;
 
-        const  { email, passwordForm } = this.formRegister.value;
-        const userIsLogged = await this.service.login(email, passwordForm.password);
+    // const userIsLogged = await this.service.login(email, password);
 
-        if (userIsLogged) {
-          this.handleResult();
-          this.isLoading = false;
-          return;
-        }
+    // if (userIsLogged) {
+    //   this.handleResult();
+    //   this.uiStateService.setUIState(UIState.loaded);
+    //   return;
+    // }
 
-      }
+    // this.uiStateService.setUIState(UIState.error);
 
-    }
-
-    this.isLoading = false;
-    this.handleError();
-  }
-
-  private registerUser(): Observable<User> {
-    const formValue = this.formRegister.value;
-    const { password } = formValue.passwordForm;
-
-    const payload = {
-      ...formValue,
-      password,
-    };
-
-    delete payload.passwordForm;
-
-    return this.service.registerUser(payload);
   }
 
   private handleResult(): void {
@@ -122,14 +57,6 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  private handleError(): void {
-    this.snackBar.open('Houve um erro!', null, {
-      duration: 2000,
-    });
-  }
 
-  get formInvalid(): boolean {
-    return this.formRegister.invalid;
-  }
 
 }

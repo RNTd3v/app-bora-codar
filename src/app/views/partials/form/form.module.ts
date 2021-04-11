@@ -10,6 +10,7 @@ import { IconModule } from '../icon/icon.module';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { ToggleComponent } from './toggle/toggle.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     FormsModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule,
+    SharedModule
   ]
 })
 export class FormModule { }
