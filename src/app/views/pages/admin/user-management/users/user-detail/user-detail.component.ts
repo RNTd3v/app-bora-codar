@@ -19,7 +19,7 @@ import { IDialogService } from '@cms/partials';
 export class UserDetailComponent implements OnInit, OnDestroy {
 
   user: User;
-  userId: string;
+  userId: string | undefined;
 
   roles$!: Observable<Role[]>;
 
@@ -94,7 +94,9 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   }
 
   submitUser(user: User): void {
-    this.store.dispatch(UserActions.updateUserRequested({ user, userId: this.userId }));
+    this.userId ?
+    this.store.dispatch(UserActions.updateUserRequested({ user, userId: this.userId })) :
+    this.store.dispatch(UserActions.createUserRequested({ user }))
   }
 
   submitPass(userChangePass: UserChangePassword) : void {

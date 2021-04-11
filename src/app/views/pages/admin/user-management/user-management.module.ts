@@ -82,7 +82,7 @@ const routesChild: Routes = [
         component: RoleDetailComponent
       },
       {
-        path: 'roles/:id',
+        path: 'roles/:id/detail',
         component: RoleDetailComponent
       }
     ]

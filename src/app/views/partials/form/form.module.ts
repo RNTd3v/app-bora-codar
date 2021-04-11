@@ -11,6 +11,7 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
 import { ToggleComponent } from './toggle/toggle.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { CheckboxPermissionsComponent } from './checkbox-permissions/checkbox-permissions.component';
 
 @NgModule({
   declarations: [
@@ -19,12 +20,14 @@ import { SharedModule } from 'src/app/shared/shared.module';
     DynamicFormComponent,
     DynamicButtonDirective,
     CheckboxComponent,
-    ToggleComponent
+    ToggleComponent,
+    CheckboxPermissionsComponent
   ],
   exports: [
     DynamicFormComponent,
     CheckboxComponent,
-    ToggleComponent
+    ToggleComponent,
+    CheckboxPermissionsComponent
   ],
   entryComponents: [
     InputComponent

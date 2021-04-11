@@ -60,14 +60,6 @@ export class RoleEffects {
     )
   });
 
-  redirectAfterShowRoleSuccess$ = createEffect(
-    () => this.actions$.pipe(
-      ofType(RoleActions.showRoleSucceeded),
-      tap(({ role }) => this.router.navigate([`admin/role-management/role-detail/${role.id}`]))
-    ),
-    { dispatch: false }
-  )
-
   showMessageAfterShowRoleFail$ = createEffect(
     () => this.actions$.pipe(
       ofType(RoleActions.showRoleFailed),
@@ -87,7 +79,7 @@ export class RoleEffects {
         this.service
           .createRole(action.role)
           .pipe(
-            map(() => RoleActions.createRoleSucceeded()),
+            map(({ id }) => RoleActions.createRoleSucceeded({ roleId: id })),
             catchError(error => of(RoleActions.createRoleFailed({ error })) )
         ),
       ),
@@ -97,7 +89,7 @@ export class RoleEffects {
   showMessageAfterCreateRoleSuccess$ = createEffect(
     () => this.actions$.pipe(
       ofType(RoleActions.createRoleSucceeded),
-      tap(() => this.showMessage('Perfil criado com sucesso'))
+      tap(() => this.showMessage('Perfil criado com sucesso, agora selecione as permissões', 5000))
     ),
     { dispatch: false }
   )
@@ -119,26 +111,25 @@ export class RoleEffects {
       ofType(RoleActions.updateRoleRequested),
       concatMap((action) =>
         this.service
-          .updateRole(action.role, action.role.id)
+          .updateRole(action.role, action.roleId)
           .pipe(
-            map(() => RoleActions.updateRoleSucceeded()),
+            map(() => RoleActions.updateRoleSucceeded({ roleId: action.roleId, linkMenus: action.linkMenus })),
             catchError(error => of(RoleActions.updateRoleFailed({ error })) )
         ),
       ),
     )
   })
 
-  showMessageAfterUpdateRoleSuccess$ = createEffect(
-    () => this.actions$.pipe(
-      ofType(RoleActions.createRoleSucceeded),
-      tap(() => this.showMessage('Perfil atualizado com sucesso'))
-    ),
-    { dispatch: false }
-  )
+  linkMenusAfterUpdateRoleSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(RoleActions.updateRoleSucceeded),
+      map((action) => RoleActions.linkRoleWithMenusRequested({ linkMenus: action.linkMenus, roleId: action.roleId }))
+    )
+  })
 
   showMessageAfterUpdateRoleFail$ = createEffect(
     () => this.actions$.pipe(
-      ofType(RoleActions.createRoleFailed),
+      ofType(RoleActions.updateRoleFailed),
       tap(() => this.showMessage('Houve um erro na atualização do perfil'))
     ),
     { dispatch: false }
@@ -155,7 +146,7 @@ export class RoleEffects {
           this.service
             .deleteRole(action.roleId)
             .pipe(
-              map(() => RoleActions.deleteRoleSucceeded()),
+              map(() => RoleActions.deleteRoleSucceeded({ roleId: action.roleId })),
               catchError(error => of(RoleActions.deleteRoleFailed({ error })))
           ),
         ),
@@ -170,14 +161,6 @@ export class RoleEffects {
       { dispatch: false }
     )
 
-    paginateRolesAfterDeleteRoleSuccess$ = createEffect(
-      () => this.actions$.pipe(
-        ofType(RoleActions.deleteRoleSucceeded),
-        tap(() => RoleActions.paginateRolesRequested())
-      ),
-      { dispatch: true }
-    )
-
     showMessageAfterDeleteRoleFail$ = createEffect(
       () => this.actions$.pipe(
         ofType(RoleActions.deleteRoleFailed),
@@ -186,7 +169,33 @@ export class RoleEffects {
       { dispatch: false }
     )
 
-    /**
+  /**
+   * Menus show by role
+   */
+
+   menuShowByRole$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(RoleActions.menuShowByRoleRequested),
+      concatMap((action) =>
+        this.service
+          .menuShowByRole(action.roleId)
+          .pipe(
+            map((menus) => RoleActions.menuShowByRoleSucceeded({ roleMenus: menus })),
+            catchError(error => of(RoleActions.menuShowByRoleFailed({ error })))
+        ),
+      ),
+    )
+  })
+
+  showMessageAfterMenuShowByRoleFail$ = createEffect(
+    () => this.actions$.pipe(
+      ofType(RoleActions.menuShowByRoleFailed),
+      tap(() => this.showMessage('Oopss!! Não foi possível obter a lista de permissões deste perfil', 3000))
+    ),
+    { dispatch: false }
+  )
+
+  /**
    * Effects link role with menus
    */
 
@@ -220,7 +229,7 @@ export class RoleEffects {
     { dispatch: false }
   )
 
-    private showMessage(message: string, duration = 2000): void {
-      this.snackBar.open(message, null, { duration });
-    }
+  private showMessage(message: string, duration = 2000): void {
+    this.snackBar.open(message, null, { duration });
+  }
 }

@@ -39,7 +39,6 @@ export class NavComponent implements OnInit {
   }
 
   onClick(path: string, index?: number): void {
-    console.log(!index);
 
     if (!index && this.menuItens[index].childrens.length > 0) {
       this.toggleSubMenu(index);

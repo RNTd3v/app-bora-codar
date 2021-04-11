@@ -26,7 +26,7 @@ const roleFields = (role: Role | undefined) => {
       type: 'checkbox',
       label: 'Admin',
       inputType: 'checkbox',
-      name: 'isActive',
+      name: 'admin',
       value: !!role ? role.admin : null,
       validations: []
     }
